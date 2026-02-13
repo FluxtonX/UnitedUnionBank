@@ -70,14 +70,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             height: 300,
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: Colors.white10,
+                              //color: Colors.white10,
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(20),
                               child: Image.asset(
                                 onboardingData[index]['image']!,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                               ),
                             ),
                           ),

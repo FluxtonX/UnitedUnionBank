@@ -48,6 +48,7 @@ class AppTheme {
   static const Color donateBg = Color(0xFF22C55E);
   static const Color exchangeBg = Color(0xFFF59E0B);
   static const Color investBg = Color(0xFF8B5CF6);
+  static const Color iconFill = Color(0xFFE8F5E9);
 
   // ── ThemeData ──────────────────────────────────────────────────────
   static ThemeData get theme => ThemeData(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../theme/theme.dart';
+import '../../config/app_images.dart';
 
 class AccountsTab extends StatelessWidget {
   const AccountsTab({super.key});
@@ -8,80 +9,81 @@ class AccountsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.scaffoldBg,
+      backgroundColor: const Color(0xFF1B558C),
       body: Column(
         children: [
-          // Header
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(gradient: AppTheme.headerGradient),
-            child: SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
-                child: Text(
-                  'Accounts',
-                  style: GoogleFonts.outfit(
-                    color: AppTheme.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
+          _buildTopHeader(),
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                color: AppTheme.scaffoldBg,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(32),
+                  topRight: Radius.circular(32),
                 ),
               ),
-            ),
-          ),
-
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Stack(
                 children: [
-                  // Savings account
-                  _buildAccountCard(
-                    'Savings Account',
-                    'UUB-****-2847',
-                    '\$8,240.50',
-                    Icons.savings_outlined,
-                    AppTheme.primaryLight,
-                  ),
-                  const SizedBox(height: 14),
-
-                  // Checking account
-                  _buildAccountCard(
-                    'Checking Account',
-                    'UUB-****-1093',
-                    '\$4,209.50',
-                    Icons.account_balance_wallet_outlined,
-                    AppTheme.success,
-                  ),
-                  const SizedBox(height: 14),
-
-                  // Import wallet card
-                  _buildAccountCard(
-                    'Impact Wallet',
-                    'GBT Token Balance',
-                    '2,480 GBT',
-                    Icons.token_outlined,
-                    AppTheme.investBg,
-                  ),
-
-                  const SizedBox(height: 32),
-
-                  // Quick links
-                  Text(
-                    'Quick Links',
-                    style: GoogleFonts.outfit(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.textPrimary,
+                  SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 12),
+                        Center(
+                          child: Container(
+                            width: 36,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                          ),
+                        ),
+                        _buildTotalBalanceCard(),
+                        _buildAccountItem(
+                          icon: Icons.account_balance_wallet_rounded,
+                          iconColor: const Color(0xFF4DB6AC),
+                          title: 'Checking Account',
+                          subtitle: '**** **** **** 4892',
+                          amount: '\$8,450.00',
+                          isFirst: true,
+                        ),
+                        _buildAccountItem(
+                          icon: Icons.savings_rounded,
+                          iconColor: const Color(0xFF2196F3),
+                          title: 'Savings',
+                          subtitle: '4.5% APY',
+                          amount: '\$5,000.00',
+                        ),
+                        _buildAccountItem(
+                          icon: Icons.monetization_on_rounded,
+                          iconColor: const Color(0xFFFFB300),
+                          title: 'GreenBank Token (GBT)',
+                          subtitle: '2,489.45 GBT',
+                          amount: '\$5,300.00',
+                          hasChip: true,
+                         // chipLabel: 'Your Currency',
+                          chipColor: const Color(0xFF3491E3),
+                        ),
+                        _buildAccountItem(
+                          icon: Icons.public_rounded,
+                          iconColor: const Color(0xFF7E57C2),
+                          title: 'Multi-Currency Account',
+                          subtitle: '🇪🇺 🇬🇧 🇯🇵',
+                          amount: '\$10,000',
+                          isLast: true,
+                        ),
+                        _buildAddNewAccount(),
+                        const SizedBox(height: 100), // Space for FAB
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 14),
-                  _buildQuickLink(Icons.receipt_long_outlined, 'Statements'),
-                  _buildQuickLink(Icons.credit_card_outlined, 'Cards'),
-                  _buildQuickLink(Icons.account_balance_outlined, 'Wire Transfer'),
-                  _buildQuickLink(Icons.qr_code_scanner, 'QR Pay'),
+                  Positioned(
+                    bottom: 24,
+                    right: 24,
+                    child: _buildFAB(),
+                  ),
                 ],
               ),
             ),
@@ -91,25 +93,163 @@ class AccountsTab extends StatelessWidget {
     );
   }
 
-  Widget _buildAccountCard(
-      String title, String subtitle, String balance, IconData icon, Color color) {
+  Widget _buildTopHeader() {
     return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        gradient: AppTheme.headerGradient,
+        border: Border(
+           bottom: BorderSide(color: Colors.white.withValues(alpha: 0.1), width: 1),
+        ),
+      ),
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'GreenBank',
+                  style: GoogleFonts.outfit(
+                    color: AppTheme.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                   Image.asset(
+                    AppIcons.notificationIcon,
+                    width: 26,
+                    height: 26,
+                    color: Colors.white,
+                  ),
+                  Positioned(
+                    top: -2,
+                    right: -2,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFE54D4D),
+                        shape: BoxShape.circle,
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 14,
+                        minHeight: 14,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '1',
+                          style: GoogleFonts.outfit(
+                            color: Colors.white,
+                            fontSize: 9,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTotalBalanceCard() {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 20, 16, 16),
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: AppTheme.white,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: Colors.grey.withValues(alpha: 0.1)),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF1B558C).withValues(alpha: 0.04),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'TOTAL BALANCE',
+            style: GoogleFonts.outfit(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: AppTheme.textHint,
+              letterSpacing: 1.2,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Text(
+                '\$18,750.00',
+                style: GoogleFonts.outfit(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF1B558C),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Icon(Icons.visibility_outlined, size: 20, color: AppTheme.textHint),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAccountItem({
+    required IconData icon,
+    required Color iconColor,
+    required String title,
+    required String subtitle,
+    required String amount,
+    bool hasChip = false,
+    String? chipLabel,
+    Color? chipColor,
+    bool isFirst = false,
+    bool isLast = false,
+  }) {
+    return Container(
+      margin: EdgeInsets.fromLTRB(16, isFirst ? 4 : 8, 16, isLast ? 16 : 8),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppTheme.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppTheme.divider),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: Colors.grey.withValues(alpha: 0.1)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
         children: [
           Container(
-            width: 50,
-            height: 50,
+            width: 56,
+            height: 56,
             decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(14),
+              gradient: LinearGradient(
+                colors: [iconColor.withValues(alpha: 0.2), iconColor],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: color, size: 26),
+            child: Icon(icon, color: Colors.white, size: 28),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -119,28 +259,64 @@ class AccountsTab extends StatelessWidget {
                 Text(
                   title,
                   style: GoogleFonts.outfit(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                     color: AppTheme.textPrimary,
                   ),
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: 4),
                 Text(
                   subtitle,
                   style: GoogleFonts.outfit(
-                    fontSize: 12,
+                    fontSize: 13,
                     color: AppTheme.textSecondary,
                   ),
                 ),
+
               ],
             ),
           ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                amount,
+                style: GoogleFonts.outfit(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Icon(Icons.arrow_forward_ios, size: 14, color: AppTheme.textHint),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAddNewAccount() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      width: double.infinity,
+      height: 80,
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFF3491E3), width: 1.5),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.add, color: Color(0xFF3491E3)),
+          const SizedBox(height: 4),
           Text(
-            balance,
+            'Add New Account',
             style: GoogleFonts.outfit(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: AppTheme.textPrimary,
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: const Color(0xFF3491E3),
             ),
           ),
         ],
@@ -148,33 +324,26 @@ class AccountsTab extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickLink(IconData icon, String label) {
+  Widget _buildFAB() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      width: 64,
+      height: 64,
       decoration: BoxDecoration(
-        color: AppTheme.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppTheme.divider),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, size: 22, color: AppTheme.primary),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Text(
-              label,
-              style: GoogleFonts.outfit(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                color: AppTheme.textPrimary,
-              ),
-            ),
+        shape: BoxShape.circle,
+        gradient: const RadialGradient(
+          colors: [Color(0xFF3491E3), Color(0xFF1B558C)],
+          center: Alignment.center,
+          radius: 0.8,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF1B558C).withValues(alpha: 0.3),
+            blurRadius: 15,
+            offset: const Offset(0, 8),
           ),
-          const Icon(Icons.arrow_forward_ios,
-              size: 14, color: AppTheme.textHint),
         ],
       ),
+      child: const Icon(Icons.arrow_forward_rounded, color: Colors.white, size: 32),
     );
   }
 }

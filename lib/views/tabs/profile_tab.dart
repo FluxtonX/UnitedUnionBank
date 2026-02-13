@@ -1,180 +1,101 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../theme/theme.dart';
 import '../../config/app_images.dart';
+import '../../theme/theme.dart';
 import '../authScreens/loginScreen/login_screen.dart';
 
 class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.scaffoldBg,
-      body: Column(
+      backgroundColor: const Color(0xFF003876),
+      body: Stack(
         children: [
-          // Header with avatar
           Container(
             width: double.infinity,
-            decoration: const BoxDecoration(gradient: AppTheme.headerGradient),
-            child: SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(24, 12, 24, 32),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Profile',
-                        style: GoogleFonts.outfit(
-                          color: AppTheme.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    // Avatar
-                    Container(
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                            color: AppTheme.white.withValues(alpha: 0.4),
-                            width: 3),
-                      ),
-                      child: ClipOval(
-                        child: Image.asset(
-                          AppImages.appLogo,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-                    Text(
-                      'John Doe',
-                      style: GoogleFonts.outfit(
-                        color: AppTheme.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'member@domainme.com',
-                      style: GoogleFonts.outfit(
-                        color: AppTheme.white.withValues(alpha: 0.7),
-                        fontSize: 13,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: AppTheme.white.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        'Premium Member',
-                        style: GoogleFonts.outfit(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: AppTheme.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+            height: 400,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Color(0xFF003876), Color(0xFF4DAAF8)],
               ),
             ),
           ),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                _buildProfileHeader(),
 
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'ACCOUNT',
-                    style: GoogleFonts.outfit(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                      color: AppTheme.textHint,
-                      letterSpacing: 1.2,
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: AppTheme.scaffoldBg,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(35),
+                      topRight: Radius.circular(35),
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  _buildMenuItem(Icons.person_outline, 'Personal Information'),
-                  _buildMenuItem(Icons.lock_outline, 'Security & Privacy'),
-                  _buildMenuItem(Icons.notifications_none, 'Notifications'),
-                  _buildMenuItem(Icons.credit_card_outlined, 'Payment Methods'),
-
-                  const SizedBox(height: 24),
-
-                  Text(
-                    'GENERAL',
-                    style: GoogleFonts.outfit(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                      color: AppTheme.textHint,
-                      letterSpacing: 1.2,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  _buildMenuItem(Icons.help_outline, 'Help & Support'),
-                  _buildMenuItem(Icons.description_outlined, 'Terms & Conditions'),
-                  _buildMenuItem(Icons.privacy_tip_outlined, 'Privacy Policy'),
-                  _buildMenuItem(Icons.info_outline, 'About'),
-
-                  const SizedBox(height: 28),
-
-                  // Logout button
-                  Container(
-                    width: double.infinity,
-                    height: 56,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppTheme.error, width: 1.5),
-                    ),
-                    child: TextButton.icon(
-                      onPressed: () => _showLogoutDialog(context),
-                      icon: const Icon(Icons.logout,
-                          color: AppTheme.error, size: 20),
-                      label: Text(
-                        'Log Out',
-                        style: GoogleFonts.outfit(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: AppTheme.error,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 12),
+                        Container(
+                          width: 40,
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(2),
+                          ),
                         ),
-                      ),
-                      style: TextButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+
+                        Transform.translate(
+                          offset: const Offset(0, -60),
+                          child: _buildStatCardsRow(),
                         ),
-                      ),
+
+                        // MENU SECTIONS
+                        Transform.translate(
+                          offset: const Offset(0, -30),
+                          child: Column(
+                            children: [
+                              _buildSectionHeader('ACCOUNT'),
+                              _buildSectionCard([
+                                _buildMenuItem(AppIcons.personIcon, 'Personal Information'),
+                                _buildMenuItem(AppIcons.emailIcon, 'Email Settings'),
+                                _buildMenuItem(AppIcons.phoneIcon, 'Phone Number', badge: 'Verified'),
+                              ]),
+                              const SizedBox(height: 24),
+
+                              _buildSectionHeader('PREFERENCES'),
+                              _buildSectionCard([
+                                _buildMenuItem(AppIcons.notificationIcon, 'Notifications', badge: '3 new'),
+                                _buildMenuItem(AppIcons.privacyIcon, 'Privacy & Security'),
+                                _buildMenuItem(AppIcons.settingsIcon, 'App Settings'),
+                              ]),
+                              const SizedBox(height: 24),
+
+                              _buildSectionHeader('SUPPORT'),
+                              _buildSectionCard([
+                                _buildMenuItem(AppIcons.helpIcon, 'Help Center'),
+                                _buildMenuItem(AppIcons.termsIcon, 'Terms & Privacy'),
+                              ]),
+                              const SizedBox(height: 32),
+                              _buildLogoutButton(context),
+                              const SizedBox(height: 60),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-
-                  const SizedBox(height: 20),
-
-                  Center(
-                    child: Text(
-                      'Version 1.0.0',
-                      style: GoogleFonts.outfit(
-                        fontSize: 12,
-                        color: AppTheme.textHint,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
@@ -182,32 +103,165 @@ class ProfileTab extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem(IconData icon, String title) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      decoration: BoxDecoration(
-        color: AppTheme.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppTheme.divider),
-      ),
-      child: Row(
+  // Helper for the Stat Cards Row
+  Widget _buildStatCardsRow() {
+    return Row(
+      children: [
+        _buildStatCard('47', 'Trees Planted'),
+        const SizedBox(width: 12),
+        _buildStatCard('230', 'Meals Provided'),
+        const SizedBox(width: 12),
+        _buildStatCard('\$350', 'Total Donated'),
+      ],
+    );
+  }
+
+  Widget _buildProfileHeader() {
+    return SafeArea(
+      child: Column(
         children: [
-          Icon(icon, size: 22, color: AppTheme.primary),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Text(
-              title,
-              style: GoogleFonts.outfit(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                color: AppTheme.textPrimary,
-              ),
+          const SizedBox(height: 20),
+          Container(
+            width: 90, height: 90,
+            decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+            child: Center(
+              child: Text('JD', style: GoogleFonts.outfit(color: const Color(0xFF003876), fontSize: 26, fontWeight: FontWeight.bold)),
             ),
           ),
-          const Icon(Icons.arrow_forward_ios,
-              size: 14, color: AppTheme.textHint),
+          const SizedBox(height: 10),
+          Text('John Doe', style: GoogleFonts.outfit(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
+          Text('john.doe@email.com', style: GoogleFonts.outfit(color: Colors.white70, fontSize: 14)),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildTopBadge('⭐ Impact Score: 850', const Color(0xFF53A1D8)),
+              const SizedBox(width: 10),
+              _buildTopBadge('🌟 Changemaker', const Color(0xFF53A1D8)),
+            ],
+          ),
+          const SizedBox(height: 80), // Creates space for the sheet to overlap
         ],
+      ),
+    );
+  }
+
+  Widget _buildSectionCard(List<Widget> children) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(24),
+      elevation: 3,
+      shadowColor: Colors.black.withOpacity(0.03),
+      clipBehavior: Clip.antiAlias,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 24.0,right: 10.0),
+        child: Column(children: children),
+      ),
+    );
+  }
+
+  Widget _buildLogoutButton(BuildContext context) {
+    return InkWell(
+      onTap: () => _showLogoutDialog(context),
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppTheme.border.withValues(alpha: 0.5)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(AppIcons.logoutIcon, height: 24, width: 24),
+            const SizedBox(width: 10),
+            Text('Log Out', style: GoogleFonts.outfit(fontSize: 16, fontWeight: FontWeight.bold, color: const Color(0xFF3491E3))),
+          ],
+        ),
+      ),
+    );
+  }
+  Widget _buildTopBadge(String text, Color color) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.8),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        text,
+        style: GoogleFonts.outfit(
+          color: AppTheme.white,
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatCard(String count, String label) {
+    return Expanded(
+      child: Container(
+        height: 100,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF236EB6),
+              Color(0xFF1B558C),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.1),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              count,
+              style: GoogleFonts.outfit(
+                color: AppTheme.white,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.outfit(
+                color: AppTheme.white.withValues(alpha: 0.8),
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(String title) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Text(
+          title,
+          style: GoogleFonts.outfit(
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+            color: AppTheme.textSecondary,
+            letterSpacing: 1.1,
+          ),
+        ),
       ),
     );
   }
@@ -266,4 +320,72 @@ class ProfileTab extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildMenuItem(String icon, String title, {String? badge}) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 2),
+      decoration: BoxDecoration(
+        color: AppTheme.white,
+        border: Border(
+          bottom: BorderSide(color: Colors.grey.withValues(alpha: 0.1)),
+        ),
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+         leading: SizedBox(
+        width: 40,
+        height: 40,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: AppTheme.iconFill,
+            shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: Image.asset(
+              icon,
+              width: 20,
+              height: 20,
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
+      ),
+
+        title: Text(
+          title,
+          style: GoogleFonts.outfit(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: const Color(0xFF333333),
+          ),
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (badge != null)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: badge == 'Verified'
+                      ? const Color(0xFF0D78C1)
+                      : const Color(0xFF0D78C1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  badge,
+                  style: GoogleFonts.outfit(
+                    color: AppTheme.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            const SizedBox(width: 8),
+            const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
+          ],
+        ),
+      ),
+    );
+  }
+
 }

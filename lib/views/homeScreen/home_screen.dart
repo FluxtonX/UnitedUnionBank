@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedTab = 0; // Home is first tab (index 0)
+  int _selectedTab = 0; // The actual index in the _tabs list
 
   final List<Widget> _tabs = const [
     HomeTab(),
@@ -25,11 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
     ProfileTab(),
   ];
 
-  // Tab config: [outlineIcon, filledIcon, label]
   static const List<_NavTabData> _tabData = [
     _NavTabData(Icons.home_outlined, Icons.home_rounded, 'Home'),
     _NavTabData(
-        Icons.account_balance_wallet_outlined, Icons.account_balance_wallet, 'Accounts'),
+        Icons.account_balance_wallet_outlined, Icons.account_balance_wallet, 'Account'),
     _NavTabData(Icons.language_outlined, Icons.language, 'Impact'),
     _NavTabData(Icons.trending_up, Icons.trending_up, 'Invest'),
     _NavTabData(Icons.person_outline, Icons.person, 'Profile'),
@@ -47,27 +46,37 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildBottomNav() {
+    // Generate the order of tabs to display: active tab moves to index 2
+    List<int> displayOrder = [];
+    List<int> others = [];
+    for (int i = 0; i < _tabData.length; i++) {
+        if (i != _selectedTab) others.add(i);
+    }
+    
+    // Order: others[0], others[1], active, others[2], others[3]
+    displayOrder.add(others[0]);
+    displayOrder.add(others[1]);
+    displayOrder.add(_selectedTab);
+    displayOrder.add(others[2]);
+    displayOrder.add(others[3]);
+
     return Container(
+      clipBehavior: Clip.none,
       decoration: BoxDecoration(
         color: AppTheme.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.07),
-            blurRadius: 24,
-            offset: const Offset(0, -8),
-          ),
-        ],
+        border: Border(
+           top: BorderSide(color: Colors.grey.withValues(alpha: 0.2), width: 0.5),
+        ),
       ),
       child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(6, 8, 6, 6),
+        child: Container(
+          clipBehavior: Clip.none,
+          height: 80, // Safely increased height
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: List.generate(_tabData.length, (index) {
-              // Center tab (Accounts at index 1 in screenshots, but we keep
-              // it consistent with whatever the user selects)
-              return _buildNavItem(index);
-            }),
+            crossAxisAlignment: CrossAxisAlignment.end, 
+            children: displayOrder.map((index) => _buildNavItem(index)).toList(),
           ),
         ),
       ),
@@ -77,58 +86,73 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildNavItem(int index) {
     final isSelected = _selectedTab == index;
     final data = _tabData[index];
-    // Center tab gets the raised square treatment
-    final isCenterTab = index == 2; // Impact (center)
 
     return GestureDetector(
       onTap: () => setState(() => _selectedTab = index),
       behavior: HitTestBehavior.opaque,
-      child: SizedBox(
-        width: 64,
+      child: Container(
+        width: 65,
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            // Icon container
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeInOut,
-              width: isCenterTab && isSelected ? 52 : 40,
-              height: isCenterTab && isSelected ? 52 : 40,
-              transform: isSelected
-                  ? (Matrix4.translationValues(0, -4, 0))
-                  : Matrix4.identity(),
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? AppTheme.primaryLight
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(
-                    isCenterTab && isSelected ? 16 : 14),
-                boxShadow: isSelected
-                    ? [
-                        BoxShadow(
-                          color:
-                              AppTheme.primaryLight.withValues(alpha: 0.35),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
-                        ),
-                      ]
-                    : null,
+            if (isSelected) ...[
+              Transform.translate(
+                offset: const Offset(0, -16),
+                child: Container(
+                  width: 54,
+                  height: 54,
+                  decoration: BoxDecoration(
+                    gradient: const RadialGradient(
+                      colors: [Color(0xFF3491E3), Color(0xFF1B558C)],
+                      center: Alignment.center,
+                      radius: 0.8,
+                    ),
+                    borderRadius: BorderRadius.circular(18),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF1B558C).withValues(alpha: 0.3),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Icon(
+                      data.filledIcon,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
+                ),
               ),
-              child: Icon(
-                isSelected ? data.filledIcon : data.outlineIcon,
-                color: isSelected ? AppTheme.white : AppTheme.textHint,
-                size: isCenterTab && isSelected ? 26 : 24,
+              const SizedBox(height: 2),
+              Text(
+                data.label,
+                style: GoogleFonts.outfit(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF1B558C),
+                ),
               ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              data.label,
-              style: GoogleFonts.outfit(
-                fontSize: 11,
-                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w400,
-                color: isSelected ? AppTheme.primaryLight : AppTheme.textHint,
+              const SizedBox(height: 6),
+            ] else ...[
+              Icon(
+                data.outlineIcon,
+                color: const Color(0xFF666666),
+                size: 26,
               ),
-            ),
+              const SizedBox(height: 6),
+              Text(
+                data.label,
+                style: GoogleFonts.outfit(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFF666666),
+                ),
+              ),
+              const SizedBox(height: 8), // Matching bottom spacing
+            ],
           ],
         ),
       ),
