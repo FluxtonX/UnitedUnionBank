@@ -1,7 +1,7 @@
 class AppImages {
   static const String imagesDirectory = 'assets/images';
   static const String appLogo = "$imagesDirectory/logo.jpg";
-  static const String onboardingImage1 = "$imagesDirectory/image1.jpg";
+  static const String onboardingImage1 = "$imagesDirectory/image1.png";
   static const String onboardingImage2 = "$imagesDirectory/image2.png";
   static const String onboardingImage3 = "$imagesDirectory/image3.png";
   static const String amazonProjectThumbnail = "$imagesDirectory/amazon_project_thumbnail.png";
@@ -31,8 +31,10 @@ class AppIcons {
   static const String medicalIcon = "$iconDirectory/medical.png";
   static const String teaIcon = "$iconDirectory/tea.png";
   static const String depositIcon = "$iconDirectory/deposit.png";
-
-
-
+  static const String withdrawIcon = "$iconDirectory/withdraw.png";
+  static const String rebalanceIcon = "$iconDirectory/rebalance.png";
+  static const String donatedIcon = "$iconDirectory/donated.png";
+  static const String addFundIcon = "$iconDirectory/add_fund.png";
+  static const String activeUserIcon = "$iconDirectory/active_user.png";
 
 }

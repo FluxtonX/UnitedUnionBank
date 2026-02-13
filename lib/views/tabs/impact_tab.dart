@@ -160,8 +160,8 @@ class ImpactTab extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         SizedBox(
-          width: 120,
-          height: 120,
+          width: 140,
+          height: 140,
           child: CustomPaint(
             painter: CircularProgressPainter(
               progress: currentPoints,
@@ -244,9 +244,9 @@ class ImpactTab extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildGlobalStat(Icons.groups_rounded, '50,00+', 'Active Users'),
-              _buildGlobalStat(Icons.wallet_membership_rounded, '\$2.5M', 'Total Donated'),
-              _buildGlobalStat(Icons.park_rounded, '125,000', 'Trees Planted'),
+              _buildGlobalStat(AppIcons.activeUserIcon, '50,00+', 'Active Users'),
+              _buildGlobalStat(AppIcons.donatedIcon, '\$2.5M', 'Total Donated'),
+              _buildGlobalStat(AppIcons.treeIcon, '125,000', 'Trees Planted'),
             ],
           ),
         ],
@@ -254,7 +254,7 @@ class ImpactTab extends StatelessWidget {
     );
   }
 
-  Widget _buildGlobalStat(IconData icon, String value, String label) {
+  Widget _buildGlobalStat(String iconPath, String value, String label) {
     return Column(
       children: [
         Container(
@@ -265,7 +265,14 @@ class ImpactTab extends StatelessWidget {
             color: const Color(0xFF1B558C),
             //borderRadius: BorderRadius.circular(24),
           ),
-          child: Icon(icon, color: Colors.white, size: 32),
+          child: Center(
+            child: Image.asset(
+              iconPath,
+              color: Colors.white,
+              width: 32,
+              height: 32,
+            ),
+          ),
         ),
         const SizedBox(height: 12),
         Text(
@@ -321,7 +328,7 @@ class ImpactTab extends StatelessWidget {
             crossAxisCount: 2,
             mainAxisSpacing: 12,
             crossAxisSpacing: 12,
-            childAspectRatio: 1.4,
+            childAspectRatio: 1.2,
             children: [
               _buildContributionCard(Icons.park_outlined, '47', 'Trees Planted', '+3 this week'),
               _buildContributionCard(Icons.restaurant_outlined, '230', 'Meals Provided', '+15 this week'),
@@ -336,39 +343,50 @@ class ImpactTab extends StatelessWidget {
 
   Widget _buildContributionCard(IconData icon, String value, String label, String sub) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: AppTheme.white,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.grey.withValues(alpha: 0.1)),
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, color: const Color(0xFF1B558C), size: 20),
-
-          Text(
-            value,
-            style: GoogleFonts.outfit(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF1B558C),
-            ),
-          ),
-          Text(
-            label,
-            style: GoogleFonts.outfit(
-              fontSize: 12,
-              color: AppTheme.textSecondary,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
           const SizedBox(height: 4),
-          Text(
-            sub,
-            style: GoogleFonts.outfit(
-              fontSize: 11,
-              color: const Color(0xFF3491E3),
-              fontWeight: FontWeight.w600,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              value,
+              style: GoogleFonts.outfit(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFF1B558C),
+              ),
+            ),
+          ),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              label,
+              style: GoogleFonts.outfit(
+                fontSize: 12,
+                color: AppTheme.textSecondary,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          const SizedBox(height: 2),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              sub,
+              style: GoogleFonts.outfit(
+                fontSize: 11,
+                color: const Color(0xFF3491E3),
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],

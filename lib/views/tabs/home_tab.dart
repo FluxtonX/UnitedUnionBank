@@ -4,8 +4,16 @@ import '../../theme/theme.dart';
 import '../../config/app_images.dart';
 
 /// The dashboard content shown in the Home tab within the main HomeScreen shell.
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
+
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+  bool _isBalanceVisible = true;
+
 
   @override
   Widget build(BuildContext context) {
@@ -239,7 +247,7 @@ class HomeTab extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '\$12,450.00',
+                _isBalanceVisible ? '\$12,450.00' : '\$ ••••••',
                 style: GoogleFonts.outfit(
                   fontSize: 34,
                   fontWeight: FontWeight.bold,
@@ -247,8 +255,18 @@ class HomeTab extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              Icon(Icons.visibility_outlined,
-                  size: 20, color: AppTheme.textHint),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _isBalanceVisible = !_isBalanceVisible;
+                  });
+                },
+                child: Icon(
+                  _isBalanceVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                  size: 20,
+                  color: AppTheme.textHint,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 6),
@@ -358,14 +376,20 @@ class HomeTab extends StatelessWidget {
           const SizedBox(height: 16),
           Row(
             children: [
-              _buildImpactCard(AppIcons.treeIcon, '47', 'Trees Planted',
-                  '+3 this week', const Color(0xFF003366)),
-              const SizedBox(width: 10),
-              _buildImpactCard(AppIcons.mealIcon, '230', 'Meals Provided',
-                  '+15 this week', const Color(0xFF003366)),
-              const SizedBox(width: 10),
-              _buildImpactCard(AppIcons.medicalIcon, '12', 'Medical Visits',
-                  '3 communities', const Color(0xFF003366)),
+              Expanded(
+                child: _buildImpactCard(AppIcons.treeIcon, '47', 'Trees Planted',
+                    '+3 this week', const Color(0xFF003366)),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildImpactCard(AppIcons.mealIcon, '230', 'Meals Provided',
+                    '+15 this week', const Color(0xFF003366)),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildImpactCard(AppIcons.medicalIcon, '12', 'Medical Visits',
+                    '3 communities', const Color(0xFF003366)),
+              ),
             ],
           ),
         ],
@@ -376,7 +400,6 @@ class HomeTab extends StatelessWidget {
   Widget _buildImpactCard(
       String icon, String value, String label, String sub, Color color) {
     return Container(
-      width: 102,
       height: 106,
       padding: const EdgeInsets.only(top:12,bottom: 2),
       decoration: BoxDecoration(

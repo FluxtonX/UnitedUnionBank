@@ -234,15 +234,15 @@ class _InvestTabState extends State<InvestTab> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildQuickActionItem(Icons.auto_graph_rounded, 'Add Funds'),
-          _buildQuickActionItem(Icons.account_balance_rounded, 'Withdraw'),
-          _buildQuickActionItem(Icons.pie_chart_rounded, 'Rebalance'),
+          _buildQuickActionItem(AppIcons.addFundIcon, 'Add Funds'),
+          _buildQuickActionItem(AppIcons.withdrawIcon, 'Withdraw'),
+          _buildQuickActionItem(AppIcons.rebalanceIcon, 'Rebalance'),
         ],
       ),
     );
   }
 
-  Widget _buildQuickActionItem(IconData icon, String label) {
+  Widget _buildQuickActionItem(String iconPath, String label) {
     return Column(
       children: [
         Container(
@@ -263,7 +263,14 @@ class _InvestTabState extends State<InvestTab> {
               ),
             ],
           ),
-          child: Icon(icon, color: Colors.white, size: 24),
+          child: Center(
+            child: Image.asset(
+              iconPath,
+              color: Colors.white,
+              width: 24,
+              height: 24,
+            ),
+          ),
         ),
         const SizedBox(height: 8),
         Text(
