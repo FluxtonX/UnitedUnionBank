@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../customWidgets/custom_text_field.dart';
 import '../../../theme/theme.dart';
 import '../loginScreen/login_screen.dart';
+import '../causesScreen/causes_screen.dart';
 import '../verifyEmailScreen/verify_email_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -94,7 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     // Simulate API call
     Future.delayed(const Duration(milliseconds: 800), () {
       setState(() => _isLoading = false);
-      Get.to(() => const VerifyEmailScreen());
+      Get.to(() => const CausesScreen());
     });
   }
 

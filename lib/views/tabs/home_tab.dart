@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import '../../theme/theme.dart';
 import '../../config/app_images.dart';
+import '../sendMoneyScreens/bank_transfer_screen.dart';
 
 /// The dashboard content shown in the Home tab within the main HomeScreen shell.
 class HomeTab extends StatefulWidget {
@@ -307,39 +309,44 @@ class _HomeTabState extends State<HomeTab> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: actions.map((a) {
-          return Column(
-            children: [
-              Container(
-                width: 56,
-                height: 56,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: const RadialGradient(
-                    colors: [Color(0xFF3491E3), Color(0xFF1B558C)],
-                    center: Alignment.center,
-                    radius: 0.8,
+          return GestureDetector(
+            onTap: () {
+              if (a['label'] == 'Send') {
+                Get.to(() => const BankTransferScreen());
+              }
+            },
+            child: Column(
+              children: [
+                Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: const RadialGradient(
+                      colors: [Color(0xFF3491E3), Color(0xFF1B558C)],
+                      center: Alignment.center,
+                      radius: 0.8,
+                    ),
                   ),
-
-
-                ),
-                child: Center(
-                  child: Image.asset(
-                    a['icon'] as String,
-                    width: 24,
-                    height: 24,
+                  child: Center(
+                    child: Image.asset(
+                      a['icon'] as String,
+                      width: 24,
+                      height: 24,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                a['label'] as String,
-                style: GoogleFonts.outfit(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: const Color(0xFF333333),
+                const SizedBox(height: 8),
+                Text(
+                  a['label'] as String,
+                  style: GoogleFonts.outfit(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF333333),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         }).toList(),
       ),

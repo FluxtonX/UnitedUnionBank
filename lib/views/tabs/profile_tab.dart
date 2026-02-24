@@ -4,6 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../config/app_images.dart';
 import '../../theme/theme.dart';
 import '../authScreens/loginScreen/login_screen.dart';
+import '../profileScreens/personal_information_screen.dart';
+import '../profileScreens/email_settings_screen.dart';
+import '../profileScreens/phone_number_screen.dart';
+import '../profileScreens/notifications_screen.dart';
+import '../profileScreens/privacy_security_screen.dart';
+import '../profileScreens/app_settings_screen.dart';
+import '../profileScreens/help_center_screen.dart';
+import '../profileScreens/terms_privacy_screen.dart';
 
 class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
@@ -66,24 +74,24 @@ class ProfileTab extends StatelessWidget {
                             children: [
                               _buildSectionHeader('ACCOUNT'),
                               _buildSectionCard([
-                                _buildMenuItem(AppIcons.personIcon, 'Personal Information'),
-                                _buildMenuItem(AppIcons.emailIcon, 'Email Settings'),
-                                _buildMenuItem(AppIcons.phoneIcon, 'Phone Number', badge: 'Verified'),
+                                _buildMenuItem(AppIcons.personIcon, 'Personal Information', onTap: () => Get.to(() => const PersonalInformationScreen())),
+                                _buildMenuItem(AppIcons.emailIcon, 'Email Settings', onTap: () => Get.to(() => const EmailSettingsScreen())),
+                                _buildMenuItem(AppIcons.phoneIcon, 'Phone Number', badge: 'Verified', onTap: () => Get.to(() => const PhoneNumberScreen())),
                               ]),
                               const SizedBox(height: 24),
 
                               _buildSectionHeader('PREFERENCES'),
                               _buildSectionCard([
-                                _buildMenuItem(AppIcons.notificationIcon, 'Notifications', badge: '3 new'),
-                                _buildMenuItem(AppIcons.privacyIcon, 'Privacy & Security'),
-                                _buildMenuItem(AppIcons.settingsIcon, 'App Settings'),
+                                _buildMenuItem(AppIcons.notificationIcon, 'Notifications', badge: '3 new', onTap: () => Get.to(() => const NotificationsScreen())),
+                                _buildMenuItem(AppIcons.privacyIcon, 'Privacy & Security', onTap: () => Get.to(() => const PrivacySecurityScreen())),
+                                _buildMenuItem(AppIcons.settingsIcon, 'App Settings', onTap: () => Get.to(() => const AppSettingsScreen())),
                               ]),
                               const SizedBox(height: 24),
 
                               _buildSectionHeader('SUPPORT'),
                               _buildSectionCard([
-                                _buildMenuItem(AppIcons.helpIcon, 'Help Center'),
-                                _buildMenuItem(AppIcons.termsIcon, 'Terms & Privacy'),
+                                _buildMenuItem(AppIcons.helpIcon, 'Help Center', onTap: () => Get.to(() => const HelpCenterScreen())),
+                                _buildMenuItem(AppIcons.termsIcon, 'Terms & Privacy', onTap: () => Get.to(() => const TermsPrivacyScreen())),
                               ]),
                               const SizedBox(height: 32),
                               _buildLogoutButton(context),
@@ -321,7 +329,7 @@ class ProfileTab extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem(String icon, String title, {String? badge}) {
+  Widget _buildMenuItem(String icon, String title, {String? badge, VoidCallback? onTap}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 2),
       decoration: BoxDecoration(
@@ -331,6 +339,7 @@ class ProfileTab extends StatelessWidget {
         ),
       ),
       child: ListTile(
+        onTap: onTap,
         contentPadding: const EdgeInsets.symmetric(horizontal: 0),
          leading: SizedBox(
         width: 40,
