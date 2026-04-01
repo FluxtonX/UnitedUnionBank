@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:united_union_bank/views/authScreens/loginScreen/partner_login_screen.dart';
 import '../../../customWidgets/custom_text_field.dart';
 import '../../../theme/theme.dart';
 import '../signUpScreen/sign_up_screen.dart';
@@ -157,6 +158,18 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ],
+                        ),
+                        const SizedBox(height: 16),
+                        GestureDetector(
+                          onTap: () => Get.to(() => const InstitutionalLoginScreen()),
+                          child: Text(
+                            'Partner Login',
+                            style: GoogleFonts.outfit(
+                              color: AppTheme.primary,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 16),
                         _buildProtectedBadge(),
