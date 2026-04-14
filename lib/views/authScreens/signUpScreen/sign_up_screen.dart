@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 import '../../../customWidgets/custom_text_field.dart';
 import '../../../theme/theme.dart';
 import '../loginScreen/login_screen.dart';
@@ -49,8 +50,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (value == null || value.trim().isEmpty) {
       return 'Email or phone number is required';
     }
-    final isEmail =
-        RegExp(r'^[\w\.\-]+@[\w\.\-]+\.\w{2,}$').hasMatch(value.trim());
+    final isEmail = RegExp(
+      r'^[\w\.\-]+@[\w\.\-]+\.\w{2,}$',
+    ).hasMatch(value.trim());
     final isPhone = RegExp(r'^\+?\d{10,15}$').hasMatch(value.trim());
     if (!isEmail && !isPhone) {
       return 'Enter a valid email or phone number';
@@ -87,16 +89,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return null;
   }
 
-  void _handleContinue() {
+  final AuthController _authController = AuthController.instance;
+
+  void _handleContinue() async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
 
-    // Simulate API call
-    Future.delayed(const Duration(milliseconds: 800), () {
-      setState(() => _isLoading = false);
-      Get.to(() => const CausesScreen());
-    });
+    try {
+      await _authController.register(
+        _nameController.text.trim(),
+        _emailController.text.trim(),
+        _passwordController.text.trim(),
+      );
+      // Success handled by AuthController (redirection).
+    } catch (e) {
+      debugPrint("Registration Failed: $e");
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -172,8 +183,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () =>
-                                  Get.off(() => const LoginScreen()),
+                              onTap: () => Get.off(() => const LoginScreen()),
                               child: Text(
                                 'Log in',
                                 style: GoogleFonts.outfit(
@@ -300,8 +310,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  const Icon(Icons.arrow_forward_ios_rounded,
-                      size: 16, color: AppTheme.white),
+                  const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 16,
+                    color: AppTheme.white,
+                  ),
                 ],
               ),
       ),
@@ -340,8 +353,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
             const TextSpan(
-                text:
-                    '. We use bank-level encryption to keep your data safe.'),
+              text: '. We use bank-level encryption to keep your data safe.',
+            ),
           ],
         ),
         textAlign: TextAlign.center,

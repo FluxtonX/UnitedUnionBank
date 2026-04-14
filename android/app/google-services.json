@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "14341180697",
+    "project_id": "united-unionbank",
+    "storage_bucket": "united-unionbank.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:14341180697:android:3a5bcffea86349384b0988",
+        "android_client_info": {
+          "package_name": "com.fluxtonx.united_union_bank"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_StnD7kgM1EHQnsoo3ahIL-78FHKjKaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

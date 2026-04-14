@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 import '../../theme/theme.dart';
 import '../homeScreen/home_screen.dart';
 
@@ -13,9 +14,7 @@ class KycSuccessScreen extends StatelessWidget {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: AppTheme.headerGradient,
-        ),
+        decoration: const BoxDecoration(gradient: AppTheme.headerGradient),
         child: SafeArea(
           child: Column(
             children: [
@@ -26,7 +25,11 @@ class KycSuccessScreen extends StatelessWidget {
                 child: Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
+                      icon: const Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.white,
+                        size: 20,
+                      ),
                       onPressed: () => Get.back(),
                     ),
                     Expanded(
@@ -172,7 +175,10 @@ class KycSuccessScreen extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () => Get.offAll(() => const HomeScreen()),
+                          onPressed: () async {
+                            await AuthController.instance.completeKyc();
+                            Get.offAll(() => const HomeScreen());
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF0047AB),
                             foregroundColor: Colors.white,

@@ -8,6 +8,10 @@
 	<string>We need access to your photo library to upload bank documents and profile pictures.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need access to your microphone to record videos if needed.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>United Union Bank uses Face ID to securely and quickly log you into your account.</string>
+	<key>NSLocalizedReason</key>
+	<string>United Union Bank uses Touch ID to securely and quickly log you into your account.</string>
 
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>

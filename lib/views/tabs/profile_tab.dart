@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 import '../../config/app_images.dart';
 import '../../theme/theme.dart';
-import '../authScreens/loginScreen/login_screen.dart';
 import '../profileScreens/personal_information_screen.dart';
 import '../profileScreens/email_settings_screen.dart';
 import '../profileScreens/phone_number_screen.dart';
@@ -17,8 +17,9 @@ class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
 
   @override
-  @override
   Widget build(BuildContext context) {
+    final authController = AuthController.instance;
+
     return Scaffold(
       backgroundColor: const Color(0xFF003876),
       body: Stack(
@@ -37,7 +38,7 @@ class ProfileTab extends StatelessWidget {
           SingleChildScrollView(
             child: Column(
               children: [
-                _buildProfileHeader(),
+                _buildProfileHeader(authController),
 
                 Container(
                   width: double.infinity,
@@ -74,24 +75,68 @@ class ProfileTab extends StatelessWidget {
                             children: [
                               _buildSectionHeader('ACCOUNT'),
                               _buildSectionCard([
-                                _buildMenuItem(AppIcons.personIcon, 'Personal Information', onTap: () => Get.to(() => const PersonalInformationScreen())),
-                                _buildMenuItem(AppIcons.emailIcon, 'Email Settings', onTap: () => Get.to(() => const EmailSettingsScreen())),
-                                _buildMenuItem(AppIcons.phoneIcon, 'Phone Number', badge: 'Verified', onTap: () => Get.to(() => const PhoneNumberScreen())),
+                                _buildMenuItem(
+                                  AppIcons.personIcon,
+                                  'Personal Information',
+                                  onTap: () => Get.to(
+                                    () => const PersonalInformationScreen(),
+                                  ),
+                                ),
+                                _buildMenuItem(
+                                  AppIcons.emailIcon,
+                                  'Email Settings',
+                                  onTap: () =>
+                                      Get.to(() => const EmailSettingsScreen()),
+                                ),
+                                _buildMenuItem(
+                                  AppIcons.phoneIcon,
+                                  'Phone Number',
+                                  badge: 'Verified',
+                                  onTap: () =>
+                                      Get.to(() => const PhoneNumberScreen()),
+                                ),
                               ]),
                               const SizedBox(height: 24),
 
                               _buildSectionHeader('PREFERENCES'),
                               _buildSectionCard([
-                                _buildMenuItem(AppIcons.notificationIcon, 'Notifications', badge: '3 new', onTap: () => Get.to(() => const NotificationsScreen())),
-                                _buildMenuItem(AppIcons.privacyIcon, 'Privacy & Security', onTap: () => Get.to(() => const PrivacySecurityScreen())),
-                                _buildMenuItem(AppIcons.settingsIcon, 'App Settings', onTap: () => Get.to(() => const AppSettingsScreen())),
+                                _buildMenuItem(
+                                  AppIcons.notificationIcon,
+                                  'Notifications',
+                                  badge: '3 new',
+                                  onTap: () =>
+                                      Get.to(() => const NotificationsScreen()),
+                                ),
+                                _buildMenuItem(
+                                  AppIcons.privacyIcon,
+                                  'Privacy & Security',
+                                  onTap: () => Get.to(
+                                    () => const PrivacySecurityScreen(),
+                                  ),
+                                ),
+                                _buildMenuItem(
+                                  AppIcons.settingsIcon,
+                                  'App Settings',
+                                  onTap: () =>
+                                      Get.to(() => const AppSettingsScreen()),
+                                ),
                               ]),
                               const SizedBox(height: 24),
 
                               _buildSectionHeader('SUPPORT'),
                               _buildSectionCard([
-                                _buildMenuItem(AppIcons.helpIcon, 'Help Center', onTap: () => Get.to(() => const HelpCenterScreen())),
-                                _buildMenuItem(AppIcons.termsIcon, 'Terms & Privacy', onTap: () => Get.to(() => const TermsPrivacyScreen())),
+                                _buildMenuItem(
+                                  AppIcons.helpIcon,
+                                  'Help Center',
+                                  onTap: () =>
+                                      Get.to(() => const HelpCenterScreen()),
+                                ),
+                                _buildMenuItem(
+                                  AppIcons.termsIcon,
+                                  'Terms & Privacy',
+                                  onTap: () =>
+                                      Get.to(() => const TermsPrivacyScreen()),
+                                ),
                               ]),
                               const SizedBox(height: 32),
                               _buildLogoutButton(context),
@@ -124,33 +169,73 @@ class ProfileTab extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileHeader() {
+  Widget _buildProfileHeader(AuthController authController) {
     return SafeArea(
-      child: Column(
-        children: [
-          const SizedBox(height: 20),
-          Container(
-            width: 90, height: 90,
-            decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-            child: Center(
-              child: Text('JD', style: GoogleFonts.outfit(color: const Color(0xFF003876), fontSize: 26, fontWeight: FontWeight.bold)),
+      child: Obx(() {
+        final user = authController.userModel.value;
+        final name = user?.name ?? 'Guest User';
+        final email = user?.email ?? 'Not logged in';
+
+        // Generate initials
+        String initials = '';
+        if (name.isNotEmpty) {
+          List<String> parts = name.trim().split(' ');
+          if (parts.length > 1) {
+            initials = (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+          } else if (parts[0].isNotEmpty) {
+            initials = parts[0][0].toUpperCase();
+          }
+        }
+
+        return Column(
+          children: [
+            const SizedBox(height: 20),
+            Container(
+              width: 90,
+              height: 90,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Text(
+                  initials,
+                  style: GoogleFonts.outfit(
+                    color: const Color(0xFF003876),
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          Text('John Doe', style: GoogleFonts.outfit(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
-          Text('john.doe@email.com', style: GoogleFonts.outfit(color: Colors.white70, fontSize: 14)),
-          const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildTopBadge('⭐ Impact Score: 850', const Color(0xFF53A1D8)),
-              const SizedBox(width: 10),
-              _buildTopBadge('🌟 Changemaker', const Color(0xFF53A1D8)),
-            ],
-          ),
-          const SizedBox(height: 80), // Creates space for the sheet to overlap
-        ],
-      ),
+            const SizedBox(height: 10),
+            Text(
+              name,
+              style: GoogleFonts.outfit(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              email,
+              style: GoogleFonts.outfit(color: Colors.white70, fontSize: 14),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildTopBadge('⭐ Impact Score: 850', const Color(0xFF53A1D8)),
+                const SizedBox(width: 10),
+                _buildTopBadge('🌟 Changemaker', const Color(0xFF53A1D8)),
+              ],
+            ),
+            const SizedBox(
+              height: 80,
+            ), // Creates space for the sheet to overlap
+          ],
+        );
+      }),
     );
   }
 
@@ -162,7 +247,7 @@ class ProfileTab extends StatelessWidget {
       shadowColor: Colors.black.withOpacity(0.03),
       clipBehavior: Clip.antiAlias,
       child: Padding(
-        padding: const EdgeInsets.only(left: 24.0,right: 10.0),
+        padding: const EdgeInsets.only(left: 24.0, right: 10.0),
         child: Column(children: children),
       ),
     );
@@ -184,12 +269,20 @@ class ProfileTab extends StatelessWidget {
           children: [
             Image.asset(AppIcons.logoutIcon, height: 24, width: 24),
             const SizedBox(width: 10),
-            Text('Log Out', style: GoogleFonts.outfit(fontSize: 16, fontWeight: FontWeight.bold, color: const Color(0xFF3491E3))),
+            Text(
+              'Log Out',
+              style: GoogleFonts.outfit(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFF3491E3),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+
   Widget _buildTopBadge(String text, Color color) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -216,10 +309,7 @@ class ProfileTab extends StatelessWidget {
           gradient: const LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF236EB6),
-              Color(0xFF1B558C),
-            ],
+            colors: [Color(0xFF236EB6), Color(0xFF1B558C)],
           ),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
@@ -278,9 +368,7 @@ class ProfileTab extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
           'Log Out',
           style: GoogleFonts.outfit(
@@ -290,9 +378,7 @@ class ProfileTab extends StatelessWidget {
         ),
         content: Text(
           'Are you sure you want to log out of your account?',
-          style: GoogleFonts.outfit(
-            color: AppTheme.textSecondary,
-          ),
+          style: GoogleFonts.outfit(color: AppTheme.textSecondary),
         ),
         actions: [
           TextButton(
@@ -308,7 +394,7 @@ class ProfileTab extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
-              Get.offAll(() => const LoginScreen());
+              AuthController.instance.logout();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppTheme.error,
@@ -329,7 +415,12 @@ class ProfileTab extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem(String icon, String title, {String? badge, VoidCallback? onTap}) {
+  Widget _buildMenuItem(
+    String icon,
+    String title, {
+    String? badge,
+    VoidCallback? onTap,
+  }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 2),
       decoration: BoxDecoration(
@@ -341,24 +432,24 @@ class ProfileTab extends StatelessWidget {
       child: ListTile(
         onTap: onTap,
         contentPadding: const EdgeInsets.symmetric(horizontal: 0),
-         leading: SizedBox(
-        width: 40,
-        height: 40,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: AppTheme.iconFill,
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: Image.asset(
-              icon,
-              width: 20,
-              height: 20,
-              fit: BoxFit.contain,
+        leading: SizedBox(
+          width: 40,
+          height: 40,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: AppTheme.iconFill,
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Image.asset(
+                icon,
+                width: 20,
+                height: 20,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
         ),
-      ),
 
         title: Text(
           title,
@@ -373,7 +464,10 @@ class ProfileTab extends StatelessWidget {
           children: [
             if (badge != null)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: badge == 'Verified'
                       ? const Color(0xFF0D78C1)
@@ -396,5 +490,4 @@ class ProfileTab extends StatelessWidget {
       ),
     );
   }
-
 }

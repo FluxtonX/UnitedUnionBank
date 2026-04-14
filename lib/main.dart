@@ -1,20 +1,32 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide debugPrint;
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:united_union_bank/firebase_options.dart';
 import 'package:united_union_bank/views/splashScreen/splash_screen.dart';
 import 'config/app_utils.dart';
+import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
+import 'package:united_union_bank/controllers/biometric_controller.dart' hide debugPrint;
 import 'theme/theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    // Initialize BiometricController first
+    Get.put(BiometricController());
+    // Initialize AuthController
+    Get.put(AuthController());
+  } catch (e) {
+    debugPrint('Firebase Initialization Error: $e');
+  }
   await GetStorage.init();
   runApp(
-    DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => const MyApp(),
-    ),
+    DevicePreview(enabled: !kReleaseMode, builder: (context) => const MyApp()),
   );
 }
 

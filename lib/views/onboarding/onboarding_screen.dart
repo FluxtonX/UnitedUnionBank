@@ -18,17 +18,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final List<Map<String, String>> onboardingData = [
     {
       'title': 'Smart Banking That Understands You',
-      'description': 'Personalized insights and guidance for your financial journey, powered by secure AI technology.',
+      'description':
+          'Personalized insights and guidance for your financial journey, powered by secure AI technology.',
       'image': AppImages.onboardingImage1,
     },
     {
       'title': 'Global & Secure',
-      'description': 'Manage multi-currency accounts with enterprise-grade biometric security. Your wealth, protected globally by advanced AI encryption.',
+      'description':
+          'Manage multi-currency accounts with enterprise-grade biometric security. Your wealth, protected globally by advanced AI encryption.',
       'image': AppImages.onboardingImage2,
     },
     {
       'title': 'Invest with Purpose',
-      'description': 'Grow your wealth while supporting sustainable and socially responsible investments.',
+      'description':
+          'Grow your wealth while supporting sustainable and socially responsible investments.',
       'image': AppImages.onboardingImage3,
     },
   ];
@@ -41,10 +44,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF003366),
-              Color(0xFF4A90E2),
-            ],
+            colors: [Color(0xFF003366), Color(0xFF4A90E2)],
           ),
         ),
         child: SafeArea(
@@ -66,39 +66,40 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           // Onboarding Image
-                          Container(
-                            height: 300,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              //color: Colors.white10,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.asset(
-                                onboardingData[index]['image']!,
-                                fit: BoxFit.fill,
+                          Flexible(
+                            child: Container(
+                              constraints: const BoxConstraints(maxHeight: 280),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.asset(
+                                  onboardingData[index]['image']!,
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 50),
+                          const SizedBox(height: 24),
                           Text(
                             onboardingData[index]['title']!,
                             textAlign: TextAlign.center,
                             style: GoogleFonts.outfit(
-                              fontSize: 28,
+                              fontSize: 26,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 12),
                           Text(
                             onboardingData[index]['description']!,
                             textAlign: TextAlign.center,
                             style: GoogleFonts.outfit(
-                              fontSize: 16,
+                              fontSize: 15,
                               color: Colors.white70,
-                              height: 1.5,
+                              height: 1.4,
                             ),
                           ),
                         ],
@@ -107,10 +108,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   },
                 ),
               ),
-              
+
               // Dots and Button
               Padding(
-                padding: const EdgeInsets.all(40),
+                padding: const EdgeInsets.fromLTRB(40, 0, 40, 30),
                 child: Column(
                   children: [
                     Row(
@@ -122,7 +123,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           height: 8,
                           width: _currentIndex == index ? 24 : 8,
                           decoration: BoxDecoration(
-                            color: _currentIndex == index ? Colors.white : Colors.white38,
+                            color: _currentIndex == index
+                                ? Colors.white
+                                : Colors.white38,
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
@@ -153,7 +156,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            _currentIndex == onboardingData.length - 1 ? 'Get Started' : 'Next',
+                            _currentIndex == onboardingData.length - 1
+                                ? 'Get Started'
+                                : 'Next',
                             style: GoogleFonts.outfit(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -173,5 +178,4 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
     );
   }
-
 }

@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:united_union_bank/views/homeScreen/home_screen.dart';
+import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 import 'dart:async';
 import 'dart:math';
 import '../../config/app_images.dart';
@@ -72,15 +75,13 @@ class _SplashScreenState extends State<SplashScreen>
       ),
     );
 
-    _textSlide = Tween<Offset>(
-      begin: const Offset(0, 0.5),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _textController,
-        curve: const Interval(0.0, 0.7, curve: Curves.easeOut),
-      ),
-    );
+    _textSlide = Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero)
+        .animate(
+          CurvedAnimation(
+            parent: _textController,
+            curve: const Interval(0.0, 0.7, curve: Curves.easeOut),
+          ),
+        );
 
     _subtitleFade = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
@@ -117,7 +118,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     // Navigate after animations complete
     Timer(const Duration(seconds: 4), () {
-      Get.off(() => const OnboardingScreen());
+      AuthController.instance.handleNavigation();
     });
   }
 
@@ -164,8 +165,9 @@ class _SplashScreenState extends State<SplashScreen>
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
                         colors: [
-                          const Color(0xFF4A90E2)
-                              .withValues(alpha: 0.15 + (_pulseAnimation.value * 0.1)),
+                          const Color(0xFF4A90E2).withValues(
+                            alpha: 0.15 + (_pulseAnimation.value * 0.1),
+                          ),
                           const Color(0xFF4A90E2).withValues(alpha: 0.05),
                           Colors.transparent,
                         ],

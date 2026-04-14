@@ -407,8 +407,8 @@ class _HomeTabState extends State<HomeTab> {
   Widget _buildImpactCard(
       String icon, String value, String label, String sub, Color color) {
     return Container(
-      height: 106,
-      padding: const EdgeInsets.only(top:12,bottom: 2),
+      height: 120,
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
       decoration: BoxDecoration(
         color: AppTheme.white,
         borderRadius: BorderRadius.circular(16),
@@ -422,34 +422,44 @@ class _HomeTabState extends State<HomeTab> {
         ],
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(icon, width: 20, height: 20,),
-          const SizedBox(height: 6,),
-          Text(
-            value,
-            style: GoogleFonts.outfit(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF1B558C),
+          Image.asset(icon, width: 22, height: 22),
+          const SizedBox(height: 4),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              value,
+              style: GoogleFonts.outfit(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFF1B558C),
+              ),
             ),
           ),
-          const SizedBox(height: 8,),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.outfit(
-              fontSize: 10,
-              fontWeight: FontWeight.w500,
-              color: const Color(0xFF666666),
+          const SizedBox(height: 2),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.outfit(
+                fontSize: 10,
+                fontWeight: FontWeight.w500,
+                color: const Color(0xFF666666),
+              ),
             ),
           ),
-          const SizedBox(height: 2,),
-          Text(
-            sub,
-            style: GoogleFonts.outfit(
-              fontSize: 11,
-              color: const Color(0xFF3491E3),
-              fontWeight: FontWeight.w600,
+          const SizedBox(height: 2),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              sub,
+              style: GoogleFonts.outfit(
+                fontSize: 11,
+                color: const Color(0xFF3491E3),
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],

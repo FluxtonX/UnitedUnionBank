@@ -1,12 +1,14 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide debugPrint;
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 import 'package:united_union_bank/views/authScreens/loginScreen/partner_login_screen.dart';
+import 'package:united_union_bank/views/authScreens/loginScreen/phone_login_screen.dart';
 import '../../../customWidgets/custom_text_field.dart';
 import '../../../theme/theme.dart';
 import '../signUpScreen/sign_up_screen.dart';
 import '../forgotPasswordScreen/forgot_password_screen.dart';
-import '../../homeScreen/home_screen.dart';
+import '../../../controllers/biometric_controller.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -34,7 +36,9 @@ class _LoginScreenState extends State<LoginScreen> {
       return 'Email or phone number is required';
     }
     // Accepts email or phone (10+ digits)
-    final isEmail = RegExp(r'^[\w\.\-]+@[\w\.\-]+\.\w{2,}$').hasMatch(value.trim());
+    final isEmail = RegExp(
+      r'^[\w\.\-]+@[\w\.\-]+\.\w{2,}$',
+    ).hasMatch(value.trim());
     final isPhone = RegExp(r'^\+?\d{10,15}$').hasMatch(value.trim());
     if (!isEmail && !isPhone) {
       return 'Enter a valid email or phone number';
@@ -52,16 +56,24 @@ class _LoginScreenState extends State<LoginScreen> {
     return null;
   }
 
-  void _handleSignIn() {
+  final AuthController _authController = AuthController.instance;
+
+  void _handleSignIn() async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
 
-    // Simulate API call delay
-    Future.delayed(const Duration(milliseconds: 800), () {
-      setState(() => _isLoading = false);
-      Get.offAll(() => const HomeScreen());
-    });
+    try {
+      await _authController.login(
+        _emailController.text.trim(),
+        _passwordController.text.trim(),
+      );
+      // Success case is handled by Get.offAll(...) inside authController.login
+    } catch (e) {
+      debugPrint("Login Failed: $e");
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -105,7 +117,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           textInputAction: TextInputAction.done,
                           validator: _validatePassword,
                           labelTrailing: GestureDetector(
-                            onTap: () => Get.to(() => const ForgotPasswordScreen()),
+                            onTap: () =>
+                                Get.to(() => const ForgotPasswordScreen()),
                             child: Text(
                               'Forgot?',
                               style: GoogleFonts.outfit(
@@ -125,15 +138,23 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             Expanded(
                               child: _buildBiometricButton(
-                                  Icons.face_retouching_natural, 'Face ID'),
+                                Icons.face_retouching_natural,
+                                'Face ID',
+                                onTap: _handleBiometricLogin,
+                              ),
                             ),
                             const SizedBox(width: 16),
                             Expanded(
                               child: _buildBiometricButton(
-                                  Icons.fingerprint, 'Touch ID'),
+                                Icons.fingerprint,
+                                'Touch ID',
+                                onTap: _handleBiometricLogin,
+                              ),
                             ),
                           ],
                         ),
+                        const SizedBox(height: 16),
+                        _buildPhoneLoginButton(),
                         const SizedBox(height: 36),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -146,8 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () =>
-                                  Get.to(() => const SignUpScreen()),
+                              onTap: () => Get.to(() => const SignUpScreen()),
                               child: Text(
                                 'Sign Up',
                                 style: GoogleFonts.outfit(
@@ -161,7 +181,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 16),
                         GestureDetector(
-                          onTap: () => Get.to(() => const InstitutionalLoginScreen()),
+                          onTap: () =>
+                              Get.to(() => const InstitutionalLoginScreen()),
                           child: Text(
                             'Partner Login',
                             style: GoogleFonts.outfit(
@@ -198,7 +219,6 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               const SizedBox(height: 40),
               Center(
                 child: Text(
@@ -273,8 +293,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  const Icon(Icons.arrow_forward_ios_rounded,
-                      size: 16, color: AppTheme.white),
+                  const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 16,
+                    color: AppTheme.white,
+                  ),
                 ],
               ),
       ),
@@ -289,10 +312,7 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
             text,
-            style: GoogleFonts.outfit(
-              color: AppTheme.textHint,
-              fontSize: 13,
-            ),
+            style: GoogleFonts.outfit(color: AppTheme.textHint, fontSize: 13),
           ),
         ),
         const Expanded(child: Divider(color: AppTheme.divider)),
@@ -300,7 +320,53 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildBiometricButton(IconData icon, String label) {
+  void _handleBiometricLogin() async {
+    final biometricController = BiometricController.instance;
+
+    // 1. Check if enabled
+    if (!biometricController.isBiometricEnabled.value) {
+      Get.defaultDialog(
+        title: "Biometrics Disabled",
+        middleText: "Please log in manually with your password first, then enable Biometric Login in your Profile settings.",
+        textConfirm: "OK",
+        confirmTextColor: Colors.white,
+        onConfirm: () => Get.back(),
+      );
+      return;
+    }
+
+    // 2. Perform Hardware Authentication
+    bool authenticated = await biometricController.authenticate();
+    if (!authenticated) return;
+
+    // 3. Retrieve Credentials
+    final credentials = biometricController.getSavedCredentials();
+    if (credentials == null) {
+      Get.defaultDialog(
+        title: "Setup Required",
+        middleText: "For security, we need to link your biometric data to your account.\n\nPlease log in manually using your email and password one time to complete the setup.",
+        textConfirm: "OK",
+        confirmTextColor: Colors.white,
+        onConfirm: () => Get.back(),
+      );
+      return;
+    }
+
+    // 4. Execute Login
+    setState(() => _isLoading = true);
+    try {
+      await _authController.login(
+        credentials['email']!,
+        credentials['password']!,
+      );
+    } catch (e) {
+      debugPrint("Biometric Login Failed: $e");
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  Widget _buildBiometricButton(IconData icon, String label, {VoidCallback? onTap}) {
     return Container(
       height: 56,
       decoration: BoxDecoration(
@@ -312,7 +378,7 @@ class _LoginScreenState extends State<LoginScreen> {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: () {},
+          onTap: onTap ?? () {},
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -320,6 +386,40 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(width: 10),
               Text(
                 label,
+                style: GoogleFonts.outfit(
+                  color: AppTheme.textPrimary,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPhoneLoginButton() {
+    return Container(
+      width: double.infinity,
+      height: 56,
+      decoration: BoxDecoration(
+        color: AppTheme.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.border),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: () => Get.to(() => const PhoneLoginScreen()),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.phone_outlined, color: AppTheme.primary, size: 22),
+              const SizedBox(width: 10),
+              Text(
+                'Phone Number',
                 style: GoogleFonts.outfit(
                   color: AppTheme.textPrimary,
                   fontWeight: FontWeight.w600,

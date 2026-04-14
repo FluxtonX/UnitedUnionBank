@@ -3,12 +3,15 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../theme/theme.dart';
+import '../../../controllers/biometric_controller.dart';
+import 'biometric_enable_screen.dart';
 
 class PrivacySecurityScreen extends StatelessWidget {
   const PrivacySecurityScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final biometricController = BiometricController.instance;
     return Scaffold(
       backgroundColor: AppTheme.white,
       body: Column(
@@ -39,7 +42,31 @@ class PrivacySecurityScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     _buildNavTile(Icons.lock_outline, 'Change Password', 'Update your account password'),
-                    _buildNavTile(Icons.fingerprint, 'Biometric Login', 'Use touch/face ID to sign in'),
+                    // Biometric Tile with Toggle
+                    Obx(() {
+                      final biometricController = BiometricController.instance;
+                      return _buildNavTile(
+                        Icons.fingerprint, 
+                        'Biometric Login', 
+                        'Use touch/face ID to sign in',
+                        trailing: Switch(
+                          value: biometricController.isBiometricEnabled.value,
+                          activeColor: AppTheme.primaryLight,
+                          onChanged: (value) async {
+                            if (value) {
+                              Get.to(() => const BiometricEnableScreen());
+                            } else {
+                              await biometricController.toggleBiometric(false);
+                            }
+                          },
+                        ),
+                        onTap: () {
+                          if (!biometricController.isBiometricEnabled.value) {
+                            Get.to(() => const BiometricEnableScreen());
+                          }
+                        },
+                      );
+                    }),
                     _buildNavTile(Icons.verified_user_outlined, 'Two-Factor Authentication', 'Add an extra layer of security'),
                     const SizedBox(height: 32),
                     Text(
@@ -63,7 +90,7 @@ class PrivacySecurityScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildNavTile(IconData icon, String title, String subtitle) {
+  Widget _buildNavTile(IconData icon, String title, String subtitle, {Widget? trailing, VoidCallback? onTap}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
@@ -88,8 +115,8 @@ class PrivacySecurityScreen extends StatelessWidget {
             color: AppTheme.textSecondary,
           ),
         ),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 14, color: AppTheme.textHint),
-        onTap: () {},
+        trailing: trailing ?? const Icon(Icons.arrow_forward_ios, size: 14, color: AppTheme.textHint),
+        onTap: onTap ?? () {},
       ),
     );
   }

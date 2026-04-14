@@ -1,54 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../../theme/theme.dart';
-import '../../kycScreens/kyc_overview_screen.dart';
+import '../verifyEmailController/verify_email_controller.dart';
 
-class VerifyEmailScreen extends StatefulWidget {
+class VerifyEmailScreen extends StatelessWidget {
   const VerifyEmailScreen({super.key});
 
   @override
-  State<VerifyEmailScreen> createState() => _VerifyEmailScreenState();
-}
-
-class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
-  int _secondsRemaining = 57;
-  Timer? _timer;
-  final String _email = 'member@domainme.com';
-
-  @override
-  void initState() {
-    super.initState();
-    _startTimer();
-  }
-
-  void _startTimer() {
-    _timer?.cancel();
-    _secondsRemaining = 57;
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_secondsRemaining > 0) {
-        setState(() => _secondsRemaining--);
-      } else {
-        timer.cancel();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  String get _formattedTime {
-    final mins = (_secondsRemaining ~/ 60).toString().padLeft(2, '0');
-    final secs = (_secondsRemaining % 60).toString().padLeft(2, '0');
-    return '$mins:$secs';
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = Get.put(VerifyEmailController());
+    final String email = FirebaseAuth.instance.currentUser?.email ?? 'your email';
+
     return Scaffold(
       backgroundColor: AppTheme.white,
       body: Column(
@@ -69,8 +33,8 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                     topRight: Radius.circular(32),
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 48, 24, 24),
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(24, 32, 24, 20),
                   child: Column(
                     children: [
                       // Email icon
@@ -87,7 +51,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                           size: 36,
                         ),
                       ),
-                      const SizedBox(height: 28),
+                      const SizedBox(height: 20),
 
                       // Description
                       Text.rich(
@@ -100,7 +64,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                           ),
                           children: [
                             TextSpan(
-                              text: _email,
+                              text: email,
                               style: GoogleFonts.outfit(
                                 fontSize: 15,
                                 color: AppTheme.textPrimary,
@@ -116,40 +80,42 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                         textAlign: TextAlign.center,
                       ),
 
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 15),
 
                       Text(
-                        'Enter the code you received via email',
+                        'Click the link in your email to verify.',
                         style: GoogleFonts.outfit(
                           fontSize: 14,
                           color: AppTheme.textSecondary,
                         ),
                       ),
 
-                      const Spacer(),
+                      const SizedBox(height: 48),
 
                       // Resend Email button
-                      _buildPrimaryButton(
-                        'Resend Email',
-                        onPressed: _secondsRemaining == 0
-                            ? () {
-                                _startTimer();
-                                Get.snackbar(
-                                  'Email Sent',
-                                  'Verification email has been resent',
-                                  backgroundColor:
-                                      AppTheme.success.withValues(alpha: 0.1),
-                                  colorText: AppTheme.success,
-                                  margin: const EdgeInsets.all(20),
-                                );
-                              }
-                            : () {
-                                // Simulate verification and continue
-                                Get.off(() => const KycOverviewScreen());
-                              },
-                      ),
+                      Obx(() => _buildPrimaryButton(
+                            controller.secondsRemaining.value == 0
+                                ? 'Resend Email'
+                                : 'Continue',
+                            onPressed: controller.secondsRemaining.value == 0
+                                ? () {
+                                    controller.sendVerificationEmail();
+                                    controller.startResendTimer();
+                                    Get.snackbar(
+                                      'Email Sent',
+                                      'Verification email has been resent',
+                                      backgroundColor:
+                                          AppTheme.success.withValues(alpha: 0.1),
+                                      colorText: AppTheme.success,
+                                      margin: const EdgeInsets.all(20),
+                                    );
+                                  }
+                                : () {
+                                    controller.checkEmailVerificationStatus();
+                                  },
+                          )),
 
-                      const SizedBox(height: 14),
+                      const SizedBox(height: 12),
 
                       // Change Email button
                       Container(
@@ -180,18 +146,18 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                         ),
                       ),
 
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 15),
 
                       // Timer
-                      Text(
-                        'Resend in $_formattedTime',
-                        style: GoogleFonts.outfit(
-                          fontSize: 14,
-                          color: AppTheme.textSecondary,
-                        ),
-                      ),
+                      Obx(() => Text(
+                            'Resend in ${_formattedTime(controller.secondsRemaining.value)}',
+                            style: GoogleFonts.outfit(
+                              fontSize: 14,
+                              color: AppTheme.textSecondary,
+                            ),
+                          )),
 
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
@@ -201,6 +167,12 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
         ],
       ),
     );
+  }
+
+  String _formattedTime(int seconds) {
+    final mins = (seconds ~/ 60).toString().padLeft(2, '0');
+    final secs = (seconds % 60).toString().padLeft(2, '0');
+    return '$mins:$secs';
   }
 
   Widget _buildHeader() {

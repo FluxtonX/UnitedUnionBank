@@ -1,0 +1,30 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "united-unionbank",
+                    "appId": "1:14341180697:android:3a5bcffea86349384b0988",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "ios": {
+                "default": {
+                    "projectId": "united-unionbank",
+                    "appId": "1:14341180697:ios:4e3b2256dba083d14b0988",
+                    "uploadDebugSymbols": false,
+                    "fileOutput": "ios/Runner/GoogleService-Info.plist"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "united-unionbank",
+                    "configurations": {
+                        "android": "1:14341180697:android:3a5bcffea86349384b0988",
+                        "ios": "1:14341180697:ios:4e3b2256dba083d14b0988"
+                    }
+                }
+            }
+        }
+    }
+}

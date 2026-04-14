@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: const Color(0xFF1B558C),
                 ),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 4),
             ] else ...[
               Icon(
                 data.outlineIcon,
@@ -151,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: const Color(0xFF666666),
                 ),
               ),
-              const SizedBox(height: 8), // Matching bottom spacing
+              const SizedBox(height: 6), // Matching bottom spacing
             ],
           ],
         ),
