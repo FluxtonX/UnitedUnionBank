@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 
 import '../../../theme/theme.dart';
 
@@ -50,14 +51,20 @@ class PhoneNumberScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 8),
-                            Text(
-                              '+1 (555) 123-4567',
-                              style: GoogleFonts.outfit(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: AppTheme.textPrimary,
-                              ),
-                            ),
+                            Obx(() {
+                              final controller = AuthController.instance;
+                              final phone = controller.userModel.value?.phoneNumber;
+                              return Text(
+                                phone != null && phone.isNotEmpty
+                                    ? phone
+                                    : '+1 (555) 123-4567',
+                                style: GoogleFonts.outfit(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.textPrimary,
+                                ),
+                              );
+                            }),
                             const SizedBox(height: 12),
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),

@@ -1,57 +1,96 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../theme/theme.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
-import '../../../services/twilio_service.dart';
-import 'otp_verification_screen.dart';
+import '../authController/auth_controller.dart';
+import '../../kycScreens/kyc_overview_screen.dart';
 
-class PhoneLoginScreen extends StatefulWidget {
-  const PhoneLoginScreen({super.key});
+class UserDetailsScreen extends StatefulWidget {
+  final String phoneNumber;
+
+  const UserDetailsScreen({required this.phoneNumber, super.key});
 
   @override
-  State<PhoneLoginScreen> createState() => _PhoneLoginScreenState();
+  State<UserDetailsScreen> createState() => _UserDetailsScreenState();
 }
 
-class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
+class _UserDetailsScreenState extends State<UserDetailsScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _phoneController = TextEditingController();
-  String _completePhoneNumber = '';
+  final _fullNameController = TextEditingController();
+  final _emailController = TextEditingController();
   bool _isLoading = false;
 
   @override
   void dispose() {
-    _phoneController.dispose();
+    _fullNameController.dispose();
+    _emailController.dispose();
     super.dispose();
   }
 
-  void _handleSendOtp() async {
+  String? _validateFullName(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Full name is required';
+    }
+    if (value.trim().length < 2) {
+      return 'Full name must be at least 2 characters';
+    }
+    return null;
+  }
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Email is required';
+    }
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegex.hasMatch(value.trim())) {
+      return 'Enter a valid email address';
+    }
+    return null;
+  }
+
+  void _handleCompleteRegistration() async {
     if (!_formKey.currentState!.validate()) return;
 
-    final phoneNumber = _completePhoneNumber.isNotEmpty
-        ? _completePhoneNumber
-        : _phoneController.text.trim();
-
     setState(() => _isLoading = true);
+    final name = _fullNameController.text.trim();
+    final email = _emailController.text.trim();
 
     try {
-      await TwilioService.sendVerificationCode(phoneNumber);
+      await AuthController.instance.savePhoneLoginSession(
+        phoneNumber: widget.phoneNumber,
+        name: name,
+        email: email,
+      );
+
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'uid': user.uid,
+          'name': name,
+          'email': email,
+          'phoneNumber': widget.phoneNumber,
+          'createdAt': DateTime.now().toIso8601String(),
+          'kycCompleted': false,
+        });
+      }
+
       Get.closeAllSnackbars();
       Get.snackbar(
-        'OTP Sent',
-        'A verification code has been sent to $phoneNumber',
+        'Success',
+        'Registration completed successfully',
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.green.withOpacity(0.1),
         colorText: Colors.green,
       );
-
       if (!mounted) return;
-      Get.to(() => OtpVerificationScreen(phoneNumber: phoneNumber));
+      Get.offAll(() => const KycOverviewScreen());
     } catch (e) {
       Get.closeAllSnackbars();
       Get.snackbar(
         'Error',
-        'Failed to send OTP: ${e.toString()}',
+        'Failed to complete registration: ${e.toString()}',
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red.withOpacity(0.1),
         colorText: Colors.red,
@@ -88,7 +127,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Phone Number Login',
+                          'Complete Your Profile',
                           style: GoogleFonts.outfit(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -97,7 +136,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          'Enter your phone number to receive a one-time password (OTP) to verify your account.',
+                          'Please provide your details to complete the registration process.',
                           style: GoogleFonts.outfit(
                             fontSize: 14,
                             color: AppTheme.textSecondary,
@@ -105,15 +144,17 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                           ),
                         ),
                         const SizedBox(height: 32),
-                        _buildPhoneInputField(),
+                        _buildFullNameField(),
+                        const SizedBox(height: 24),
+                        _buildEmailField(),
                         const SizedBox(height: 32),
-                        _buildSendOtpButton(),
+                        _buildCompleteButton(),
                         const SizedBox(height: 24),
                         Center(
                           child: GestureDetector(
                             onTap: () => Get.back(),
                             child: Text(
-                              'Back to Sign In',
+                              'Back',
                               style: GoogleFonts.outfit(
                                 color: AppTheme.primary,
                                 fontWeight: FontWeight.bold,
@@ -122,8 +163,6 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 24),
-                        _buildSecurityInfo(),
                       ],
                     ),
                   ),
@@ -166,7 +205,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
               const SizedBox(height: 40),
               Center(
                 child: Text(
-                  'Verify Your Phone',
+                  'Welcome',
                   style: GoogleFonts.outfit(
                     color: AppTheme.white,
                     fontSize: 28,
@@ -177,7 +216,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
               const SizedBox(height: 8),
               Center(
                 child: Text(
-                  'Sign in securely with your phone number',
+                  'Let\'s get you set up',
                   style: GoogleFonts.outfit(
                     color: AppTheme.white.withValues(alpha: 0.7),
                     fontSize: 14,
@@ -191,12 +230,12 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
     );
   }
 
-  Widget _buildPhoneInputField() {
+  Widget _buildFullNameField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'PHONE NUMBER',
+          'FULL NAME',
           style: GoogleFonts.outfit(
             fontSize: 12,
             fontWeight: FontWeight.bold,
@@ -205,16 +244,11 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
           ),
         ),
         const SizedBox(height: 10),
-        IntlPhoneField(
-          controller: _phoneController,
-          validator: (phone) {
-            if (phone == null || phone.number.trim().isEmpty) {
-              return 'Phone number is required';
-            }
-            return null;
-          },
+        TextFormField(
+          controller: _fullNameController,
+          validator: _validateFullName,
           decoration: InputDecoration(
-            hintText: 'Enter your phone number',
+            hintText: 'Enter your full name',
             filled: true,
             fillColor: const Color(0xFFFAFAFA),
             border: OutlineInputBorder(
@@ -230,27 +264,62 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
               borderSide: const BorderSide(color: AppTheme.primary),
             ),
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            counterText: "",
           ),
-          initialCountryCode: 'PK', // Default to Pakistan as per +92 request
-          dropdownIconPosition: IconPosition.trailing,
           style: GoogleFonts.outfit(
             fontSize: 16,
             color: AppTheme.textPrimary,
           ),
-          dropdownTextStyle: GoogleFonts.outfit(
-            fontSize: 16,
-            color: AppTheme.textPrimary,
-          ),
-          onChanged: (phone) {
-            _completePhoneNumber = phone.completeNumber;
-          },
         ),
       ],
     );
   }
 
-  Widget _buildSendOtpButton() {
+  Widget _buildEmailField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'EMAIL ADDRESS',
+          style: GoogleFonts.outfit(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            color: AppTheme.textPrimary,
+            letterSpacing: 0.5,
+          ),
+        ),
+        const SizedBox(height: 10),
+        TextFormField(
+          controller: _emailController,
+          validator: _validateEmail,
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            hintText: 'Enter your email address',
+            filled: true,
+            fillColor: const Color(0xFFFAFAFA),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppTheme.border),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppTheme.border),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppTheme.primary),
+            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          ),
+          style: GoogleFonts.outfit(
+            fontSize: 16,
+            color: AppTheme.textPrimary,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCompleteButton() {
     return Container(
       width: double.infinity,
       height: 60,
@@ -266,7 +335,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
         ],
       ),
       child: ElevatedButton(
-        onPressed: _isLoading ? null : _handleSendOtp,
+        onPressed: _isLoading ? null : _handleCompleteRegistration,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
@@ -287,7 +356,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Send OTP',
+                    'Complete Registration',
                     style: GoogleFonts.outfit(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -302,49 +371,6 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                   ),
                 ],
               ),
-      ),
-    );
-  }
-
-  Widget _buildSecurityInfo() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFE3F2FD),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFB3E5FC)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Icon(
-                Icons.info_outline,
-                color: Color(0xFF1976D2),
-                size: 20,
-              ),
-              const SizedBox(width: 12),
-              Text(
-                'How it works',
-                style: GoogleFonts.outfit(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFF1976D2),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Text(
-            '• We\'ll send a 6-digit code to your phone\n• Verify the code to complete login\n• Your phone number is secured with encryption',
-            style: GoogleFonts.outfit(
-              fontSize: 13,
-              color: const Color(0xFF1565C0),
-              height: 1.6,
-            ),
-          ),
-        ],
       ),
     );
   }

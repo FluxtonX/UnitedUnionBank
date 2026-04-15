@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../theme/theme.dart';
+import '../authScreens/authController/auth_controller.dart';
 import '../homeScreen/home_screen.dart';
 import 'kyc_identity_screen.dart';
 
@@ -160,7 +161,10 @@ class KycOverviewScreen extends StatelessWidget {
                   Positioned(
                     right: 0,
                     child: GestureDetector(
-                      onTap: () => Get.offAll(() => const HomeScreen()),
+                      onTap: () async {
+                        await AuthController.instance.setPhoneKycSkipped(true);
+                        Get.offAll(() => const HomeScreen());
+                      },
                       child: Text(
                         'Skip',
                         style: GoogleFonts.outfit(

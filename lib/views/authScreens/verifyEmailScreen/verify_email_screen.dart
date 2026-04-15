@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../theme/theme.dart';
 import '../verifyEmailController/verify_email_controller.dart';
+import '../signUpScreen/sign_up_screen.dart';
 
 class VerifyEmailScreen extends StatelessWidget {
   const VerifyEmailScreen({super.key});
@@ -129,7 +130,7 @@ class VerifyEmailScreen extends StatelessWidget {
                           ),
                         ),
                         child: TextButton(
-                          onPressed: () => Get.back(),
+                          onPressed: () => Get.offAll(() => const SignUpScreen()),
                           style: TextButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),

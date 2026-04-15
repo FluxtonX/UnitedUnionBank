@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../theme/theme.dart';
+import '../../../services/twilio_service.dart';
+import 'user_details_screen.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
   final String phoneNumber;
@@ -17,27 +21,32 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       List.generate(6, (_) => TextEditingController());
   final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
   bool _isLoading = false;
+  bool _isResending = false;
   int _resendCountdown = 0;
+  Timer? _resendTimer;
 
   @override
   void dispose() {
+    _resendTimer?.cancel();
     for (var controller in _otpControllers) {
       controller.dispose();
     }
     for (var node in _focusNodes) {
       node.dispose();
     }
+    _resendTimer?.cancel();
     super.dispose();
   }
 
   void _handleVerifyOtp() async {
     String otp = _otpControllers.map((c) => c.text).join();
     if (otp.length != 6) {
+      Get.closeAllSnackbars();
       Get.snackbar(
         'Invalid OTP',
         'Please enter all 6 digits',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.withValues(alpha: 0.1),
+        backgroundColor: Colors.red.withOpacity(0.1),
         colorText: Colors.red,
       );
       return;
@@ -46,22 +55,25 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     setState(() => _isLoading = true);
 
     try {
-      // TODO: Implement OTP verification logic here
+      await TwilioService.verifyCode(widget.phoneNumber, otp);
+      Get.closeAllSnackbars();
       Get.snackbar(
         'Success',
         'Phone number verified successfully',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green.withValues(alpha: 0.1),
+        backgroundColor: Colors.green.withOpacity(0.1),
         colorText: Colors.green,
       );
-      // Navigate to home or dashboard after successful verification
-      // Get.offAll(() => const HomeScreen());
+      // Navigate to user details screen after successful verification
+      if (!mounted) return;
+      Get.to(() => UserDetailsScreen(phoneNumber: widget.phoneNumber));
     } catch (e) {
+      Get.closeAllSnackbars();
       Get.snackbar(
         'Error',
-        'Failed to verify OTP: $e',
+        'Failed to verify OTP: ${e.toString()}',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.withValues(alpha: 0.1),
+        backgroundColor: Colors.red.withOpacity(0.1),
         colorText: Colors.red,
       );
     } finally {
@@ -69,24 +81,53 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     }
   }
 
-  void _handleResendOtp() {
-    setState(() => _resendCountdown = 60);
-    
-    // Simulate countdown
-    Future.delayed(const Duration(seconds: 1), () {
-      if (mounted && _resendCountdown > 0) {
-        setState(() => _resendCountdown--);
-        _handleResendOtp();
-      }
+  Future<void> _handleResendOtp() async {
+    if (_resendCountdown > 0 || _isResending) return;
+
+    setState(() {
+      _isResending = true;
+      _resendCountdown = 60;
     });
 
-    Get.snackbar(
-      'OTP Resent',
-      'A new code has been sent to ${widget.phoneNumber}',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.green.withValues(alpha: 0.1),
-      colorText: Colors.green,
-    );
+    try {
+      await TwilioService.sendVerificationCode(widget.phoneNumber);
+      Get.closeAllSnackbars();
+      Get.snackbar(
+        'OTP Resent',
+        'A new code has been sent to ${widget.phoneNumber}',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green.withOpacity(0.1),
+        colorText: Colors.green,
+      );
+
+      _resendTimer?.cancel();
+      _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (!mounted) return;
+        setState(() {
+          if (_resendCountdown > 0) {
+            _resendCountdown--;
+          }
+
+          if (_resendCountdown <= 0) {
+            timer.cancel();
+            _isResending = false;
+          }
+        });
+      });
+    } catch (e) {
+      setState(() {
+        _resendCountdown = 0;
+        _isResending = false;
+      });
+      Get.closeAllSnackbars();
+      Get.snackbar(
+        'Error',
+        'Failed to resend OTP: ${e.toString()}',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
+    }
   }
 
   void _onOtpFieldChanged(String value, int index) {

@@ -110,6 +110,64 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
+  Future<void> _handleGoogleSignIn() async {
+    if (_isLoading) return;
+    setState(() => _isLoading = true);
+
+    try {
+      await _authController.signInWithGoogle();
+    } catch (e) {
+      debugPrint('Google sign in failed: $e');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  Widget _buildSocialSignInButton({required String label, required IconData icon, required VoidCallback onTap}) {
+    return Container(
+      width: double.infinity,
+      height: 56,
+      decoration: BoxDecoration(
+        color: AppTheme.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.border),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, color: AppTheme.primary, size: 22),
+                const SizedBox(width: 12),
+                Text(
+                  label,
+                  style: GoogleFonts.outfit(
+                    color: AppTheme.textPrimary,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGoogleSignInButton() {
+    return _buildSocialSignInButton(
+      label: 'Continue with Google',
+      icon: Icons.g_mobiledata,
+      onTap: _handleGoogleSignIn,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -171,6 +229,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         const SizedBox(height: 32),
                         _buildContinueButton(),
+                        const SizedBox(height: 20),
+                        _buildGoogleSignInButton(),
                         const SizedBox(height: 28),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

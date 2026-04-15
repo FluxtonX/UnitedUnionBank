@@ -6,6 +6,7 @@ class UserModel {
   final String name;
   final DateTime createdAt;
   final String? profileImage;
+  final String? phoneNumber;
   final bool kycCompleted;
 
   UserModel({
@@ -14,6 +15,7 @@ class UserModel {
     required this.name,
     required this.createdAt,
     this.profileImage,
+    this.phoneNumber,
     this.kycCompleted = false,
   });
 
@@ -24,6 +26,7 @@ class UserModel {
       'name': name,
       'createdAt': createdAt.toIso8601String(),
       'profileImage': profileImage,
+      'phoneNumber': phoneNumber,
       'kycCompleted': kycCompleted,
     };
   }
@@ -37,6 +40,7 @@ class UserModel {
           ? DateTime.parse(map['createdAt'])
           : DateTime.now(),
       profileImage: map['profileImage'],
+      phoneNumber: map['phoneNumber'],
       kycCompleted: map['kycCompleted'] ?? false,
     );
   }
@@ -51,6 +55,7 @@ class UserModel {
           ? DateTime.parse(snapshot['createdAt'])
           : DateTime.now(),
       profileImage: snapshot['profileImage'],
+      phoneNumber: snapshot['phoneNumber'],
       kycCompleted: snapshot['kycCompleted'] ?? false,
     );
   }
