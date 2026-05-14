@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import '../../theme/theme.dart';
 import '../../config/app_images.dart';
+import '../addFundsScreens/add_funds_screen.dart';
 
 class InvestTab extends StatefulWidget {
   const InvestTab({super.key});
@@ -161,7 +163,7 @@ class _InvestTabState extends State<InvestTab> {
           Row(
             children: [
               Text(
-                '\$5300.00',
+                '\$0',
                 style: GoogleFonts.outfit(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -178,7 +180,7 @@ class _InvestTabState extends State<InvestTab> {
               const Icon(Icons.trending_up, size: 16, color: Color(0xFF3491E3)),
               const SizedBox(width: 4),
               Text(
-                '+\$230 (4.5%) today',
+                '+\$0 (0%) today',
                 style: GoogleFonts.outfit(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
@@ -243,45 +245,52 @@ class _InvestTabState extends State<InvestTab> {
   }
 
   Widget _buildQuickActionItem(String iconPath, String label) {
-    return Column(
-      children: [
-        Container(
-          width: 56,
-          height: 56,
-          decoration: BoxDecoration(
-            gradient: const RadialGradient(
-              colors: [Color(0xFF3491E3), Color(0xFF1B558C)],
-              center: Alignment.center,
-              radius: 0.8,
-            ),
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF1B558C).withOpacity(0.2),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
+    return GestureDetector(
+      onTap: () {
+        if (label == 'Add Funds') {
+          Get.to(() => const AddFundsScreen());
+        }
+      },
+      child: Column(
+        children: [
+          Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              gradient: const RadialGradient(
+                colors: [Color(0xFF3491E3), Color(0xFF1B558C)],
+                center: Alignment.center,
+                radius: 0.8,
               ),
-            ],
-          ),
-          child: Center(
-            child: Image.asset(
-              iconPath,
-              color: Colors.white,
-              width: 24,
-              height: 24,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF1B558C).withOpacity(0.2),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Center(
+              child: Image.asset(
+                iconPath,
+                color: Colors.white,
+                width: 24,
+                height: 24,
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          label,
-          style: GoogleFonts.outfit(
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
-            color: AppTheme.textSecondary,
+          const SizedBox(height: 8),
+          Text(
+            label,
+            style: GoogleFonts.outfit(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: AppTheme.textSecondary,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

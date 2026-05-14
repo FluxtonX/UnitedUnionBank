@@ -162,7 +162,15 @@ class KycOverviewScreen extends StatelessWidget {
                     right: 0,
                     child: GestureDetector(
                       onTap: () async {
-                        await AuthController.instance.setPhoneKycSkipped(true);
+                        // Check if user is phone login or Firebase user
+                        final isPhoneLogin = AuthController.instance.userModel.value?.phoneNumber != null &&
+                            AuthController.instance.userModel.value?.email == '';
+                        
+                        if (isPhoneLogin) {
+                          await AuthController.instance.setPhoneKycSkipped(true);
+                        } else {
+                          await AuthController.instance.setKycSkipped(true);
+                        }
                         Get.offAll(() => const HomeScreen());
                       },
                       child: Text(

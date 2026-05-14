@@ -8,6 +8,8 @@ class UserModel {
   final String? profileImage;
   final String? phoneNumber;
   final bool kycCompleted;
+  final bool kycSkipped;
+  final double walletBalance;
 
   UserModel({
     required this.uid,
@@ -17,6 +19,8 @@ class UserModel {
     this.profileImage,
     this.phoneNumber,
     this.kycCompleted = false,
+    this.kycSkipped = false,
+    this.walletBalance = 0.0,
   });
 
   Map<String, dynamic> toMap() {
@@ -28,6 +32,8 @@ class UserModel {
       'profileImage': profileImage,
       'phoneNumber': phoneNumber,
       'kycCompleted': kycCompleted,
+      'kycSkipped': kycSkipped,
+      'walletBalance': walletBalance,
     };
   }
 
@@ -42,6 +48,8 @@ class UserModel {
       profileImage: map['profileImage'],
       phoneNumber: map['phoneNumber'],
       kycCompleted: map['kycCompleted'] ?? false,
+      kycSkipped: map['kycSkipped'] ?? false,
+      walletBalance: (map['walletBalance'] ?? 0.0).toDouble(),
     );
   }
 
@@ -57,6 +65,8 @@ class UserModel {
       profileImage: snapshot['profileImage'],
       phoneNumber: snapshot['phoneNumber'],
       kycCompleted: snapshot['kycCompleted'] ?? false,
+      kycSkipped: snapshot['kycSkipped'] ?? false,
+      walletBalance: (snapshot['walletBalance'] ?? 0.0).toDouble(),
     );
   }
 }

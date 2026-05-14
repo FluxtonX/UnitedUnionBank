@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import '../../theme/theme.dart';
 import '../../config/app_images.dart';
+import '../../controllers/wallet_controller.dart';
 
 class AccountsTab extends StatelessWidget {
   const AccountsTab({super.key});
@@ -162,50 +164,54 @@ class AccountsTab extends StatelessWidget {
   }
 
   Widget _buildTotalBalanceCard() {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(16, 20, 16, 16),
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: AppTheme.white,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.grey.withValues(alpha: 0.1)),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF1B558C).withValues(alpha: 0.04),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'TOTAL BALANCE',
-            style: GoogleFonts.outfit(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: AppTheme.textHint,
-              letterSpacing: 1.2,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Text(
-                '\$18,750.00',
-                style: GoogleFonts.outfit(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFF1B558C),
-                ),
+    return GetX<WalletController>(
+      builder: (controller) {
+        return Container(
+          margin: const EdgeInsets.fromLTRB(16, 20, 16, 16),
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: AppTheme.white,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: Colors.grey.withValues(alpha: 0.1)),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF1B558C).withValues(alpha: 0.04),
+                blurRadius: 20,
+                offset: const Offset(0, 10),
               ),
-              const SizedBox(width: 8),
-              Icon(Icons.visibility_outlined, size: 20, color: AppTheme.textHint),
             ],
           ),
-        ],
-      ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'TOTAL BALANCE',
+                style: GoogleFonts.outfit(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: AppTheme.textHint,
+                  letterSpacing: 1.2,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Text(
+                    '\$${controller.walletBalance.value.toStringAsFixed(2)}',
+                    style: GoogleFonts.outfit(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFF1B558C),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Icon(Icons.visibility_outlined, size: 20, color: AppTheme.textHint),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

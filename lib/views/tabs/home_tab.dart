@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import '../../theme/theme.dart';
 import '../../config/app_images.dart';
+import '../../controllers/wallet_controller.dart';
 import '../sendMoneyScreens/bank_transfer_screen.dart';
+import '../addFundsScreens/add_funds_screen.dart';
 
 /// The dashboard content shown in the Home tab within the main HomeScreen shell.
 class HomeTab extends StatefulWidget {
@@ -245,31 +247,37 @@ class _HomeTabState extends State<HomeTab> {
             ],
           ),
           const SizedBox(height: 8),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                _isBalanceVisible ? '\$12,450.00' : '\$ ••••••',
-                style: GoogleFonts.outfit(
-                  fontSize: 34,
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.textPrimary,
-                ),
-              ),
-              const SizedBox(width: 8),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _isBalanceVisible = !_isBalanceVisible;
-                  });
-                },
-                child: Icon(
-                  _isBalanceVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                  size: 20,
-                  color: AppTheme.textHint,
-                ),
-              ),
-            ],
+          GetX<WalletController>(
+            builder: (controller) {
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    _isBalanceVisible
+                        ? '\$${controller.walletBalance.value.toStringAsFixed(2)}'
+                        : '\$ ••••••',
+                    style: GoogleFonts.outfit(
+                      fontSize: 34,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isBalanceVisible = !_isBalanceVisible;
+                      });
+                    },
+                    child: Icon(
+                      _isBalanceVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                      size: 20,
+                      color: AppTheme.textHint,
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
           const SizedBox(height: 6),
           Row(
@@ -298,7 +306,7 @@ class _HomeTabState extends State<HomeTab> {
   Widget _buildQuickActions() {
     final actions = [
       {'icon': AppIcons.sendIcon, 'label': 'Send'},
-      {'icon': AppIcons.requestIcon, 'label': 'Request'},
+      {'icon': AppIcons.addFundIcon, 'label': 'Add Fund'},
       {'icon': AppIcons.donateIcon, 'label': 'Donate'},
       {'icon': AppIcons.exchangeIcon, 'label': 'Exchange'},
       {'icon': AppIcons.investIcon, 'label': 'Invest'},
@@ -313,6 +321,8 @@ class _HomeTabState extends State<HomeTab> {
             onTap: () {
               if (a['label'] == 'Send') {
                 Get.to(() => const BankTransferScreen());
+              } else if (a['label'] == 'Add Fund') {
+                Get.to(() => const AddFundsScreen());
               }
             },
             child: Column(

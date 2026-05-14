@@ -121,6 +121,34 @@ class AuthController extends GetxController {
     await _storage.write('phone_kyc_skipped', skipped);
   }
 
+  /// Set KYC skipped for Firebase users (persists in Firestore)
+  Future<void> setKycSkipped(bool skipped) async {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        await _firestore.collection('users').doc(user.uid).update({
+          'kycSkipped': skipped,
+        });
+        // Update local model
+        if (userModel.value != null) {
+          userModel.value = UserModel(
+            uid: userModel.value!.uid,
+            email: userModel.value!.email,
+            name: userModel.value!.name,
+            createdAt: userModel.value!.createdAt,
+            profileImage: userModel.value!.profileImage,
+            phoneNumber: userModel.value!.phoneNumber,
+            kycCompleted: userModel.value!.kycCompleted,
+            kycSkipped: skipped,
+            walletBalance: userModel.value!.walletBalance,
+          );
+        }
+      }
+    } catch (e) {
+      debugPrint('Error setting KYC skipped: $e');
+    }
+  }
+
   // --- Handle Core Navigation Logic ---
   void handleNavigation() {
     final user = _auth.currentUser;
@@ -154,7 +182,13 @@ class AuthController extends GetxController {
       return;
     }
 
-    // 2. KYC Completion Check
+    // 2. KYC Skip Check (if user previously skipped KYC, don't show it again)
+    if (userModel.value != null && userModel.value!.kycSkipped) {
+      Get.offAll(() => const HomeScreen());
+      return;
+    }
+
+    // 3. KYC Completion Check
     if (userModel.value != null && !userModel.value!.kycCompleted) {
       Get.offAll(() => const KycOverviewScreen());
       return;
