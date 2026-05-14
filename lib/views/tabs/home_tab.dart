@@ -4,8 +4,12 @@ import 'package:get/get.dart';
 import '../../theme/theme.dart';
 import '../../config/app_images.dart';
 import '../../controllers/wallet_controller.dart';
+import '../../model/ledger_entry_model.dart';
 import '../sendMoneyScreens/bank_transfer_screen.dart';
 import '../addFundsScreens/add_funds_screen.dart';
+import '../donationScreens/donation_screen.dart';
+import '../walletScreens/transaction_detail_screen.dart';
+import '../walletScreens/transaction_history_screen.dart';
 
 /// The dashboard content shown in the Home tab within the main HomeScreen shell.
 class HomeTab extends StatefulWidget {
@@ -323,6 +327,8 @@ class _HomeTabState extends State<HomeTab> {
                 Get.to(() => const BankTransferScreen());
               } else if (a['label'] == 'Add Fund') {
                 Get.to(() => const AddFundsScreen());
+              } else if (a['label'] == 'Donate') {
+                Get.to(() => const DonationScreen());
               }
             },
             child: Column(
@@ -493,115 +499,141 @@ class _HomeTabState extends State<HomeTab> {
                   color: AppTheme.textPrimary,
                 ),
               ),
-              Text(
-                'See All →',
-                style: GoogleFonts.outfit(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppTheme.primaryLight,
+              GestureDetector(
+                onTap: () => Get.to(() => const TransactionHistoryScreen()),
+                child: Text(
+                  'See All →',
+                  style: GoogleFonts.outfit(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.primaryLight,
+                  ),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 12),
-          _buildTransactionTile(
-              AppIcons.teaIcon, Colors.brown, 'Starbucks',
-              'Coffee & Dining • Today', '-\$4.50', false,
-              badge: {'text': '+2', 'icon': AppIcons.treeIcon, 'color': const Color(0xFFC5E1A5)}),
-          _buildTransactionTile(
-              AppIcons.depositIcon, AppTheme.success, 'Direct Deposit',
-              'Salary • Yesterday', '+\$3,280.00', true),
-          _buildTransactionTile(
-              AppIcons.donateIcon, Colors.redAccent, 'UNICEF',
-              'Donation • Mar 1', '-\$25.00', false,
-              badge: {'text': '10 meals', 'icon': AppIcons.mealIcon, 'color': const Color(0xFFC5CAE9)}),
-          _buildTransactionTile(
-              AppIcons.exchangeIcon, AppTheme.exchangeBg, 'Currency Exchange',
-              'USD→EUR • Feb 28', '-\$100.00', false),
+          GetX<WalletController>(
+            builder: (controller) {
+              final entries = controller.transactions.take(4).toList();
+              if (entries.isEmpty) {
+                return Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(18),
+                  decoration: BoxDecoration(
+                    color: AppTheme.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Colors.grey.withValues(alpha: 0.1),
+                    ),
+                  ),
+                  child: Text(
+                    'No wallet activity yet.',
+                    style: GoogleFonts.outfit(
+                      color: AppTheme.textSecondary,
+                      fontSize: 14,
+                    ),
+                  ),
+                );
+              }
+
+              return Column(
+                children: entries.map(_buildLedgerTile).toList(),
+              );
+            },
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildTransactionTile(String iconPath, Color iconColor, String title,
-      String subtitle, String amount, bool isPositive, {Map<String, dynamic>? badge}) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppTheme.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.grey.withValues(alpha: 0.1)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: iconColor.withValues(alpha: 0.08),
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: Center(
-              child: Image.asset(iconPath, width: 24, height: 24),
-            ),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title,
-                    style: GoogleFonts.outfit(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.textPrimary)),
-                const SizedBox(height: 2),
-                Text(subtitle,
-                    style: GoogleFonts.outfit(
-                        fontSize: 13, color: AppTheme.textSecondary)),
-              ],
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                amount,
-                style: GoogleFonts.outfit(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: isPositive ? const Color(0xFF3491E3) : AppTheme.textPrimary,
+  Widget _buildLedgerTile(LedgerEntryModel entry) {
+    final isCredit = entry.isCredit;
+    final iconColor = isCredit ? AppTheme.success : AppTheme.primary;
+
+    return GestureDetector(
+      onTap: () => Get.to(() => TransactionDetailScreen(entry: entry)),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppTheme.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.grey.withValues(alpha: 0.1)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: iconColor.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Center(
+                child: Icon(
+                  isCredit
+                      ? Icons.arrow_downward_rounded
+                      : Icons.arrow_upward_rounded,
+                  color: iconColor,
+                  size: 24,
                 ),
               ),
-              if (badge != null) ...[
-                const SizedBox(height: 4),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: (badge['color'] as Color),
-                    borderRadius: BorderRadius.circular(12),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    entry.description ?? _titleForLedger(entry),
+                    style: GoogleFonts.outfit(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: AppTheme.textPrimary,
+                    ),
                   ),
-                  child: Row(
-                    children: [
-                      Image.asset(badge['icon'] as String, width: 12, height: 12, color: Colors.green[800]),
-                      const SizedBox(width: 4),
-                      Text(
-                        badge['text'] as String,
-                        style: GoogleFonts.outfit(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.green[900]),
-                      ),
-                    ],
+                  const SizedBox(height: 2),
+                  Text(
+                    '${entry.status} • ${entry.currency.toUpperCase()}',
+                    style: GoogleFonts.outfit(
+                      fontSize: 13,
+                      color: AppTheme.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  entry.signedAmount,
+                  style: GoogleFonts.outfit(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: isCredit ? AppTheme.success : AppTheme.textPrimary,
                   ),
                 ),
               ],
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  String _titleForLedger(LedgerEntryModel entry) {
+    switch (entry.type) {
+      case 'deposit':
+        return 'Wallet Deposit';
+      case 'donation':
+        return 'Donation';
+      case 'withdrawal_hold':
+        return 'Withdrawal Request';
+      default:
+        return entry.type;
+    }
   }
 
   // ── Updates You Care About section ────────────────────────────────────

@@ -3,29 +3,44 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import '../config/stripe_constants.dart';
-import '../model/transaction_model.dart';
+import '../model/ledger_entry_model.dart';
+
+class DepositIntentResult {
+  const DepositIntentResult({
+    required this.clientSecret,
+    required this.paymentIntentId,
+    required this.status,
+  });
+
+  final String clientSecret;
+  final String paymentIntentId;
+  final String status;
+}
 
 class StripeService {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static final FirebaseFunctions _functions = FirebaseFunctions.instance;
 
-  /// Creates a PaymentIntent via Firebase Cloud Function
+  /// Creates a validated deposit intent via Firebase Cloud Function.
   /// Returns the clientSecret needed for Payment Sheet
-  static Future<String?> createPaymentIntent({
+  static Future<DepositIntentResult?> createDepositIntent({
     required int amountInCents,
     required String currency,
-    required String userId,
   }) async {
     try {
-      final callable = _functions.httpsCallable('createPaymentIntent');
+      final callable = _functions.httpsCallable('createDepositIntent');
       final result = await callable.call(<String, dynamic>{
         'amount': amountInCents,
         'currency': currency,
-        'userId': userId,
       });
-      return result.data['clientSecret'] as String?;
+      final data = Map<String, dynamic>.from(result.data as Map);
+      return DepositIntentResult(
+        clientSecret: data['clientSecret'] as String,
+        paymentIntentId: data['paymentIntentId'] as String,
+        status: data['status'] as String? ?? 'pending',
+      );
     } catch (e) {
-      debugPrint('Error creating PaymentIntent: $e');
+      debugPrint('Error creating deposit intent: $e');
       return null;
     }
   }
@@ -53,53 +68,18 @@ class StripeService {
     }
   }
 
-  /// Add funds to user's wallet in Firestore (used in demo mode or after webhook confirmation)
-  static Future<double> addFundsToWallet({
-    required String userId,
-    required double amount,
-    String? paymentIntentId,
-  }) async {
-    final userRef = _firestore.collection('users').doc(userId);
-
-    return _firestore.runTransaction<double>((transaction) async {
-      final snapshot = await transaction.get(userRef);
-
-      double currentBalance = 0.0;
-      if (snapshot.exists) {
-        final data = snapshot.data() as Map<String, dynamic>;
-        currentBalance = (data['walletBalance'] ?? 0.0).toDouble();
-      }
-
-      final newBalance = currentBalance + amount;
-
-      transaction.update(userRef, {'walletBalance': newBalance});
-
-      // Record the transaction
-      final txnRef = _firestore.collection('transactions').doc();
-      final txn = TransactionModel(
-        id: txnRef.id,
-        userId: userId,
-        amount: amount,
-        currency: StripeConstants.defaultCurrency,
-        status: TransactionStatus.success,
-        type: TransactionType.deposit,
-        stripePaymentIntentId: paymentIntentId,
-        description: 'Added funds to wallet',
-        createdAt: DateTime.now(),
-      );
-      transaction.set(txnRef, txn.toMap());
-
-      return newBalance;
-    });
-  }
-
   /// Fetch the user's current wallet balance
   static Future<double> getWalletBalance(String userId) async {
     try {
-      final doc = await _firestore.collection('users').doc(userId).get();
+      final doc = await _firestore
+          .collection('wallets')
+          .doc(userId)
+          .collection('balances')
+          .doc(StripeConstants.defaultCurrency)
+          .get();
       if (doc.exists) {
         final data = doc.data() as Map<String, dynamic>;
-        return (data['walletBalance'] ?? 0.0).toDouble();
+        return (data['available'] ?? 0.0).toDouble();
       }
       return 0.0;
     } catch (e) {
@@ -108,21 +88,23 @@ class StripeService {
     }
   }
 
-  /// Fetch transaction history for a user
-  static Future<List<TransactionModel>> getTransactionHistory(String userId) async {
+  /// Fetch immutable ledger history for a user.
+  static Future<List<LedgerEntryModel>> getTransactionHistory(
+    String userId,
+  ) async {
     try {
       final querySnapshot = await _firestore
-          .collection('transactions')
-          .where('userId', isEqualTo: userId)
+          .collection('ledger_entries')
+          .where('uid', isEqualTo: userId)
           .orderBy('createdAt', descending: true)
           .limit(20)
           .get();
 
       return querySnapshot.docs
-          .map((doc) => TransactionModel.fromSnapshot(doc))
+          .map((doc) => LedgerEntryModel.fromSnapshot(doc))
           .toList();
     } catch (e) {
-      debugPrint('Error fetching transactions: $e');
+      debugPrint('Error fetching ledger entries: $e');
       return [];
     }
   }

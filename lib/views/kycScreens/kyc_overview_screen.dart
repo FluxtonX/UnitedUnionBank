@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../theme/theme.dart';
-import '../authScreens/authController/auth_controller.dart';
-import '../homeScreen/home_screen.dart';
 import 'kyc_identity_screen.dart';
 
 class KycOverviewScreen extends StatelessWidget {
@@ -161,20 +159,15 @@ class KycOverviewScreen extends StatelessWidget {
                   Positioned(
                     right: 0,
                     child: GestureDetector(
-                      onTap: () async {
-                        // Check if user is phone login or Firebase user
-                        final isPhoneLogin = AuthController.instance.userModel.value?.phoneNumber != null &&
-                            AuthController.instance.userModel.value?.email == '';
-                        
-                        if (isPhoneLogin) {
-                          await AuthController.instance.setPhoneKycSkipped(true);
-                        } else {
-                          await AuthController.instance.setKycSkipped(true);
-                        }
-                        Get.offAll(() => const HomeScreen());
-                      },
+                      onTap: () => Get.snackbar(
+                        'Verification Required',
+                        'Wallet features unlock after KYC approval.',
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: AppTheme.primaryLight.withValues(alpha: 0.1),
+                        colorText: AppTheme.primaryLight,
+                      ),
                       child: Text(
-                        'Skip',
+                        'Required',
                         style: GoogleFonts.outfit(
                           color: AppTheme.white.withValues(alpha: 0.8),
                           fontSize: 14,

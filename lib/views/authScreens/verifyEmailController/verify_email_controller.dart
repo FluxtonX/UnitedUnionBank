@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:united_union_bank/views/kycScreens/kyc_overview_screen.dart';
+import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 
 class VerifyEmailController extends GetxController {
   static VerifyEmailController get instance => Get.find();
@@ -50,7 +50,7 @@ class VerifyEmailController extends GetxController {
       final user = FirebaseAuth.instance.currentUser;
       if (user?.emailVerified ?? false) {
         timer.cancel();
-        Get.offAll(() => const KycOverviewScreen());
+        AuthController.instance.handleNavigation();
       }
     });
   }
@@ -61,7 +61,7 @@ class VerifyEmailController extends GetxController {
     if (user != null) {
       await user.reload();
       if (user.emailVerified) {
-        Get.offAll(() => const KycOverviewScreen());
+        AuthController.instance.handleNavigation();
       } else {
         Get.snackbar("Info", "Email not verified yet. Please check your inbox.");
       }

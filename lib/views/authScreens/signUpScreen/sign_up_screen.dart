@@ -5,8 +5,6 @@ import 'package:united_union_bank/views/authScreens/authController/auth_controll
 import '../../../customWidgets/custom_text_field.dart';
 import '../../../theme/theme.dart';
 import '../loginScreen/login_screen.dart';
-import '../causesScreen/causes_screen.dart';
-import '../verifyEmailScreen/verify_email_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

@@ -1,13 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:united_union_bank/views/homeScreen/home_screen.dart';
 import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 import 'dart:async';
 import 'dart:math';
 import '../../config/app_images.dart';
-import '../onboarding/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

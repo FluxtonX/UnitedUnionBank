@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,7 +9,16 @@ import 'kyc_address_screen.dart';
 import '../kycController/kyc_selfie_controller.dart';
 
 class KycSelfieScreen extends StatelessWidget {
-  const KycSelfieScreen({super.key});
+  const KycSelfieScreen({
+    super.key,
+    required this.documentType,
+    required this.documentFront,
+    required this.documentBack,
+  });
+
+  final String documentType;
+  final File documentFront;
+  final File documentBack;
 
   @override
   Widget build(BuildContext context) {
@@ -516,7 +527,14 @@ class KycSelfieScreen extends StatelessWidget {
         ),
         child: ElevatedButton(
           onPressed: isReady
-              ? () => Get.to(() => const KycAddressScreen())
+              ? () => Get.to(
+                    () => KycAddressScreen(
+                      documentType: documentType,
+                      documentFront: documentFront,
+                      documentBack: documentBack,
+                      selfie: controller.capturedImage.value!,
+                    ),
+                  )
               : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.transparent,

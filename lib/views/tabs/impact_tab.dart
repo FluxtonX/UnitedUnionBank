@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../model/impact_models.dart';
+import '../../services/impact_service.dart';
 import '../../theme/theme.dart';
 import '../../config/app_images.dart';
+import '../donationScreens/donation_screen.dart';
 
 class ImpactTab extends StatelessWidget {
   const ImpactTab({super.key});
@@ -241,13 +245,31 @@ class ImpactTab extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildGlobalStat(AppIcons.activeUserIcon, '50,00+', 'Active Users'),
-              _buildGlobalStat(AppIcons.donatedIcon, '\$2.5M', 'Total Donated'),
-              _buildGlobalStat(AppIcons.treeIcon, '125,000', 'Trees Planted'),
-            ],
+          StreamBuilder<List<ImpactProjectModel>>(
+            stream: ImpactService.activeProjects(),
+            builder: (context, snapshot) {
+              final summary = ImpactSummary.fromProjects(snapshot.data ?? const []);
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildGlobalStat(
+                    AppIcons.activeUserIcon,
+                    '${snapshot.data?.length ?? 0}',
+                    'Projects',
+                  ),
+                  _buildGlobalStat(
+                    AppIcons.donatedIcon,
+                    '\$${summary.totalDonated.toStringAsFixed(0)}',
+                    'Total Donated',
+                  ),
+                  _buildGlobalStat(
+                    AppIcons.treeIcon,
+                    '${summary.treesPlanted}',
+                    'Trees Planted',
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
@@ -322,19 +344,46 @@ class ImpactTab extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          GridView.count(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            childAspectRatio: 1.2,
-            children: [
-              _buildContributionCard(Icons.park_outlined, '47', 'Trees Planted', '+3 this week'),
-              _buildContributionCard(Icons.restaurant_outlined, '230', 'Meals Provided', '+15 this week'),
-              _buildContributionCard(Icons.medical_services_outlined, '12', 'Medical Visits', '3 communities'),
-              _buildContributionCard(Icons.water_drop_outlined, '1000', 'Clean Water', 'Days of access'),
-            ],
+          StreamBuilder<List<DonationRecordModel>>(
+            stream: ImpactService.userDonations(),
+            builder: (context, snapshot) {
+              final summary =
+                  ImpactSummary.fromDonations(snapshot.data ?? const []);
+              return GridView.count(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: 2,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+                childAspectRatio: 1.2,
+                children: [
+                  _buildContributionCard(
+                    Icons.favorite_outline,
+                    '\$${summary.totalDonated.toStringAsFixed(0)}',
+                    'Donated',
+                    '${snapshot.data?.length ?? 0} gifts',
+                  ),
+                  _buildContributionCard(
+                    Icons.restaurant_outlined,
+                    '${summary.mealsFunded}',
+                    'Meals Funded',
+                    'From donations',
+                  ),
+                  _buildContributionCard(
+                    Icons.park_outlined,
+                    '${summary.treesPlanted}',
+                    'Trees Planted',
+                    'From donations',
+                  ),
+                  _buildContributionCard(
+                    Icons.medical_services_outlined,
+                    '${summary.healthcareSupport}',
+                    'Care Support',
+                    'Visits funded',
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
@@ -409,24 +458,46 @@ class ImpactTab extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          _buildActivityItem(
-            color: const Color(0xFFFF7043),
-            time: 'Today, 2:30 PM',
-            title: 'Donated \$25 to Clean\nWater Project',
-            subtitle: 'Provided 50 days of clean water 💧',
-          ),
-          _buildActivityItem(
-            color: const Color(0xFF66BB6A),
-            time: 'Feb 3',
-            title: 'Transaction fees planted 3 trees',
-            subtitle: '🌳 +3',
-          ),
-          _buildActivityItem(
-            color: const Color(0xFFFFCA28),
-            time: 'Feb 1',
-            title: 'Unlocked achievement: First\nDonation',
-            subtitle: '🏆 Achievement Unlocked',
-            isLast: true,
+          StreamBuilder<List<DonationRecordModel>>(
+            stream: ImpactService.userDonations(),
+            builder: (context, snapshot) {
+              final donations = snapshot.data ?? const [];
+              if (donations.isEmpty) {
+                return Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(18),
+                  decoration: BoxDecoration(
+                    color: AppTheme.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Colors.grey.withValues(alpha: 0.1),
+                    ),
+                  ),
+                  child: Text(
+                    'No donation activity yet.',
+                    style: GoogleFonts.outfit(
+                      color: AppTheme.textSecondary,
+                      fontSize: 14,
+                    ),
+                  ),
+                );
+              }
+
+              final visible = donations.take(5).toList();
+              return Column(
+                children: List.generate(visible.length, (index) {
+                  final donation = visible[index];
+                  return _buildActivityItem(
+                    color: const Color(0xFFFF7043),
+                    time: _formatDate(donation.createdAt),
+                    title:
+                        'Donated \$${donation.amount.toStringAsFixed(2)} to ${donation.projectTitle}',
+                    subtitle: _impactSubtitle(donation),
+                    isLast: index == visible.length - 1,
+                  );
+                }),
+              );
+            },
           ),
         ],
       ),
@@ -515,14 +586,14 @@ class ImpactTab extends StatelessWidget {
         children: [
           Expanded(
             child: OutlinedButton(
-              onPressed: () {},
+              onPressed: () => Get.to(() => const DonationScreen()),
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: Color(0xFF3491E3), width: 1.5),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
               child: Text(
-                'View Report',
+                'Donate',
                 style: GoogleFonts.outfit(
                   color: const Color(0xFF3491E3),
                   fontWeight: FontWeight.bold,
@@ -541,7 +612,7 @@ class ImpactTab extends StatelessWidget {
                 ),
               ),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () => Get.to(() => const DonationScreen()),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
@@ -549,7 +620,7 @@ class ImpactTab extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
                 child: Text(
-                  'Share Impact',
+                  'Fund Impact',
                   style: GoogleFonts.outfit(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -565,26 +636,43 @@ class ImpactTab extends StatelessWidget {
   }
 
   Widget _buildShareFAB() {
-    return Container(
-      width: 64,
-      height: 64,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: const RadialGradient(
-          colors: [Color(0xFF3491E3), Color(0xFF1B558C)],
-          center: Alignment.center,
-          radius: 0.8,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF1B558C).withValues(alpha: 0.3),
-            blurRadius: 15,
-            offset: const Offset(0, 8),
+    return GestureDetector(
+      onTap: () => Get.to(() => const DonationScreen()),
+      child: Container(
+        width: 64,
+        height: 64,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: const RadialGradient(
+            colors: [Color(0xFF3491E3), Color(0xFF1B558C)],
+            center: Alignment.center,
+            radius: 0.8,
           ),
-        ],
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF1B558C).withValues(alpha: 0.3),
+              blurRadius: 15,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: const Icon(Icons.favorite_rounded, color: Colors.white, size: 28),
       ),
-      child: const Icon(Icons.share_rounded, color: Colors.white, size: 28),
     );
+  }
+
+  String _impactSubtitle(DonationRecordModel donation) {
+    final parts = <String>[];
+    if (donation.mealsFunded > 0) parts.add('${donation.mealsFunded} meals');
+    if (donation.treesPlanted > 0) parts.add('${donation.treesPlanted} trees');
+    if (donation.healthcareSupport > 0) {
+      parts.add('${donation.healthcareSupport} care visits');
+    }
+    return parts.isEmpty ? 'Impact recorded' : parts.join(' • ');
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}';
   }
 }
 

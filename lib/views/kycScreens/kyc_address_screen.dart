@@ -8,7 +8,18 @@ import '../../utils/image_picker_helper.dart';
 import 'kyc_success_screen.dart';
 
 class KycAddressScreen extends StatefulWidget {
-  const KycAddressScreen({super.key});
+  const KycAddressScreen({
+    super.key,
+    required this.documentType,
+    required this.documentFront,
+    required this.documentBack,
+    required this.selfie,
+  });
+
+  final String documentType;
+  final File documentFront;
+  final File documentBack;
+  final File selfie;
 
   @override
   State<KycAddressScreen> createState() => _KycAddressScreenState();
@@ -98,7 +109,18 @@ class _KycAddressScreenState extends State<KycAddressScreen> {
     // Simulate API call
     Future.delayed(const Duration(milliseconds: 1500), () {
       setState(() => _isLoading = false);
-      Get.to(() => const KycSuccessScreen());
+      Get.to(
+        () => KycSuccessScreen(
+          documentType: widget.documentType,
+          documentFront: widget.documentFront,
+          documentBack: widget.documentBack,
+          selfie: widget.selfie,
+          addressProof: _proofImage!,
+          streetAddress: _streetController.text.trim(),
+          city: _cityController.text.trim(),
+          postalCode: _postalController.text.trim(),
+        ),
+      );
     });
   }
 

@@ -1,12 +1,34 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:united_union_bank/services/kyc_service.dart';
 import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 import '../../theme/theme.dart';
-import '../homeScreen/home_screen.dart';
+import 'kyc_status_screen.dart';
 
 class KycSuccessScreen extends StatelessWidget {
-  const KycSuccessScreen({super.key});
+  const KycSuccessScreen({
+    super.key,
+    required this.documentType,
+    required this.documentFront,
+    required this.documentBack,
+    required this.selfie,
+    required this.addressProof,
+    required this.streetAddress,
+    required this.city,
+    required this.postalCode,
+  });
+
+  final String documentType;
+  final File documentFront;
+  final File documentBack;
+  final File selfie;
+  final File addressProof;
+  final String streetAddress;
+  final String city;
+  final String postalCode;
 
   @override
   Widget build(BuildContext context) {
@@ -176,8 +198,31 @@ class KycSuccessScreen extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () async {
-                            await AuthController.instance.completeKyc();
-                            Get.offAll(() => const HomeScreen());
+                            try {
+                              await KycService.submitMockKycCase(
+                                MockKycSubmission(
+                                  documentType: documentType,
+                                  documentFront: documentFront,
+                                  documentBack: documentBack,
+                                  selfie: selfie,
+                                  addressProof: addressProof,
+                                  streetAddress: streetAddress,
+                                  city: city,
+                                  postalCode: postalCode,
+                                ),
+                              );
+                              await AuthController.instance.refreshCurrentUser();
+                              Get.offAll(() => const KycStatusScreen());
+                            } catch (e) {
+                              Get.snackbar(
+                                'Submission Failed',
+                                'Unable to submit KYC. Please try again.',
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor:
+                                    AppTheme.error.withValues(alpha: 0.1),
+                                colorText: AppTheme.error,
+                              );
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF0047AB),

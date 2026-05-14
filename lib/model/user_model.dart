@@ -9,6 +9,9 @@ class UserModel {
   final String? phoneNumber;
   final bool kycCompleted;
   final bool kycSkipped;
+  final String kycStatus;
+  final bool onboardingCompleted;
+  final List<String> interests;
   final double walletBalance;
 
   UserModel({
@@ -20,8 +23,15 @@ class UserModel {
     this.phoneNumber,
     this.kycCompleted = false,
     this.kycSkipped = false,
+    String? kycStatus,
+    this.onboardingCompleted = false,
+    this.interests = const [],
     this.walletBalance = 0.0,
-  });
+  }) : kycStatus = kycStatus ?? (kycCompleted ? 'approved' : 'not_started');
+
+  bool get isKycApproved => kycStatus == 'approved';
+
+  bool get needsInterestSelection => !onboardingCompleted || interests.length < 2;
 
   Map<String, dynamic> toMap() {
     return {
@@ -33,6 +43,9 @@ class UserModel {
       'phoneNumber': phoneNumber,
       'kycCompleted': kycCompleted,
       'kycSkipped': kycSkipped,
+      'kycStatus': kycStatus,
+      'onboardingCompleted': onboardingCompleted,
+      'interests': interests,
       'walletBalance': walletBalance,
     };
   }
@@ -49,6 +62,9 @@ class UserModel {
       phoneNumber: map['phoneNumber'],
       kycCompleted: map['kycCompleted'] ?? false,
       kycSkipped: map['kycSkipped'] ?? false,
+      kycStatus: map['kycStatus'],
+      onboardingCompleted: map['onboardingCompleted'] ?? false,
+      interests: List<String>.from(map['interests'] ?? const []),
       walletBalance: (map['walletBalance'] ?? 0.0).toDouble(),
     );
   }
@@ -66,6 +82,9 @@ class UserModel {
       phoneNumber: snapshot['phoneNumber'],
       kycCompleted: snapshot['kycCompleted'] ?? false,
       kycSkipped: snapshot['kycSkipped'] ?? false,
+      kycStatus: snapshot['kycStatus'],
+      onboardingCompleted: snapshot['onboardingCompleted'] ?? false,
+      interests: List<String>.from(snapshot['interests'] ?? const []),
       walletBalance: (snapshot['walletBalance'] ?? 0.0).toDouble(),
     );
   }

@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import '../../theme/theme.dart';
 import '../../controllers/wallet_controller.dart';
-import 'fund_success_screen.dart';
 
 class AddFundsScreen extends StatefulWidget {
   const AddFundsScreen({super.key});
@@ -53,10 +52,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
     final success = await walletController.addFunds(amount);
 
     if (success) {
-      Get.off(() => FundSuccessScreen(
-            amount: amount,
-            newBalance: walletController.walletBalance.value,
-          ));
+      Get.back();
     }
   }
 

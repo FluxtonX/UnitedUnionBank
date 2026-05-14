@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../theme/theme.dart';
 import '../../config/app_images.dart';
 import '../addFundsScreens/add_funds_screen.dart';
+import '../withdrawalScreens/withdrawal_request_screen.dart';
 
 class InvestTab extends StatefulWidget {
   const InvestTab({super.key});
@@ -249,6 +250,8 @@ class _InvestTabState extends State<InvestTab> {
       onTap: () {
         if (label == 'Add Funds') {
           Get.to(() => const AddFundsScreen());
+        } else if (label == 'Withdraw') {
+          Get.to(() => const WithdrawalRequestScreen());
         }
       },
       child: Column(

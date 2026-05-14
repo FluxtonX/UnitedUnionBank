@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_storage/get_storage.dart';
 import '../services/stripe_service.dart';
-import '../model/transaction_model.dart';
+import '../model/ledger_entry_model.dart';
 import '../config/stripe_constants.dart';
 
 class WalletController extends GetxController {
@@ -15,10 +15,7 @@ class WalletController extends GetxController {
   final RxDouble walletBalance = 0.0.obs;
   final RxBool isLoading = false.obs;
   final RxBool isProcessingPayment = false.obs;
-  final RxList<TransactionModel> transactions = <TransactionModel>[].obs;
-
-  // 🔧 DEMO MODE: Set to true to test Add Funds without Cloud Functions
-  static const bool demoMode = true;
+  final RxList<LedgerEntryModel> transactions = <LedgerEntryModel>[].obs;
 
   String get _userId {
     final user = _auth.currentUser;
@@ -60,9 +57,9 @@ class WalletController extends GetxController {
     }
   }
 
-  /// Full Add Funds flow
-  /// If demoMode is enabled or Stripe is not configured, it runs in demo mode (directly adds to Firestore).
-  /// Otherwise, it uses Stripe Payment Sheet.
+  /// Full Add Funds flow.
+  /// Flutter may create/present a Stripe PaymentSheet, but wallet crediting must
+  /// happen only in Cloud Functions after webhook confirmation.
   Future<bool> addFunds(double amount) async {
     final uid = _userId;
     if (uid.isEmpty) {
@@ -83,65 +80,58 @@ class WalletController extends GetxController {
           StripeConstants.publishableKey != 'YOUR_STRIPE_PUBLISHABLE_KEY' &&
           StripeConstants.publishableKey.isNotEmpty;
 
-      // 🔧 DEMO MODE: Skip Stripe payment sheet when demoMode is true
-      if (isStripeConfigured && !demoMode) {
-        // --- PRODUCTION MODE: Use Stripe Payment Sheet ---
-        final int amountInCents = (amount * 100).toInt();
-
-        final clientSecret = await StripeService.createPaymentIntent(
-          amountInCents: amountInCents,
-          currency: StripeConstants.defaultCurrency,
-          userId: uid,
-        );
-
-        if (clientSecret == null) {
-          Get.snackbar(
-            'Payment Error',
-            'Could not initiate payment. Please try again.',
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red.withValues(alpha: 0.1),
-            colorText: Colors.red,
-          );
-          return false;
-        }
-
-        final success = await StripeService.presentPaymentSheet(
-          clientSecret: clientSecret,
-        );
-
-        if (!success) {
-          Get.snackbar(
-            'Payment Cancelled',
-            'Payment was cancelled or failed.',
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.orange.withValues(alpha: 0.1),
-            colorText: Colors.orange,
-          );
-          return false;
-        }
-      } else if (demoMode) {
-        // 🔧 DEMO MODE: Show a demo notification
+      if (!isStripeConfigured) {
         Get.snackbar(
-          '✅ Demo Mode',
-          'Adding \$${amount.toStringAsFixed(2)} to your wallet...',
+          'Payments Unavailable',
+          'Stripe is not configured for this environment.',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.blue.withValues(alpha: 0.1),
-          colorText: Colors.blue,
-          duration: const Duration(seconds: 2),
+          backgroundColor: Colors.orange.withValues(alpha: 0.1),
+          colorText: Colors.orange,
         );
-        // Add a short delay to simulate payment processing
-        await Future.delayed(const Duration(milliseconds: 800));
+        return false;
       }
 
-      // Update wallet balance in Firestore
-      final newBalance = await StripeService.addFundsToWallet(
-        userId: uid,
-        amount: amount,
+      final int amountInCents = (amount * 100).toInt();
+
+      final depositIntent = await StripeService.createDepositIntent(
+        amountInCents: amountInCents,
+        currency: StripeConstants.defaultCurrency,
       );
 
-      walletBalance.value = newBalance;
+      if (depositIntent == null) {
+        Get.snackbar(
+          'Payment Error',
+          'Could not initiate payment. Please try again.',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red.withValues(alpha: 0.1),
+          colorText: Colors.red,
+        );
+        return false;
+      }
 
-      // Refresh transaction list
+      final success = await StripeService.presentPaymentSheet(
+        clientSecret: depositIntent.clientSecret,
+      );
+
+      if (!success) {
+        Get.snackbar(
+          'Payment Cancelled',
+          'Payment was cancelled or failed.',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.orange.withValues(alpha: 0.1),
+          colorText: Colors.orange,
+        );
+        return false;
+      }
+
+      Get.snackbar(
+        'Payment Submitted',
+        'Your wallet will update after backend confirmation.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.blue.withValues(alpha: 0.1),
+        colorText: Colors.blue,
+      );
+      await fetchBalance();
       await fetchTransactions();
 
       return true;

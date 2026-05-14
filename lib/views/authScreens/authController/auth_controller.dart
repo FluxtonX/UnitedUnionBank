@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:united_union_bank/model/user_model.dart';
+import 'package:united_union_bank/views/authScreens/causesScreen/causes_screen.dart';
 import 'package:united_union_bank/views/authScreens/verifyEmailScreen/verify_email_screen.dart';
 import 'package:united_union_bank/views/homeScreen/home_screen.dart';
 import 'package:united_union_bank/views/authScreens/loginScreen/login_screen.dart';
 import 'package:united_union_bank/views/kycScreens/kyc_overview_screen.dart';
-import 'package:united_union_bank/controllers/biometric_controller.dart' hide debugPrint;
+import 'package:united_union_bank/views/kycScreens/kyc_status_screen.dart';
 
 class AuthController extends GetxController {
   static AuthController get instance => Get.find();
@@ -46,8 +47,6 @@ class AuthController extends GetxController {
 
   bool get _phoneKycCompleted => _storage.read('phone_kyc_completed') ?? false;
 
-  bool get _phoneKycSkipped => _storage.read('phone_kyc_skipped') ?? false;
-
   UserModel _phoneUserModel() {
     final String phone = _storage.read('phone_login_number') ?? '';
     final String name = _storage.read('phone_login_name') ?? '';
@@ -80,6 +79,13 @@ class AuthController extends GetxController {
       }
     } catch (e) {
       debugPrint("Error fetching user data: $e");
+    }
+  }
+
+  Future<void> refreshCurrentUser() async {
+    final uid = _auth.currentUser?.uid;
+    if (uid != null) {
+      await _fetchUserData(uid);
     }
   }
 
@@ -121,57 +127,38 @@ class AuthController extends GetxController {
     await _storage.write('phone_kyc_skipped', skipped);
   }
 
-  /// Set KYC skipped for Firebase users (persists in Firestore)
-  Future<void> setKycSkipped(bool skipped) async {
-    try {
-      final user = _auth.currentUser;
-      if (user != null) {
-        await _firestore.collection('users').doc(user.uid).update({
-          'kycSkipped': skipped,
-        });
-        // Update local model
-        if (userModel.value != null) {
-          userModel.value = UserModel(
-            uid: userModel.value!.uid,
-            email: userModel.value!.email,
-            name: userModel.value!.name,
-            createdAt: userModel.value!.createdAt,
-            profileImage: userModel.value!.profileImage,
-            phoneNumber: userModel.value!.phoneNumber,
-            kycCompleted: userModel.value!.kycCompleted,
-            kycSkipped: skipped,
-            walletBalance: userModel.value!.walletBalance,
-          );
-        }
-      }
-    } catch (e) {
-      debugPrint('Error setting KYC skipped: $e');
-    }
+  Future<void> saveUserInterests(List<String> interests) async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    await _firestore.collection('users').doc(user.uid).set({
+      'interests': interests,
+      'onboardingCompleted': true,
+      'updatedAt': DateTime.now().toIso8601String(),
+    }, SetOptions(merge: true));
+
+    await _fetchUserData(user.uid);
+  }
+
+  /// Phase 0 safety: users can submit KYC, but only backend/admin review can approve it.
+  Future<void> submitKycForReview() async {
+    final uid = _auth.currentUser?.uid;
+    if (uid == null) return;
+
+    await _firestore.collection('users').doc(uid).set({
+      'kycStatus': 'submitted',
+      'kycCompleted': false,
+      'kycSubmittedAt': DateTime.now().toIso8601String(),
+      'updatedAt': DateTime.now().toIso8601String(),
+    }, SetOptions(merge: true));
+
+    await _fetchUserData(uid);
   }
 
   // --- Handle Core Navigation Logic ---
-  void handleNavigation() {
+  Future<void> handleNavigation() async {
     final user = _auth.currentUser;
     if (user == null) {
-      if (_isPhoneLoggedIn) {
-        if (userModel.value == null) {
-          _loadPhoneLoginData();
-        }
-
-        if (_phoneKycSkipped) {
-          Get.offAll(() => const HomeScreen());
-          return;
-        }
-
-        if (!_phoneKycCompleted) {
-          Get.offAll(() => const KycOverviewScreen());
-          return;
-        }
-
-        Get.offAll(() => const HomeScreen());
-        return;
-      }
-
       Get.offAll(() => const LoginScreen());
       return;
     }
@@ -182,19 +169,28 @@ class AuthController extends GetxController {
       return;
     }
 
-    // 2. KYC Skip Check (if user previously skipped KYC, don't show it again)
-    if (userModel.value != null && userModel.value!.kycSkipped) {
-      Get.offAll(() => const HomeScreen());
+    final profile = userModel.value;
+    if (profile == null) {
+      await _fetchUserData(user.uid);
+    }
+
+    final currentProfile = userModel.value;
+
+    if (currentProfile == null || currentProfile.needsInterestSelection) {
+      Get.offAll(() => const CausesScreen());
       return;
     }
 
-    // 3. KYC Completion Check
-    if (userModel.value != null && !userModel.value!.kycCompleted) {
+    if (currentProfile.kycStatus == 'not_started') {
       Get.offAll(() => const KycOverviewScreen());
       return;
     }
 
-    // 3. Final Destination
+    if (!currentProfile.isKycApproved) {
+      Get.offAll(() => const KycStatusScreen());
+      return;
+    }
+
     Get.offAll(() => const HomeScreen());
   }
 
@@ -212,6 +208,8 @@ class AuthController extends GetxController {
         name: name,
         createdAt: DateTime.now(),
         kycCompleted: false,
+        kycStatus: 'not_started',
+        onboardingCompleted: false,
       );
 
       await _firestore
@@ -229,10 +227,7 @@ class AuthController extends GetxController {
         colorText: Colors.green,
       );
 
-      // Always save credentials securely so they are ready if the user enables biometrics later
-      BiometricController.instance.saveCredentials(email, password);
-
-      handleNavigation();
+      Get.offAll(() => const CausesScreen());
     } on FirebaseAuthException catch (e) {
       Get.snackbar(
         "Registration Failed",
@@ -253,9 +248,6 @@ class AuthController extends GetxController {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       
-      // Always save credentials securely so they are ready if the user enables biometrics later
-      BiometricController.instance.saveCredentials(email, password);
-
       handleNavigation();
     } on FirebaseAuthException catch (e) {
       Get.snackbar(
@@ -304,6 +296,8 @@ class AuthController extends GetxController {
           name: user.displayName ?? 'Google User',
           createdAt: DateTime.now(),
           kycCompleted: false,
+          kycStatus: 'not_started',
+          onboardingCompleted: false,
           profileImage: user.photoURL,
         );
         await _firestore.collection('users').doc(user.uid).set(userModel.toMap());
@@ -332,38 +326,7 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> completeKyc() async {
-    final uid = _auth.currentUser?.uid;
-    if (uid != null) {
-      await _firestore.collection('users').doc(uid).update({
-        'kycCompleted': true,
-      });
-      // Refresh local model
-      await _fetchUserData(uid);
-      return;
-    }
-
-    if (_isPhoneLoggedIn) {
-      await _storage.write('phone_kyc_completed', true);
-      final existing = _phoneUserModel();
-      userModel.value = UserModel(
-        uid: existing.uid,
-        email: existing.email,
-        name: existing.name,
-        createdAt: existing.createdAt,
-        profileImage: existing.profileImage,
-        kycCompleted: true,
-      );
-
-      try {
-        await _firestore.collection('users').doc(existing.uid).update({
-          'kycCompleted': true,
-        });
-      } catch (e) {
-        debugPrint('Unable to update phone login KYC in Firestore: $e');
-      }
-    }
-  }
+  Future<void> completeKyc() => submitKycForReview();
 
   // --- Logout ---
   Future<void> logout() async {

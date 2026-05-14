@@ -26,25 +26,11 @@ class BiometricController extends GetxController {
   // --- Credential Storage ---
 
   void saveCredentials(String email, String password) {
-    try {
-      storage.write('saved_email', email);
-      storage.write('saved_password', password);
-      debugPrint('Credentials saved for biometric login');
-    } catch (e) {
-      debugPrint('Error saving credentials: $e');
-    }
+    debugPrint('Raw password storage is disabled for fintech security.');
   }
 
   Map<String, String>? getSavedCredentials() {
-    try {
-      final email = storage.read('saved_email');
-      final password = storage.read('saved_password');
-      if (email != null && password != null) {
-        return {'email': email, 'password': password};
-      }
-    } catch (e) {
-      debugPrint('Error retrieving credentials: $e');
-    }
+    debugPrint('Biometric password replay is disabled.');
     return null;
   }
 

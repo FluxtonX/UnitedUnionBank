@@ -1,0 +1,157 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function hasRole(role) {
+      return signedIn() && request.auth.token.role == role;
+    }
+
+    function isAdmin() {
+      return hasRole('admin');
+    }
+
+    function isCompliance() {
+      return hasRole('compliance');
+    }
+
+    function isAdminOrCompliance() {
+      return isAdmin() || isCompliance();
+    }
+
+    function hasOnlyKeys(keys) {
+      return request.resource.data.keys().hasOnly(keys);
+    }
+
+    function changedOnly(keys) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(keys);
+    }
+
+    function validUserCreate(uid) {
+      return isOwner(uid)
+        && request.resource.data.uid == uid
+        && request.resource.data.kycCompleted == false
+        && request.resource.data.kycStatus in ['not_started', 'submitted', 'under_review', 'rejected']
+        && (!('walletBalance' in request.resource.data) || request.resource.data.walletBalance == 0)
+        && !('role' in request.resource.data);
+    }
+
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isAdminOrCompliance();
+      allow create: if validUserCreate(uid);
+      allow update: if isOwner(uid)
+        && changedOnly([
+          'name',
+          'profileImage',
+          'phoneNumber',
+          'interests',
+          'onboardingCompleted',
+          'updatedAt'
+        ]);
+      allow delete: if false;
+
+      match /fcm_tokens/{tokenId} {
+        allow read, create, update, delete: if isOwner(uid);
+      }
+    }
+
+    match /user_interests/{uid} {
+      allow read, create, update: if isOwner(uid)
+        && hasOnlyKeys(['topics', 'causes', 'updatedAt']);
+      allow delete: if isOwner(uid);
+    }
+
+    match /kyc_cases/{caseId} {
+      allow read: if signedIn()
+        && (resource.data.uid == request.auth.uid || isAdminOrCompliance());
+      allow create, update, delete: if false;
+    }
+
+    match /wallets/{uid} {
+      allow read: if isOwner(uid) || isAdminOrCompliance();
+      allow create, update, delete: if false;
+
+      match /balances/{currency} {
+        allow read: if isOwner(uid) || isAdminOrCompliance();
+        allow create, update, delete: if false;
+      }
+    }
+
+    match /ledger_entries/{entryId} {
+      allow read: if signedIn()
+        && (resource.data.uid == request.auth.uid || isAdminOrCompliance());
+      allow create, update, delete: if false;
+    }
+
+    match /transactions/{transactionId} {
+      allow read: if signedIn()
+        && (resource.data.userId == request.auth.uid || isAdminOrCompliance());
+      allow create, update, delete: if false;
+    }
+
+    match /payment_intents/{paymentIntentId} {
+      allow read: if signedIn()
+        && (resource.data.uid == request.auth.uid || isAdminOrCompliance());
+      allow create, update, delete: if false;
+    }
+
+    match /withdrawal_requests/{requestId} {
+      allow read: if signedIn()
+        && (resource.data.uid == request.auth.uid || isAdminOrCompliance());
+      allow create, update, delete: if false;
+    }
+
+    match /donations/{donationId} {
+      allow read: if signedIn()
+        && (resource.data.uid == request.auth.uid || isAdminOrCompliance());
+      allow create, update, delete: if false;
+    }
+
+    match /projects/{projectId} {
+      allow read: if resource.data.status == 'active' || isAdminOrCompliance();
+      allow create, update, delete: if false;
+    }
+
+    match /notifications/{uid}/items/{notificationId} {
+      allow read, update: if isOwner(uid)
+        && changedOnly(['read']);
+      allow create, delete: if false;
+    }
+
+    match /audit_logs/{logId} {
+      allow read: if isAdminOrCompliance();
+      allow create, update, delete: if false;
+    }
+
+    match /roles/{uid} {
+      allow read: if isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    match /partners/{partnerId} {
+      allow read: if isAdminOrCompliance() || hasRole('partner');
+      allow create, update, delete: if false;
+    }
+
+    match /risk_events/{eventId} {
+      allow read: if isAdminOrCompliance();
+      allow create, update, delete: if false;
+    }
+
+    match /news_preferences/{uid} {
+      allow read, create, update: if isOwner(uid);
+      allow delete: if isOwner(uid);
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

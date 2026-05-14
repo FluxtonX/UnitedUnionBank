@@ -45,7 +45,13 @@ class _KycIdentityScreenState extends State<KycIdentityScreen> {
     });
 
     if (_frontImage != null && _backImage != null) {
-      Get.to(() => const KycSelfieScreen());
+      Get.to(
+        () => KycSelfieScreen(
+          documentType: _docTypes[_selectedDocType],
+          documentFront: _frontImage!,
+          documentBack: _backImage!,
+        ),
+      );
     } else {
       Get.snackbar(
         'Missing Documents',

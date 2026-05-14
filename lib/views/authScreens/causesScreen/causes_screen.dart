@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../theme/theme.dart';
+import '../authController/auth_controller.dart';
 import '../verifyEmailScreen/verify_email_screen.dart';
 
 class CauseOption {
@@ -48,7 +49,11 @@ class _CausesScreenState extends State<CausesScreen> {
     });
   }
 
-  void _handleContinue() {
+  Future<void> _handleContinue() async {
+    final selectedTopics = _selectedIndices
+        .map((index) => _options[index].title)
+        .toList(growable: false);
+    await AuthController.instance.saveUserInterests(selectedTopics);
     Get.to(() => const VerifyEmailScreen());
   }
 
