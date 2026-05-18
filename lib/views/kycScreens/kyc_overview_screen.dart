@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../theme/theme.dart';
+import '../authScreens/authController/auth_controller.dart';
 import 'kyc_identity_screen.dart';
 
 class KycOverviewScreen extends StatelessWidget {
@@ -104,6 +105,10 @@ class KycOverviewScreen extends StatelessWidget {
 
                       // Continue button
                       _buildContinueButton(),
+
+                      const SizedBox(height: 12),
+
+                      _buildSkipButton(),
 
                       const SizedBox(height: 20),
 
@@ -299,6 +304,30 @@ class KycOverviewScreen extends StatelessWidget {
             const SizedBox(width: 10),
             const Icon(Icons.arrow_forward, size: 20, color: AppTheme.white),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSkipButton() {
+    return SizedBox(
+      width: double.infinity,
+      height: 52,
+      child: TextButton(
+        onPressed: AuthController.instance.skipKycForNow,
+        style: TextButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: const BorderSide(color: AppTheme.divider),
+          ),
+        ),
+        child: Text(
+          'Skip for Now',
+          style: GoogleFonts.outfit(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: AppTheme.textSecondary,
+          ),
         ),
       ),
     );

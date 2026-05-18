@@ -329,6 +329,32 @@ class KycSelfieScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                if (controller.canOpenSettings.value) ...[
+                  const SizedBox(height: 8),
+                  TextButton(
+                    onPressed: controller.openPermissionSettings,
+                    child: Text(
+                      'Open Settings',
+                      style: GoogleFonts.outfit(
+                        color: AppTheme.error,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 4),
+                TextButton(
+                  onPressed: controller.pickFromGallery,
+                  child: Text(
+                    'Choose from Gallery',
+                    style: GoogleFonts.outfit(
+                      color: AppTheme.primaryLight,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -402,11 +428,12 @@ class KycSelfieScreen extends StatelessWidget {
       final hasImage = controller.capturedImage.value != null;
       final isReady =
           controller.isCameraInitialized.value && !controller.hasError.value;
+      final canPickGallery = !controller.isTakingPicture.value;
 
       return Opacity(
-        opacity: isReady || hasImage ? 1.0 : 0.5,
+        opacity: isReady || hasImage || canPickGallery ? 1.0 : 0.5,
         child: IgnorePointer(
-          ignoring: !isReady && !hasImage,
+          ignoring: !isReady && !hasImage && !canPickGallery,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -445,7 +472,9 @@ class KycSelfieScreen extends StatelessWidget {
               GestureDetector(
                 onTap: hasImage
                     ? controller.resetCapture
-                    : controller.takePicture,
+                    : isReady
+                        ? controller.takePicture
+                        : null,
                 child: Container(
                   width: 80,
                   height: 80,

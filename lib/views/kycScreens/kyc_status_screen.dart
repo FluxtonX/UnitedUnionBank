@@ -120,6 +120,30 @@ class KycStatusScreen extends StatelessWidget {
                             ),
                           ),
                         ),
+                      if (status == 'not_started') ...[
+                        const SizedBox(height: 12),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 52,
+                          child: TextButton(
+                            onPressed: AuthController.instance.skipKycForNow,
+                            style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                side: const BorderSide(color: AppTheme.divider),
+                              ),
+                            ),
+                            child: Text(
+                              'Skip for Now',
+                              style: GoogleFonts.outfit(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: AppTheme.textSecondary,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),

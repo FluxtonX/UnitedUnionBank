@@ -13,6 +13,7 @@ class KycSelfieController extends GetxController {
   // Error handling states
   var hasError = false.obs;
   var errorMessage = "".obs;
+  var canOpenSettings = false.obs;
 
   // Real-time status states
   var isFaceAligned = false.obs;
@@ -30,6 +31,7 @@ class KycSelfieController extends GetxController {
   Future<void> retryInitialization() async {
     hasError.value = false;
     errorMessage.value = "";
+    canOpenSettings.value = false;
     isCameraInitialized.value = false;
     
     // Ensure clean disposal before retry
@@ -48,6 +50,7 @@ class KycSelfieController extends GetxController {
 
       if (status.isPermanentlyDenied) {
         hasError.value = true;
+        canOpenSettings.value = true;
         errorMessage.value =
             "Camera permission is permanently denied. Please enable it in settings.";
         return;
@@ -92,6 +95,8 @@ class KycSelfieController extends GetxController {
     }
   }
 
+  Future<void> openPermissionSettings() => openAppSettings();
+
   Future<void> _setupController(CameraDescription description) async {
     cameraController = CameraController(
       description,
@@ -109,8 +114,9 @@ class KycSelfieController extends GetxController {
   }
 
   Future<void> takePicture() async {
-    if (!isCameraInitialized.value || cameraController!.value.isTakingPicture)
+    if (!isCameraInitialized.value || cameraController!.value.isTakingPicture) {
       return;
+    }
 
     try {
       isTakingPicture.value = true;

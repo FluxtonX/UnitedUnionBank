@@ -47,6 +47,13 @@ class AuthController extends GetxController {
 
   bool get _phoneKycCompleted => _storage.read('phone_kyc_completed') ?? false;
 
+  String get _kycSkippedKey {
+    final uid = _auth.currentUser?.uid;
+    return uid == null ? 'kyc_skipped' : 'kyc_skipped_$uid';
+  }
+
+  bool get _hasSkippedKyc => _storage.read(_kycSkippedKey) ?? false;
+
   UserModel _phoneUserModel() {
     final String phone = _storage.read('phone_login_number') ?? '';
     final String name = _storage.read('phone_login_name') ?? '';
@@ -124,6 +131,18 @@ class AuthController extends GetxController {
     await _storage.write('phone_kyc_skipped', skipped);
   }
 
+  Future<void> skipKycForNow() async {
+    await _storage.write(_kycSkippedKey, true);
+    Get.offAll(() => const HomeScreen());
+    Get.snackbar(
+      'Verification Skipped',
+      'You can browse the app, but wallet features require KYC approval.',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.orange.withValues(alpha: 0.1),
+      colorText: Colors.orange,
+    );
+  }
+
   Future<void> saveUserInterests(List<String> interests) async {
     final user = _auth.currentUser;
     if (user == null) return;
@@ -172,12 +191,12 @@ class AuthController extends GetxController {
       return;
     }
 
-    if (currentProfile.kycStatus == 'not_started') {
+    if (currentProfile.kycStatus == 'not_started' && !_hasSkippedKyc) {
       Get.offAll(() => const KycOverviewScreen());
       return;
     }
 
-    if (!currentProfile.isKycApproved) {
+    if (!currentProfile.isKycApproved && !_hasSkippedKyc) {
       Get.offAll(() => const KycStatusScreen());
       return;
     }
