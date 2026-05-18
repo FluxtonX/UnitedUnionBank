@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class ImpactProjectModel {
   const ImpactProjectModel({
     required this.projectId,
@@ -28,12 +26,11 @@ class ImpactProjectModel {
     return (totalDonated / targetAmount).clamp(0, 1).toDouble();
   }
 
-  factory ImpactProjectModel.fromSnapshot(DocumentSnapshot snapshot) {
-    final data = snapshot.data() as Map<String, dynamic>;
+  factory ImpactProjectModel.fromJson(Map<String, dynamic> data) {
     final metrics = Map<String, dynamic>.from(data['metrics'] ?? const {});
 
     return ImpactProjectModel(
-      projectId: data['projectId'] ?? snapshot.id,
+      projectId: data['projectId'] ?? data['id'] ?? '',
       title: data['title'] ?? 'Impact Project',
       category: data['category'] ?? 'impact',
       status: data['status'] ?? 'active',
@@ -69,21 +66,18 @@ class DonationRecordModel {
   final int healthcareSupport;
   final DateTime createdAt;
 
-  factory DonationRecordModel.fromSnapshot(DocumentSnapshot snapshot) {
-    final data = snapshot.data() as Map<String, dynamic>;
+  factory DonationRecordModel.fromJson(Map<String, dynamic> data) {
     final metrics = Map<String, dynamic>.from(data['impactMetrics'] ?? const {});
     final rawCreatedAt = data['createdAt'];
     DateTime createdAt;
-    if (rawCreatedAt is Timestamp) {
-      createdAt = rawCreatedAt.toDate();
-    } else if (rawCreatedAt is String) {
+    if (rawCreatedAt is String) {
       createdAt = DateTime.tryParse(rawCreatedAt) ?? DateTime.now();
     } else {
       createdAt = DateTime.now();
     }
 
     return DonationRecordModel(
-      donationId: data['donationId'] ?? snapshot.id,
+      donationId: data['donationId'] ?? data['id'] ?? '',
       projectTitle: data['projectTitle'] ?? 'Impact Project',
       amount: (data['amount'] ?? 0).toDouble(),
       currency: data['currency'] ?? 'usd',

@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 enum TransactionStatus { pending, success, failed }
 
 enum TransactionType { deposit, withdrawal, transfer }
@@ -63,8 +61,6 @@ class TransactionModel {
     );
   }
 
-  factory TransactionModel.fromSnapshot(DocumentSnapshot snap) {
-    final data = snap.data() as Map<String, dynamic>;
-    return TransactionModel.fromMap(data);
-  }
+  factory TransactionModel.fromJson(Map<String, dynamic> json) =>
+      TransactionModel.fromMap(json);
 }

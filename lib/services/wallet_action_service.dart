@@ -1,6 +1,5 @@
-import 'package:cloud_functions/cloud_functions.dart';
-
 import '../config/stripe_constants.dart';
+import 'api_client.dart';
 
 class DonationResult {
   const DonationResult({
@@ -27,14 +26,11 @@ class WithdrawalRequestResult {
 class WalletActionService {
   WalletActionService._();
 
-  static final FirebaseFunctions _functions = FirebaseFunctions.instance;
-
   static Future<DonationResult> createDonation({
     required String projectId,
     required int amountInCents,
   }) async {
-    final callable = _functions.httpsCallable('createDonation');
-    final result = await callable.call(<String, dynamic>{
+    final result = await ApiClient.dio.post('/donations', data: {
       'projectId': projectId,
       'amountInCents': amountInCents,
       'currency': StripeConstants.defaultCurrency,
@@ -54,8 +50,7 @@ class WalletActionService {
     required String accountNumber,
     required String routingNumber,
   }) async {
-    final callable = _functions.httpsCallable('createWithdrawalRequest');
-    final result = await callable.call(<String, dynamic>{
+    final result = await ApiClient.dio.post('/withdrawals/requests', data: {
       'amountInCents': amountInCents,
       'currency': StripeConstants.defaultCurrency,
       'destination': {

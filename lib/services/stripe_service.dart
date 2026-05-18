@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import '../config/stripe_constants.dart';
 import '../model/ledger_entry_model.dart';
+import 'api_client.dart';
 
 class DepositIntentResult {
   const DepositIntentResult({
@@ -18,18 +17,14 @@ class DepositIntentResult {
 }
 
 class StripeService {
-  static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  static final FirebaseFunctions _functions = FirebaseFunctions.instance;
-
-  /// Creates a validated deposit intent via Firebase Cloud Function.
+  /// Creates a validated deposit intent via the Nest API.
   /// Returns the clientSecret needed for Payment Sheet
   static Future<DepositIntentResult?> createDepositIntent({
     required int amountInCents,
     required String currency,
   }) async {
     try {
-      final callable = _functions.httpsCallable('createDepositIntent');
-      final result = await callable.call(<String, dynamic>{
+      final result = await ApiClient.dio.post('/payments/deposit-intents', data: {
         'amount': amountInCents,
         'currency': currency,
       });
@@ -71,17 +66,11 @@ class StripeService {
   /// Fetch the user's current wallet balance
   static Future<double> getWalletBalance(String userId) async {
     try {
-      final doc = await _firestore
-          .collection('wallets')
-          .doc(userId)
-          .collection('balances')
-          .doc(StripeConstants.defaultCurrency)
-          .get();
-      if (doc.exists) {
-        final data = doc.data() as Map<String, dynamic>;
-        return (data['available'] ?? 0.0).toDouble();
-      }
-      return 0.0;
+      final response = await ApiClient.dio.get(
+        '/wallet/balances/${StripeConstants.defaultCurrency}',
+      );
+      final data = Map<String, dynamic>.from(response.data as Map);
+      return (data['available'] ?? 0.0).toDouble();
     } catch (e) {
       debugPrint('Error fetching wallet balance: $e');
       return 0.0;
@@ -93,15 +82,16 @@ class StripeService {
     String userId,
   ) async {
     try {
-      final querySnapshot = await _firestore
-          .collection('ledger_entries')
-          .where('uid', isEqualTo: userId)
-          .orderBy('createdAt', descending: true)
-          .limit(20)
-          .get();
-
-      return querySnapshot.docs
-          .map((doc) => LedgerEntryModel.fromSnapshot(doc))
+      final response = await ApiClient.dio.get('/wallet/ledger', queryParameters: {
+        'limit': 20,
+      });
+      final rawItems = response.data is List
+          ? response.data as List
+          : (response.data['items'] as List? ?? const []);
+      return rawItems
+          .map((item) => LedgerEntryModel.fromJson(
+                Map<String, dynamic>.from(item as Map),
+              ))
           .toList();
     } catch (e) {
       debugPrint('Error fetching ledger entries: $e');

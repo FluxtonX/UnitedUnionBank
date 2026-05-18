@@ -1,9 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../theme/theme.dart';
+import '../../../services/api_client.dart';
 import '../authController/auth_controller.dart';
 import '../../kycScreens/kyc_overview_screen.dart';
 
@@ -66,13 +66,15 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
 
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+        await ApiClient.dio.post('/users/me', data: {
           'uid': user.uid,
           'name': name,
           'email': email,
           'phoneNumber': widget.phoneNumber,
           'createdAt': DateTime.now().toIso8601String(),
           'kycCompleted': false,
+          'kycStatus': 'not_started',
+          'onboardingCompleted': false,
         });
       }
 

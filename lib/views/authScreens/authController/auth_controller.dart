@@ -1,10 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:united_union_bank/model/user_model.dart';
+import 'package:united_union_bank/services/api_client.dart';
 import 'package:united_union_bank/views/authScreens/causesScreen/causes_screen.dart';
 import 'package:united_union_bank/views/authScreens/verifyEmailScreen/verify_email_screen.dart';
 import 'package:united_union_bank/views/homeScreen/home_screen.dart';
@@ -17,7 +18,6 @@ class AuthController extends GetxController {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final GetStorage _storage = GetStorage();
 
   late Rx<User?> _firebaseUser;
@@ -70,13 +70,10 @@ class AuthController extends GetxController {
 
   Future<void> _fetchUserData(String uid) async {
     try {
-      DocumentSnapshot doc = await _firestore
-          .collection('users')
-          .doc(uid)
-          .get();
-      if (doc.exists) {
-        userModel.value = UserModel.fromSnapshot(doc);
-      }
+      final response = await ApiClient.dio.get('/users/me');
+      userModel.value = UserModel.fromJson(
+        Map<String, dynamic>.from(response.data as Map),
+      );
     } catch (e) {
       debugPrint("Error fetching user data: $e");
     }
@@ -131,26 +128,20 @@ class AuthController extends GetxController {
     final user = _auth.currentUser;
     if (user == null) return;
 
-    await _firestore.collection('users').doc(user.uid).set({
+    final response = await ApiClient.dio.patch('/users/me/onboarding', data: {
       'interests': interests,
       'onboardingCompleted': true,
-      'updatedAt': DateTime.now().toIso8601String(),
-    }, SetOptions(merge: true));
+    });
 
-    await _fetchUserData(user.uid);
+    userModel.value = UserModel.fromJson(
+      Map<String, dynamic>.from(response.data as Map),
+    );
   }
 
   /// Phase 0 safety: users can submit KYC, but only backend/admin review can approve it.
   Future<void> submitKycForReview() async {
     final uid = _auth.currentUser?.uid;
     if (uid == null) return;
-
-    await _firestore.collection('users').doc(uid).set({
-      'kycStatus': 'submitted',
-      'kycCompleted': false,
-      'kycSubmittedAt': DateTime.now().toIso8601String(),
-      'updatedAt': DateTime.now().toIso8601String(),
-    }, SetOptions(merge: true));
 
     await _fetchUserData(uid);
   }
@@ -212,10 +203,7 @@ class AuthController extends GetxController {
         onboardingCompleted: false,
       );
 
-      await _firestore
-          .collection('users')
-          .doc(credential.user!.uid)
-          .set(user.toMap());
+      await ApiClient.dio.post('/users/me', data: user.toMap());
 
       await credential.user!.sendEmailVerification();
 
@@ -300,7 +288,27 @@ class AuthController extends GetxController {
           onboardingCompleted: false,
           profileImage: user.photoURL,
         );
-        await _firestore.collection('users').doc(user.uid).set(userModel.toMap());
+        await ApiClient.dio.post('/users/me', data: userModel.toMap());
+      } else {
+        try {
+          await ApiClient.dio.get('/users/me');
+        } on DioException catch (e) {
+          if (e.response?.statusCode == 404) {
+            final UserModel userModel = UserModel(
+              uid: user.uid,
+              email: user.email ?? '',
+              name: user.displayName ?? 'Google User',
+              createdAt: DateTime.now(),
+              kycCompleted: false,
+              kycStatus: 'not_started',
+              onboardingCompleted: false,
+              profileImage: user.photoURL,
+            );
+            await ApiClient.dio.post('/users/me', data: userModel.toMap());
+          } else {
+            rethrow;
+          }
+        }
       }
 
       await _fetchUserData(user.uid);

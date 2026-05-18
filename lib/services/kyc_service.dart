@@ -1,8 +1,9 @@
 import 'dart:io';
 
-import 'package:cloud_functions/cloud_functions.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+
+import 'api_client.dart';
 
 class MockKycSubmission {
   const MockKycSubmission({
@@ -29,64 +30,42 @@ class MockKycSubmission {
 class KycService {
   KycService._();
 
-  static final FirebaseFunctions _functions = FirebaseFunctions.instance;
-  static final FirebaseStorage _storage = FirebaseStorage.instance;
-
   static Future<String> submitMockKycCase(MockKycSubmission submission) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       throw StateError('User must be authenticated to submit KYC.');
     }
 
-    final caseId = 'kyc_${DateTime.now().millisecondsSinceEpoch}';
-    final basePath = 'kyc/${user.uid}/$caseId';
-
-    final frontPath = await _uploadFile(
-      path: '$basePath/document_front.jpg',
-      file: submission.documentFront,
-    );
-    final backPath = await _uploadFile(
-      path: '$basePath/document_back.jpg',
-      file: submission.documentBack,
-    );
-    final selfiePath = await _uploadFile(
-      path: '$basePath/selfie.jpg',
-      file: submission.selfie,
-    );
-    final addressPath = await _uploadFile(
-      path: '$basePath/address_proof.jpg',
-      file: submission.addressProof,
-    );
-
-    final callable = _functions.httpsCallable('submitKycCase');
-    final result = await callable.call(<String, dynamic>{
-      'caseId': caseId,
+    final formData = FormData.fromMap({
       'provider': 'mock_onfido',
       'documentType': submission.documentType,
-      'documentFrontPath': frontPath,
-      'documentBackPath': backPath,
-      'selfiePath': selfiePath,
-      'addressProofPath': addressPath,
-      'personalInfo': {
-        'streetAddress': submission.streetAddress,
-        'city': submission.city,
-        'postalCode': submission.postalCode,
-      },
+      'streetAddress': submission.streetAddress,
+      'city': submission.city,
+      'postalCode': submission.postalCode,
+      'documentFront': await MultipartFile.fromFile(
+        submission.documentFront.path,
+        filename: 'document_front.jpg',
+      ),
+      'documentBack': await MultipartFile.fromFile(
+        submission.documentBack.path,
+        filename: 'document_back.jpg',
+      ),
+      'selfie': await MultipartFile.fromFile(
+        submission.selfie.path,
+        filename: 'selfie.jpg',
+      ),
+      'addressProof': await MultipartFile.fromFile(
+        submission.addressProof.path,
+        filename: 'address_proof.jpg',
+      ),
     });
 
-    final data = Map<String, dynamic>.from(result.data as Map);
-    return data['caseId'] as String;
-  }
-
-  static Future<String> _uploadFile({
-    required String path,
-    required File file,
-  }) async {
-    final ref = _storage.ref(path);
-    await ref.putFile(
-      file,
-      SettableMetadata(contentType: 'image/jpeg'),
+    final response = await ApiClient.dio.post(
+      '/kyc/cases',
+      data: formData,
+      options: Options(contentType: 'multipart/form-data'),
     );
-    return path;
+    final data = Map<String, dynamic>.from(response.data as Map);
+    return data['caseId'] as String? ?? data['id'] as String;
   }
 }

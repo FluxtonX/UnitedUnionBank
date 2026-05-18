@@ -9,7 +9,6 @@ import 'package:united_union_bank/firebase_options.dart';
 import 'package:united_union_bank/views/splashScreen/splash_screen.dart';
 import 'config/app_utils.dart';
 import 'config/stripe_constants.dart';
-import 'services/app_check_service.dart';
 import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 import 'package:united_union_bank/controllers/biometric_controller.dart' hide debugPrint;
 import 'package:united_union_bank/controllers/wallet_controller.dart';
@@ -21,7 +20,6 @@ Future<void> main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    await AppCheckService.activate();
 
     try {
       // Initialize Stripe

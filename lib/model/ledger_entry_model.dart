@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class LedgerEntryModel {
   const LedgerEntryModel({
     required this.entryId,
@@ -36,21 +34,18 @@ class LedgerEntryModel {
     return '$sign\$${amount.toStringAsFixed(2)}';
   }
 
-  factory LedgerEntryModel.fromSnapshot(DocumentSnapshot snapshot) {
-    final data = snapshot.data() as Map<String, dynamic>;
+  factory LedgerEntryModel.fromJson(Map<String, dynamic> data) {
     final rawCreatedAt = data['createdAt'];
 
     DateTime createdAt;
-    if (rawCreatedAt is Timestamp) {
-      createdAt = rawCreatedAt.toDate();
-    } else if (rawCreatedAt is String) {
+    if (rawCreatedAt is String) {
       createdAt = DateTime.tryParse(rawCreatedAt) ?? DateTime.now();
     } else {
       createdAt = DateTime.now();
     }
 
     return LedgerEntryModel(
-      entryId: data['entryId'] ?? snapshot.id,
+      entryId: data['entryId'] ?? data['id'] ?? '',
       uid: data['uid'] ?? '',
       currency: data['currency'] ?? 'usd',
       amount: (data['amount'] ?? 0).toDouble(),
