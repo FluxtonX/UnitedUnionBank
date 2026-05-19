@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 class AppTheme {
   // ── Primary Brand Colors ───────────────────────────────────────────
@@ -66,53 +66,53 @@ class AppTheme {
           error: error,
           onError: white,
         ),
-        textTheme: GoogleFonts.outfitTextTheme().copyWith(
-          displayLarge: GoogleFonts.outfit(
+        textTheme: const TextTheme().copyWith(
+          displayLarge: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.bold,
             color: textPrimary,
           ),
-          headlineMedium: GoogleFonts.outfit(
+          headlineMedium: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
             color: textPrimary,
           ),
-          titleLarge: GoogleFonts.outfit(
+          titleLarge: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w600,
             color: textPrimary,
           ),
-          titleMedium: GoogleFonts.outfit(
+          titleMedium: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
             color: textPrimary,
           ),
-          titleSmall: GoogleFonts.outfit(
+          titleSmall: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
             color: textPrimary,
           ),
-          bodyLarge: GoogleFonts.outfit(
+          bodyLarge: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w400,
             color: textSecondary,
           ),
-          bodyMedium: GoogleFonts.outfit(
+          bodyMedium: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: textSecondary,
           ),
-          bodySmall: GoogleFonts.outfit(
+          bodySmall: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w400,
             color: textSecondary,
           ),
-          labelLarge: GoogleFonts.outfit(
+          labelLarge: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
             color: white,
           ),
-          labelSmall: GoogleFonts.outfit(
+          labelSmall: TextStyle(
             fontSize: 10,
             fontWeight: FontWeight.w600,
             letterSpacing: 1.0,
@@ -129,7 +129,7 @@ class AppTheme {
             ),
             elevation: 4,
             shadowColor: accent.withValues(alpha: 0.4),
-            textStyle: GoogleFonts.outfit(
+            textStyle: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
             ),
@@ -143,7 +143,7 @@ class AppTheme {
               borderRadius: BorderRadius.circular(16),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-            textStyle: GoogleFonts.outfit(
+            textStyle: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 16,
             ),
@@ -152,7 +152,7 @@ class AppTheme {
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
             foregroundColor: primary,
-            textStyle: GoogleFonts.outfit(
+            textStyle: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 14,
             ),
@@ -161,7 +161,7 @@ class AppTheme {
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: white,
-          hintStyle: GoogleFonts.outfit(color: textHint, fontSize: 14),
+          hintStyle: TextStyle(color: textHint, fontSize: 14),
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
           border: OutlineInputBorder(
@@ -197,11 +197,11 @@ class AppTheme {
           backgroundColor: white,
           selectedItemColor: primary,
           unselectedItemColor: textHint,
-          selectedLabelStyle: GoogleFonts.outfit(
+          selectedLabelStyle: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
           ),
-          unselectedLabelStyle: GoogleFonts.outfit(fontSize: 12),
+          unselectedLabelStyle: TextStyle(fontSize: 12),
           type: BottomNavigationBarType.fixed,
           elevation: 8,
         ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:get/get.dart';
 import '../../theme/theme.dart';
 import '../../config/app_images.dart';
@@ -91,7 +91,7 @@ class _HomeTabState extends State<HomeTab> {
               Expanded(
                 child: Text(
                   'GreenBank',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -123,7 +123,7 @@ class _HomeTabState extends State<HomeTab> {
                       child: Center(
                         child: Text(
                           '1',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             color: Colors.white,
                             fontSize: 9,
                             fontWeight: FontWeight.bold,
@@ -169,7 +169,7 @@ class _HomeTabState extends State<HomeTab> {
               children: [
                 Text(
                   'Complete Verification',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -178,7 +178,7 @@ class _HomeTabState extends State<HomeTab> {
                 const SizedBox(height: 2),
                 Text(
                   'Verify your identity to unlock all features',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white.withValues(alpha: 0.7),
                     fontSize: 12,
                   ),
@@ -217,7 +217,7 @@ class _HomeTabState extends State<HomeTab> {
             children: [
               Text(
                 'TOTAL BALANCE',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.textHint,
@@ -239,7 +239,7 @@ class _HomeTabState extends State<HomeTab> {
                     const SizedBox(width: 4),
                     Text(
                       'Impact Score: 850',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: AppTheme.primaryLight,
@@ -260,7 +260,7 @@ class _HomeTabState extends State<HomeTab> {
                     _isBalanceVisible
                         ? '\$${controller.walletBalance.value.toStringAsFixed(2)}'
                         : '\$ ••••••',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 34,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.textPrimary,
@@ -289,12 +289,12 @@ class _HomeTabState extends State<HomeTab> {
             children: [
               Text(
                 '⊛ + 2,480 GBT',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                     fontSize: 13, color: AppTheme.textSecondary),
               ),
               Text(
                 'View Details >',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 13,
                   color: AppTheme.primaryLight,
                   fontWeight: FontWeight.w600,
@@ -355,7 +355,7 @@ class _HomeTabState extends State<HomeTab> {
                 const SizedBox(height: 8),
                 Text(
                   a['label'] as String,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF333333),
@@ -380,7 +380,7 @@ class _HomeTabState extends State<HomeTab> {
             children: [
               Text(
                 'Your Impact Today',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: AppTheme.textPrimary,
@@ -388,7 +388,7 @@ class _HomeTabState extends State<HomeTab> {
               ),
               Text(
                 'View All →',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.primaryLight,
@@ -446,7 +446,7 @@ class _HomeTabState extends State<HomeTab> {
             fit: BoxFit.scaleDown,
             child: Text(
               value,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF1B558C),
@@ -459,7 +459,7 @@ class _HomeTabState extends State<HomeTab> {
             child: Text(
               label,
               textAlign: TextAlign.center,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w500,
                 color: const Color(0xFF666666),
@@ -471,7 +471,7 @@ class _HomeTabState extends State<HomeTab> {
             fit: BoxFit.scaleDown,
             child: Text(
               sub,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 11,
                 color: const Color(0xFF3491E3),
                 fontWeight: FontWeight.w600,
@@ -493,7 +493,7 @@ class _HomeTabState extends State<HomeTab> {
             children: [
               Text(
                 'Recent',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: AppTheme.textPrimary,
@@ -503,7 +503,7 @@ class _HomeTabState extends State<HomeTab> {
                 onTap: () => Get.to(() => const TransactionHistoryScreen()),
                 child: Text(
                   'See All →',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                     color: AppTheme.primaryLight,
@@ -529,7 +529,7 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                   child: Text(
                     'No wallet activity yet.',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       color: AppTheme.textSecondary,
                       fontSize: 14,
                     ),
@@ -587,7 +587,7 @@ class _HomeTabState extends State<HomeTab> {
                 children: [
                   Text(
                     entry.description ?? _titleForLedger(entry),
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: AppTheme.textPrimary,
@@ -596,7 +596,7 @@ class _HomeTabState extends State<HomeTab> {
                   const SizedBox(height: 2),
                   Text(
                     '${entry.status} • ${entry.currency.toUpperCase()}',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 13,
                       color: AppTheme.textSecondary,
                     ),
@@ -609,7 +609,7 @@ class _HomeTabState extends State<HomeTab> {
               children: [
                 Text(
                   entry.signedAmount,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                     color: isCredit ? AppTheme.success : AppTheme.textPrimary,
@@ -645,7 +645,7 @@ class _HomeTabState extends State<HomeTab> {
         children: [
           Text(
             'Updates You Care About',
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: AppTheme.textPrimary,
@@ -720,7 +720,7 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                   child: Text(
                     category,
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
@@ -737,7 +737,7 @@ class _HomeTabState extends State<HomeTab> {
               children: [
                 Text(
                   title,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: AppTheme.textPrimary,
@@ -746,7 +746,7 @@ class _HomeTabState extends State<HomeTab> {
                 const SizedBox(height: 8),
                 Text(
                   description,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 14,
                     color: AppTheme.textSecondary,
                     height: 1.4,
@@ -758,7 +758,7 @@ class _HomeTabState extends State<HomeTab> {
                   children: [
                     Text(
                       timeInfo,
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 12,
                         color: AppTheme.textHint,
                         fontWeight: FontWeight.w500,
@@ -783,7 +783,7 @@ class _HomeTabState extends State<HomeTab> {
           onPressed: () {},
           child: Text(
             'Load More',
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: const Color(0xFF3491E3),

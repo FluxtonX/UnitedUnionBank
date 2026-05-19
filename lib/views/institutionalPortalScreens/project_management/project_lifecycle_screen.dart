@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:united_union_bank/views/institutionalPortalScreens/project_management/project_details_screen.dart';
 import '../../../../theme/theme.dart';
 
@@ -92,7 +92,7 @@ class ProjectLifecycleScreen extends StatelessWidget {
               children: [
                 Text(
                   'Project Lifecycle',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -101,7 +101,7 @@ class ProjectLifecycleScreen extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   projectTitle,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.8),
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
@@ -167,7 +167,7 @@ class ProjectLifecycleScreen extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: kSolidBlue,
@@ -183,7 +183,7 @@ class ProjectLifecycleScreen extends StatelessWidget {
                   const SizedBox(width: 4),
                   Text(
                     'COMPLETED',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                       color: kSolidBlue,
@@ -196,7 +196,7 @@ class ProjectLifecycleScreen extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             subtitle,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               color: Colors.grey.shade600,
               fontSize: 13,
               height: 1.4,
@@ -229,7 +229,7 @@ class ProjectLifecycleScreen extends StatelessWidget {
             children: [
               Text(
                 'Implementation',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -237,7 +237,7 @@ class ProjectLifecycleScreen extends StatelessWidget {
               ),
               Text(
                 '78%',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -269,7 +269,7 @@ class ProjectLifecycleScreen extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 'IN PROGRESS - ON SCHEDULE',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -300,7 +300,7 @@ class ProjectLifecycleScreen extends StatelessWidget {
             children: [
               Text(
                 'Review',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: kBorderLightBlue,
@@ -308,7 +308,7 @@ class ProjectLifecycleScreen extends StatelessWidget {
               ),
               Text(
                 'PENDING',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
                   color: kBorderLightBlue,
@@ -319,7 +319,7 @@ class ProjectLifecycleScreen extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             'Final audit and impact\nassessment phase.',
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               color: Colors.grey.shade500,
               fontSize: 13,
               height: 1.4,
@@ -350,7 +350,7 @@ class ProjectLifecycleScreen extends StatelessWidget {
               children: [
                 Text(
                   'OVERALL PROGRESS',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.white70,
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
@@ -359,7 +359,7 @@ class ProjectLifecycleScreen extends StatelessWidget {
                 ),
                 Text(
                   '78%',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
@@ -373,7 +373,7 @@ class ProjectLifecycleScreen extends StatelessWidget {
               children: [
                 Text(
                   'EST. COMPLETION',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.white70,
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
@@ -383,7 +383,7 @@ class ProjectLifecycleScreen extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   'March 2026',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -418,7 +418,7 @@ class ProjectLifecycleScreen extends StatelessWidget {
             ),
             label: Text(
               'Update Status',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 color: Colors.white,
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -445,7 +445,7 @@ class ProjectLifecycleScreen extends StatelessWidget {
             ),
             label: Text(
               'Share Report',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 color: Colors.white,
                 fontSize: 15,
                 fontWeight: FontWeight.bold,

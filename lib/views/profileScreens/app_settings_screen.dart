@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../../theme/theme.dart';
 
@@ -31,7 +31,7 @@ class AppSettingsScreen extends StatelessWidget {
                     const SizedBox(height: 12),
                     Text(
                       'Preferences',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: AppTheme.textPrimary,
@@ -44,7 +44,7 @@ class AppSettingsScreen extends StatelessWidget {
                     const SizedBox(height: 32),
                     Text(
                       'Information',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: AppTheme.textPrimary,
@@ -75,7 +75,7 @@ class AppSettingsScreen extends StatelessWidget {
         leading: Icon(icon, color: const Color(0xFF3491E3)),
         title: Text(
           title,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
             color: AppTheme.textPrimary,
@@ -86,7 +86,7 @@ class AppSettingsScreen extends StatelessWidget {
           children: [
             Text(
               currentValue,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 13,
                 color: AppTheme.textSecondary,
               ),
@@ -112,7 +112,7 @@ class AppSettingsScreen extends StatelessWidget {
         leading: Icon(icon, color: const Color(0xFF3491E3)),
         title: Text(
           title,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
             color: AppTheme.textPrimary,
@@ -120,7 +120,7 @@ class AppSettingsScreen extends StatelessWidget {
         ),
         trailing: Text(
           subtitle,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 13,
             color: AppTheme.textSecondary,
           ),
@@ -151,7 +151,7 @@ class AppSettingsScreen extends StatelessWidget {
               ),
               Text(
                 'App Settings',
-                style: GoogleFonts.outfit(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
+                style: TextStyle(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
               ),
             ],
           ),

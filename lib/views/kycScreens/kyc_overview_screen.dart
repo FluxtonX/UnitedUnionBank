@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../theme/theme.dart';
 import '../authScreens/authController/auth_controller.dart';
 import 'kyc_identity_screen.dart';
@@ -38,7 +38,7 @@ class KycOverviewScreen extends StatelessWidget {
                         children: [
                           Text(
                             'Verification Progress',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                               color: AppTheme.textPrimary,
@@ -46,7 +46,7 @@ class KycOverviewScreen extends StatelessWidget {
                           ),
                           Text(
                             '0 of 3',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                               color: AppTheme.primaryLight,
@@ -117,7 +117,7 @@ class KycOverviewScreen extends StatelessWidget {
                         child: Text(
                           'Your data is protected by bank-level encryption and will\nnever be shared without your consent.',
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 11,
                             color: AppTheme.textHint,
                             height: 1.5,
@@ -154,7 +154,7 @@ class KycOverviewScreen extends StatelessWidget {
                   Center(
                     child: Text(
                       'Verification',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         color: AppTheme.white,
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -173,7 +173,7 @@ class KycOverviewScreen extends StatelessWidget {
                       ),
                       child: Text(
                         'Required',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           color: AppTheme.white.withValues(alpha: 0.8),
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -186,7 +186,7 @@ class KycOverviewScreen extends StatelessWidget {
               const SizedBox(height: 28),
               Text(
                 'Complete Your KYC',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: AppTheme.white,
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -195,7 +195,7 @@ class KycOverviewScreen extends StatelessWidget {
               const SizedBox(height: 10),
               Text(
                 'To ensure the security of your account and comply with global banking regulations, we need to verify your identity. This process is encrypted and takes less than 3 minutes.',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: AppTheme.white.withValues(alpha: 0.7),
                   fontSize: 14,
                   height: 1.5,
@@ -244,7 +244,7 @@ class KycOverviewScreen extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     color: AppTheme.textPrimary,
@@ -253,7 +253,7 @@ class KycOverviewScreen extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   subtitle,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 12,
                     color: AppTheme.textSecondary,
                   ),
@@ -295,7 +295,7 @@ class KycOverviewScreen extends StatelessWidget {
           children: [
             Text(
               'Continue',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: AppTheme.white,
@@ -323,7 +323,7 @@ class KycOverviewScreen extends StatelessWidget {
         ),
         child: Text(
           'Skip for Now',
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
             color: AppTheme.textSecondary,

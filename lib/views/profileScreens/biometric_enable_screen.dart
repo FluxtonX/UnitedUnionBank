@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../../theme/theme.dart';
 import 'biometric_auth_screen.dart';
 
@@ -22,7 +22,7 @@ class BiometricEnableScreen extends StatelessWidget {
               // Header
               Text(
                 'Biometric Verification',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: AppTheme.white,
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -104,7 +104,7 @@ class BiometricEnableScreen extends StatelessWidget {
                       Text(
                         'Enable Biometric Sign-in',
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF101828),
@@ -114,7 +114,7 @@ class BiometricEnableScreen extends StatelessWidget {
                       Text(
                         'Sign in faster and more securely using your Face ID or fingerprint. You won\'t need to type your password every time.',
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 14,
                           color: const Color(0xFF667085),
                           height: 1.5,
@@ -150,7 +150,7 @@ class BiometricEnableScreen extends StatelessWidget {
                           ),
                           child: Text(
                             'Enable Now',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                               color: AppTheme.white,
@@ -163,7 +163,7 @@ class BiometricEnableScreen extends StatelessWidget {
                         onPressed: () => Get.back(),
                         child: Text(
                           'Maybe later',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 14,
                             color: AppTheme.textSecondary,
                             fontWeight: FontWeight.w500,

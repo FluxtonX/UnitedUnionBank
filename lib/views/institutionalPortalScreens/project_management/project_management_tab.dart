@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:united_union_bank/views/institutionalPortalScreens/project_management/project_lifecycle_screen.dart';
 import '../../../theme/theme.dart';
 
@@ -33,7 +33,7 @@ class ProjectManagementTab extends StatelessWidget {
                 // ── Header Title ──
                 Text(
                   'Project Management',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -64,14 +64,14 @@ class ProjectManagementTab extends StatelessWidget {
                               const SizedBox(width: 10),
                               Expanded(
                                 child: TextField(
-                                  style: GoogleFonts.outfit(
+                                  style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
                                   ),
                                   cursorColor: Colors.white,
                                   decoration: InputDecoration(
                                     hintText: 'Search projects...',
-                                    hintStyle: GoogleFonts.outfit(
+                                    hintStyle: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16,
@@ -236,7 +236,7 @@ class _ProjectCard extends StatelessWidget {
                     children: [
                       Text(
                         item.title,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: kDashNavy,
@@ -245,7 +245,7 @@ class _ProjectCard extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         item.subtitle,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 13,
                           color: Colors.grey.shade500,
                           fontWeight: FontWeight.w500,
@@ -266,7 +266,7 @@ class _ProjectCard extends StatelessWidget {
                   ),
                   child: Text(
                     item.status,
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                       color: item.statusColor,
@@ -282,7 +282,7 @@ class _ProjectCard extends StatelessWidget {
               children: [
                 Text(
                   'Overall Progress',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                     color: Colors.grey.shade400,
@@ -290,7 +290,7 @@ class _ProjectCard extends StatelessWidget {
                 ),
                 Text(
                   '${(item.progress * 100).toInt()}%',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: kProgressBlue,

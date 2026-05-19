@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../../theme/theme.dart';
 import 'enter_receiver_details_screen.dart';
@@ -94,7 +94,7 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
               ),
               Text(
                 'Bank Transfer',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: AppTheme.white,
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -102,7 +102,7 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
               ),
               Text(
                 'Help',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: AppTheme.white,
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -135,7 +135,7 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
                 child: Center(
                   child: Text(
                     'Send Money',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF3491E3),
@@ -150,7 +150,7 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
                 child: Center(
                   child: Text(
                     'History',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                       color: AppTheme.textHint,
@@ -176,7 +176,7 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
             children: [
               Text(
                 'My Bank Favourites',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   color: AppTheme.textSecondary,
@@ -184,7 +184,7 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
               ),
               Text(
                 'See All',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.textHint,
@@ -213,7 +213,7 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
                   child: Center(
                     child: Text(
                       'J',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF3491E3),
@@ -224,7 +224,7 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
                 const SizedBox(height: 8),
                 Text(
                   'John',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 13,
                     color: AppTheme.textPrimary,
                   ),
@@ -251,7 +251,7 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
             child: TextField(
               decoration: InputDecoration(
                 hintText: 'Search Bank by name',
-                hintStyle: GoogleFonts.outfit(color: AppTheme.textHint),
+                hintStyle: TextStyle(color: AppTheme.textHint),
                 prefixIcon: const Icon(Icons.search, color: AppTheme.textHint),
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
@@ -292,7 +292,7 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
                   child: Center(
                     child: Text(
                       bank.initials,
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         color: bank.iconColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -304,7 +304,7 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
                 Expanded(
                   child: Text(
                     bank.name,
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                       color: AppTheme.textPrimary,

@@ -2,9 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:dio/dio.dart';
 import '../services/stripe_service.dart';
 import '../model/ledger_entry_model.dart';
 import '../config/stripe_constants.dart';
+
+class AddFundsResult {
+  const AddFundsResult({
+    required this.amount,
+    required this.previousBalance,
+    required this.displayBalance,
+    required this.confirmed,
+  });
+
+  final double amount;
+  final double previousBalance;
+  final double displayBalance;
+  final bool confirmed;
+}
 
 class WalletController extends GetxController {
   static WalletController get instance => Get.find();
@@ -39,6 +54,12 @@ class WalletController extends GetxController {
     try {
       final balance = await StripeService.getWalletBalance(uid);
       walletBalance.value = balance;
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 401 || e.response?.statusCode == 404) {
+        walletBalance.value = 0;
+        return;
+      }
+      debugPrint('Error fetching balance: $e');
     } catch (e) {
       debugPrint('Error fetching balance: $e');
     }
@@ -52,15 +73,21 @@ class WalletController extends GetxController {
     try {
       final txns = await StripeService.getTransactionHistory(uid);
       transactions.assignAll(txns);
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 401 || e.response?.statusCode == 404) {
+        transactions.clear();
+        return;
+      }
+      debugPrint('Error fetching transactions: $e');
     } catch (e) {
       debugPrint('Error fetching transactions: $e');
     }
   }
 
   /// Full Add Funds flow.
-  /// Flutter may create/present a Stripe PaymentSheet, but wallet crediting must
-  /// happen only in Cloud Functions after webhook confirmation.
-  Future<bool> addFunds(double amount) async {
+  /// Flutter presents Stripe PaymentSheet. Wallet crediting happens only on the
+  /// backend after Stripe webhook confirmation.
+  Future<AddFundsResult?> addFunds(double amount) async {
     final uid = _userId;
     if (uid.isEmpty) {
       Get.snackbar(
@@ -70,10 +97,11 @@ class WalletController extends GetxController {
         backgroundColor: Colors.red.withValues(alpha: 0.1),
         colorText: Colors.red,
       );
-      return false;
+      return null;
     }
 
     isProcessingPayment.value = true;
+    final previousBalance = walletBalance.value;
 
     try {
       final bool isStripeConfigured =
@@ -88,7 +116,7 @@ class WalletController extends GetxController {
           backgroundColor: Colors.orange.withValues(alpha: 0.1),
           colorText: Colors.orange,
         );
-        return false;
+        return null;
       }
 
       final int amountInCents = (amount * 100).toInt();
@@ -101,12 +129,13 @@ class WalletController extends GetxController {
       if (depositIntent == null) {
         Get.snackbar(
           'Payment Error',
-          'Could not initiate payment. Please try again.',
+          StripeService.lastCreateDepositIntentError ??
+              'Could not initiate payment. Please try again.',
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red.withValues(alpha: 0.1),
           colorText: Colors.red,
         );
-        return false;
+        return null;
       }
 
       final success = await StripeService.presentPaymentSheet(
@@ -121,20 +150,28 @@ class WalletController extends GetxController {
           backgroundColor: Colors.orange.withValues(alpha: 0.1),
           colorText: Colors.orange,
         );
-        return false;
+        return null;
       }
 
       Get.snackbar(
-        'Payment Submitted',
-        'Your wallet will update after backend confirmation.',
+        'Payment Successful',
+        'We are updating your wallet balance.',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.blue.withValues(alpha: 0.1),
-        colorText: Colors.blue,
+        backgroundColor: Colors.green.withValues(alpha: 0.1),
+        colorText: Colors.green,
       );
-      await fetchBalance();
-      await fetchTransactions();
 
-      return true;
+      final confirmed = await _refreshUntilDepositPosts(
+        previousBalance: previousBalance,
+        amount: amount,
+      );
+
+      return AddFundsResult(
+        amount: amount,
+        previousBalance: previousBalance,
+        displayBalance: confirmed ? walletBalance.value : previousBalance + amount,
+        confirmed: confirmed,
+      );
     } catch (e) {
       debugPrint('Error adding funds: $e');
       Get.snackbar(
@@ -144,9 +181,33 @@ class WalletController extends GetxController {
         backgroundColor: Colors.red.withValues(alpha: 0.1),
         colorText: Colors.red,
       );
-      return false;
+      return null;
     } finally {
       isProcessingPayment.value = false;
     }
+  }
+
+  Future<bool> _refreshUntilDepositPosts({
+    required double previousBalance,
+    required double amount,
+  }) async {
+    final targetBalance = previousBalance + amount;
+    for (var attempt = 0; attempt < 5; attempt++) {
+      await Future.delayed(Duration(seconds: attempt == 0 ? 2 : 1));
+      await fetchBalance();
+      await fetchTransactions();
+      if (walletBalance.value >= targetBalance - 0.01) {
+        return true;
+      }
+    }
+
+    Get.snackbar(
+      'Confirmation Pending',
+      'Stripe accepted the payment. Your balance may update shortly.',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.orange.withValues(alpha: 0.1),
+      colorText: Colors.orange,
+    );
+    return false;
   }
 }

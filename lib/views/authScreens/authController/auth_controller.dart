@@ -26,6 +26,7 @@ class AuthController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+    ApiClient.onUnauthorized = _handleUnauthorizedSession;
     _firebaseUser = Rx<User?>(_auth.currentUser);
     _firebaseUser.bindStream(_auth.userChanges());
     ever(_firebaseUser, _setInitialScreen);
@@ -39,7 +40,7 @@ class AuthController extends GetxController {
         userModel.value = null;
       }
     } else {
-      await _fetchUserData(user.uid);
+      await _fetchUserData(user, createIfMissing: true);
     }
   }
 
@@ -75,21 +76,63 @@ class AuthController extends GetxController {
     userModel.value = _phoneUserModel();
   }
 
-  Future<void> _fetchUserData(String uid) async {
+  Future<bool> _fetchUserData(User user, {bool createIfMissing = false}) async {
     try {
       final response = await ApiClient.dio.get('/users/me');
       userModel.value = UserModel.fromJson(
         Map<String, dynamic>.from(response.data as Map),
       );
+      return true;
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404 && createIfMissing) {
+        return _upsertBackendProfile(user);
+      }
+      if (e.response?.statusCode == 401) {
+        await _handleUnauthorizedSession();
+        return false;
+      }
+      debugPrint("Error fetching user data: $e");
+      return false;
     } catch (e) {
       debugPrint("Error fetching user data: $e");
+      return false;
     }
   }
 
   Future<void> refreshCurrentUser() async {
-    final uid = _auth.currentUser?.uid;
-    if (uid != null) {
-      await _fetchUserData(uid);
+    final user = _auth.currentUser;
+    if (user != null) {
+      await _fetchUserData(user, createIfMissing: true);
+    }
+  }
+
+  Future<bool> _upsertBackendProfile(User user) async {
+    try {
+      final fallbackName = user.displayName ??
+          (user.email != null && user.email!.contains('@')
+              ? user.email!.split('@').first
+              : 'User');
+      final response = await ApiClient.dio.post('/users/me', data: {
+        'uid': user.uid,
+        'email': user.email ?? '',
+        'name': fallbackName,
+        'phoneNumber': user.phoneNumber,
+        'profileImage': user.photoURL,
+      });
+      userModel.value = UserModel.fromJson(
+        Map<String, dynamic>.from(response.data as Map),
+      );
+      return true;
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 401) {
+        await _handleUnauthorizedSession();
+      } else {
+        debugPrint('Error creating backend user profile: $e');
+      }
+      return false;
+    } catch (e) {
+      debugPrint('Error creating backend user profile: $e');
+      return false;
     }
   }
 
@@ -127,6 +170,21 @@ class AuthController extends GetxController {
     await _storage.remove('phone_kyc_skipped');
   }
 
+  Future<void> _handleUnauthorizedSession() async {
+    userModel.value = null;
+    await _clearPhoneLoginSession();
+    if (Get.currentRoute != '/LoginScreen') {
+      Get.offAll(() => const LoginScreen());
+    }
+    Get.snackbar(
+      'Session Expired',
+      'Please log in again.',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.orange.withValues(alpha: 0.1),
+      colorText: Colors.orange,
+    );
+  }
+
   Future<void> setPhoneKycSkipped(bool skipped) async {
     await _storage.write('phone_kyc_skipped', skipped);
   }
@@ -147,22 +205,42 @@ class AuthController extends GetxController {
     final user = _auth.currentUser;
     if (user == null) return;
 
-    final response = await ApiClient.dio.patch('/users/me/onboarding', data: {
-      'interests': interests,
-      'onboardingCompleted': true,
-    });
+    try {
+      final response = await ApiClient.dio.patch('/users/me/onboarding', data: {
+        'interests': interests,
+        'onboardingCompleted': true,
+      });
 
-    userModel.value = UserModel.fromJson(
-      Map<String, dynamic>.from(response.data as Map),
-    );
+      userModel.value = UserModel.fromJson(
+        Map<String, dynamic>.from(response.data as Map),
+      );
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+        final created = await _upsertBackendProfile(user);
+        if (!created) return;
+        final response = await ApiClient.dio.patch('/users/me/onboarding', data: {
+          'interests': interests,
+          'onboardingCompleted': true,
+        });
+        userModel.value = UserModel.fromJson(
+          Map<String, dynamic>.from(response.data as Map),
+        );
+        return;
+      }
+      if (e.response?.statusCode == 401) {
+        await _handleUnauthorizedSession();
+        return;
+      }
+      rethrow;
+    }
   }
 
   /// Phase 0 safety: users can submit KYC, but only backend/admin review can approve it.
   Future<void> submitKycForReview() async {
-    final uid = _auth.currentUser?.uid;
-    if (uid == null) return;
+    final user = _auth.currentUser;
+    if (user == null) return;
 
-    await _fetchUserData(uid);
+    await _fetchUserData(user, createIfMissing: true);
   }
 
   // --- Handle Core Navigation Logic ---
@@ -181,7 +259,11 @@ class AuthController extends GetxController {
 
     final profile = userModel.value;
     if (profile == null) {
-      await _fetchUserData(user.uid);
+      final loaded = await _fetchUserData(user, createIfMissing: true);
+      if (!loaded) {
+        await logout();
+        return;
+      }
     }
 
     final currentProfile = userModel.value;
@@ -222,7 +304,10 @@ class AuthController extends GetxController {
         onboardingCompleted: false,
       );
 
-      await ApiClient.dio.post('/users/me', data: user.toMap());
+      final response = await ApiClient.dio.post('/users/me', data: user.toMap());
+      userModel.value = UserModel.fromJson(
+        Map<String, dynamic>.from(response.data as Map),
+      );
 
       await credential.user!.sendEmailVerification();
 
@@ -245,6 +330,8 @@ class AuthController extends GetxController {
       );
       rethrow;
     } catch (e) {
+      await _auth.signOut();
+      userModel.value = null;
       Get.snackbar("Error", e.toString());
       rethrow;
     }
@@ -253,9 +340,26 @@ class AuthController extends GetxController {
   // --- Login ---
   Future<void> login(String email, String password) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-      
-      handleNavigation();
+      final credential =
+          await _auth.signInWithEmailAndPassword(email: email, password: password);
+      final user = credential.user;
+      if (user == null) {
+        throw FirebaseAuthException(
+          code: 'missing-user',
+          message: 'Unable to load the signed in user.',
+        );
+      }
+
+      final loaded = await _fetchUserData(user, createIfMissing: true);
+      if (!loaded) {
+        await logout();
+        throw FirebaseAuthException(
+          code: 'profile-sync-failed',
+          message: 'Unable to sync your account profile. Please try again.',
+        );
+      }
+
+      await handleNavigation();
     } on FirebaseAuthException catch (e) {
       Get.snackbar(
         "Login Failed",
@@ -330,8 +434,12 @@ class AuthController extends GetxController {
         }
       }
 
-      await _fetchUserData(user.uid);
-      handleNavigation();
+      final loaded = await _fetchUserData(user, createIfMissing: true);
+      if (!loaded) {
+        await logout();
+        return;
+      }
+      await handleNavigation();
     } on FirebaseAuthException catch (e) {
       Get.snackbar(
         'Google Sign In Failed',
@@ -359,6 +467,7 @@ class AuthController extends GetxController {
   Future<void> logout() async {
     await _auth.signOut();
     await _clearPhoneLoginSession();
+    userModel.value = null;
     Get.offAll(() => const LoginScreen());
   }
 }

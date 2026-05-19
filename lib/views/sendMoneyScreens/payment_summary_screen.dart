@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../../theme/theme.dart';
 import 'transfer_successful_screen.dart';
@@ -52,49 +52,49 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 12),
-                      Text('Pay From', style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
+                      Text('Pay From', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
                       const SizedBox(height: 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Account', style: GoogleFonts.outfit(fontSize: 14, color: AppTheme.textSecondary)),
-                          Text('Balance Rs. 50,000', style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
+                          Text('Account', style: TextStyle(fontSize: 14, color: AppTheme.textSecondary)),
+                          Text('Balance Rs. 50,000', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
                         ],
                       ),
                       const SizedBox(height: 24),
-                      Text('Pay To', style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
+                      Text('Pay To', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
                       const SizedBox(height: 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Account Title', style: GoogleFonts.outfit(fontSize: 14, color: AppTheme.textSecondary)),
-                          Text('Sarah Miller', style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
+                          Text('Account Title', style: TextStyle(fontSize: 14, color: AppTheme.textSecondary)),
+                          Text('Sarah Miller', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Account Number', style: GoogleFonts.outfit(fontSize: 14, color: AppTheme.textSecondary)),
-                          Text(widget.accountNumber, style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
+                          Text('Account Number', style: TextStyle(fontSize: 14, color: AppTheme.textSecondary)),
+                          Text(widget.accountNumber, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
                         ],
                       ),
                       const SizedBox(height: 24),
-                      Text('Payment Summary', style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
+                      Text('Payment Summary', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
                       const SizedBox(height: 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Transfer amount', style: GoogleFonts.outfit(fontSize: 14, color: AppTheme.textSecondary)),
-                          Text('Rs. ${widget.amount}', style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
+                          Text('Transfer amount', style: TextStyle(fontSize: 14, color: AppTheme.textSecondary)),
+                          Text('Rs. ${widget.amount}', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Fee (Including tax)', style: GoogleFonts.outfit(fontSize: 14, color: AppTheme.textSecondary)),
-                          Text('Free', style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
+                          Text('Fee (Including tax)', style: TextStyle(fontSize: 14, color: AppTheme.textSecondary)),
+                          Text('Free', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -103,8 +103,8 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Total Amount', style: GoogleFonts.outfit(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
-                          Text('Rs. ${widget.amount}', style: GoogleFonts.outfit(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
+                          Text('Total Amount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
+                          Text('Rs. ${widget.amount}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
                         ],
                       ),
                       const SizedBox(height: 32),
@@ -140,7 +140,7 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                               children: [
                                 Text(
                                   'Favourite Contact',
-                                  style: GoogleFonts.outfit(
+                                  style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                     color: AppTheme.textPrimary,
@@ -149,7 +149,7 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                                 const SizedBox(height: 4),
                                 Text(
                                   'Add this recipient as a favorite for easy payments in the future.',
-                                  style: GoogleFonts.outfit(
+                                  style: TextStyle(
                                     fontSize: 12,
                                     color: AppTheme.textSecondary,
                                   ),
@@ -199,7 +199,7 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                   ),
                   Text(
                     'Bank Transfer',
-                    style: GoogleFonts.outfit(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
+                    style: TextStyle(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                 ],
               ),

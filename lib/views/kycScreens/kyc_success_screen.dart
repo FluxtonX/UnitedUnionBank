@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:united_union_bank/services/kyc_service.dart';
 import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 import '../../theme/theme.dart';
@@ -176,7 +176,7 @@ class KycSuccessScreen extends StatelessWidget {
                       const SizedBox(height: 32),
                       Text(
                         'KYC Submitted',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF101828),
@@ -186,7 +186,7 @@ class KycSuccessScreen extends StatelessWidget {
                       Text(
                         'Your identity verification documents have been submitted and are under review.\nThis usually takes 24-48 hours',
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 14,
                           color: const Color(0xFF667085),
                           height: 1.5,
@@ -235,7 +235,7 @@ class KycSuccessScreen extends StatelessWidget {
                           ),
                           child: Text(
                             'Get Started',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -249,7 +249,7 @@ class KycSuccessScreen extends StatelessWidget {
                         children: [
                           Text(
                             'Secure Global Banking Standards',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               fontSize: 11,
                               color: const Color(0xFF98A2B3),
                             ),

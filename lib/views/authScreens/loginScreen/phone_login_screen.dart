@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../../theme/theme.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../../services/twilio_service.dart';
@@ -89,7 +89,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                       children: [
                         Text(
                           'Phone Number Login',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: AppTheme.textPrimary,
@@ -98,7 +98,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                         const SizedBox(height: 12),
                         Text(
                           'Enter your phone number to receive a one-time password (OTP) to verify your account.',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 14,
                             color: AppTheme.textSecondary,
                             height: 1.5,
@@ -114,7 +114,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                             onTap: () => Get.back(),
                             child: Text(
                               'Back to Sign In',
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 color: AppTheme.primary,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
@@ -167,7 +167,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
               Center(
                 child: Text(
                   'Verify Your Phone',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white,
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -178,7 +178,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
               Center(
                 child: Text(
                   'Sign in securely with your phone number',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white.withValues(alpha: 0.7),
                     fontSize: 14,
                   ),
@@ -197,7 +197,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
       children: [
         Text(
           'PHONE NUMBER',
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.bold,
             color: AppTheme.textPrimary,
@@ -234,11 +234,11 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
           ),
           initialCountryCode: 'PK', // Default to Pakistan as per +92 request
           dropdownIconPosition: IconPosition.trailing,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 16,
             color: AppTheme.textPrimary,
           ),
-          dropdownTextStyle: GoogleFonts.outfit(
+          dropdownTextStyle: TextStyle(
             fontSize: 16,
             color: AppTheme.textPrimary,
           ),
@@ -288,7 +288,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                 children: [
                   Text(
                     'Send OTP',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.white,
@@ -327,7 +327,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
               const SizedBox(width: 12),
               Text(
                 'How it works',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF1976D2),
@@ -338,7 +338,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
           const SizedBox(height: 12),
           Text(
             '• We\'ll send a 6-digit code to your phone\n• Verify the code to complete login\n• Your phone number is secured with encryption',
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 13,
               color: const Color(0xFF1565C0),
               height: 1.6,

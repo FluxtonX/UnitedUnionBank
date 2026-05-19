@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 const kDashNavy = Color(0xFF0D2554);
 const kDashAccentBlue = Color(0xFF3B61DA);
@@ -100,7 +100,7 @@ class ProjectDetailsScreen extends StatelessWidget {
               children: [
                 Text(
                   'Clean Water Initiative',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -108,7 +108,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                 ),
                 Text(
                   'Secured Portal • NGO-772',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.7),
                     fontSize: 12,
                   ),
@@ -153,7 +153,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                   children: [
                     Text(
                       'GLOBAL STATUS',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         color: Colors.white.withValues(alpha: 0.8),
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
@@ -163,7 +163,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       '75.4%',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 36,
                         fontWeight: FontWeight.w900,
@@ -185,7 +185,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                       ),
                       child: Text(
                         'IN PROGRESS',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
@@ -195,7 +195,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                     const SizedBox(height: 12),
                     Text(
                       'EST. COMPLETION: OCT 2024',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         color: Colors.white.withValues(alpha: 0.7),
                         fontSize: 9,
                         fontWeight: FontWeight.w600,
@@ -223,7 +223,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   'East Africa Cluster',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -238,7 +238,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   '\$4.2M Allocated',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -261,7 +261,7 @@ class ProjectDetailsScreen extends StatelessWidget {
         children: [
           Text(
             'PROJECT LIFECYCLE',
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               color: kSectionTitleColor,
               fontSize: 12,
               fontWeight: FontWeight.w800,
@@ -290,7 +290,7 @@ class ProjectDetailsScreen extends StatelessWidget {
               ),
               child: Text(
                 'ACTIVE',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: kDashNavy,
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
@@ -398,7 +398,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                       children: [
                         Text(
                           title,
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             color: titleColor,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -408,7 +408,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                         const SizedBox(height: 6),
                         Text(
                           subtitle,
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             color: Colors.grey.shade500,
                             fontSize: 13,
                           ),
@@ -435,7 +435,7 @@ class ProjectDetailsScreen extends StatelessWidget {
         children: [
           Text(
             'ACTIVE FIELD TEAM',
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               color: kSectionTitleColor,
               fontSize: 12,
               fontWeight: FontWeight.w800,
@@ -491,7 +491,7 @@ class ProjectDetailsScreen extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           name,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             color: const Color(0xFFE8F1FC),
             fontSize: 10,
             fontWeight: FontWeight.w600,
@@ -500,7 +500,7 @@ class ProjectDetailsScreen extends StatelessWidget {
         const SizedBox(height: 2),
         Text(
           role,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             color: Colors.grey.shade400,
             fontSize: 8,
             fontWeight: FontWeight.bold,
@@ -527,7 +527,7 @@ class ProjectDetailsScreen extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           'Add Mem...',
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             color: const Color(0xFFE8F1FC),
             fontSize: 10,
             fontWeight: FontWeight.w600,
@@ -554,7 +554,7 @@ class ProjectDetailsScreen extends StatelessWidget {
             children: [
               Text(
                 'CRITICAL MILESTONES',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: kSectionTitleColor,
                   fontSize: 12,
                   fontWeight: FontWeight.w800,
@@ -563,7 +563,7 @@ class ProjectDetailsScreen extends StatelessWidget {
               ),
               Text(
                 'View All',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: kDashNavy,
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
@@ -626,7 +626,7 @@ class ProjectDetailsScreen extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: kTextBlue,
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -637,7 +637,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                   children: [
                     Text(
                       date,
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         color: Colors.grey.shade600,
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
@@ -647,7 +647,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 6),
                       child: Text(
                         '•',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           color: Colors.grey.shade400,
                           fontSize: 11,
                         ),
@@ -655,7 +655,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                     ),
                     Text(
                       badgeText,
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         color: badgeColor,
                         fontSize: 9,
                         fontWeight: FontWeight.bold,
@@ -697,7 +697,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     'SECURITY AUDIT TRAIL',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       color: kSectionTitleColor,
                       fontSize: 12,
                       fontWeight: FontWeight.w800,
@@ -708,7 +708,7 @@ class ProjectDetailsScreen extends StatelessWidget {
               ),
               Text(
                 'ENCRYPTED_LOGS_V2',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: Colors.blue.withValues(alpha: 0.4),
                   fontSize: 9,
                   letterSpacing: 0.5,
@@ -721,7 +721,7 @@ class ProjectDetailsScreen extends StatelessWidget {
             color: const Color(0xFF1EA786),
             contentSpan: TextSpan(
               text: 'Aris V. updated Implementation status to ',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 color: Colors.grey.shade700,
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -729,7 +729,7 @@ class ProjectDetailsScreen extends StatelessWidget {
               children: [
                 TextSpan(
                   text: '75.4%',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: kTextBlue,
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
@@ -744,7 +744,7 @@ class ProjectDetailsScreen extends StatelessWidget {
             contentSpan: TextSpan(
               text:
                   'System Log: Milestone "Cluster A Inspection" verified by 3-factor stakeholder consensus.',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 color: Colors.grey.shade700,
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -756,7 +756,7 @@ class ProjectDetailsScreen extends StatelessWidget {
             color: Colors.grey.shade400,
             contentSpan: TextSpan(
               text: 'Sarah L. uploaded revised terrain maps for Cluster C.',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 color: Colors.grey.shade700,
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -818,7 +818,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     subtitle,
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       color: Colors.grey.shade500,
                       fontSize: 10,
                     ),

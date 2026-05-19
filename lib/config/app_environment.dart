@@ -19,6 +19,6 @@ class AppEnvironmentConfig {
 
   static String get apiBaseUrl {
     if (_configuredApiBaseUrl.isNotEmpty) return _configuredApiBaseUrl;
-    return kReleaseMode ? 'http://3.106.133.154' : 'http://localhost:3000';
+    return kReleaseMode ? 'http://3.106.133.154' : 'http://3.106.133.154';
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:united_union_bank/views/institutionalPortalScreens/portal_main/portal_main_tab_screen.dart';
 
 import '../../../customWidgets/custom_text_field.dart';
@@ -101,7 +101,7 @@ class _InstitutionalLoginScreenState extends State<InstitutionalLoginScreen> {
                         children: [
                           Text(
                             'Trouble signing in?',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               color: AppTheme.textHint,
                               fontSize: 13,
                             ),
@@ -116,7 +116,7 @@ class _InstitutionalLoginScreenState extends State<InstitutionalLoginScreen> {
                           ),
                           Text(
                             'Contact Admin',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               color: AppTheme.textHint,
                               fontSize: 13,
                             ),
@@ -165,7 +165,7 @@ class _InstitutionalLoginScreenState extends State<InstitutionalLoginScreen> {
                     children: [
                       Text(
                         'Secure Access Portal',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -173,7 +173,7 @@ class _InstitutionalLoginScreenState extends State<InstitutionalLoginScreen> {
                       ),
                       Text(
                         'IMPACT MANAGEMENT SYSTEM',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.7),
                           fontSize: 10,
                           letterSpacing: 1.2,
@@ -201,7 +201,7 @@ class _InstitutionalLoginScreenState extends State<InstitutionalLoginScreen> {
               const SizedBox(height: 24),
               Text(
                 'Partner login',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: Colors.white,
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -211,7 +211,7 @@ class _InstitutionalLoginScreenState extends State<InstitutionalLoginScreen> {
               Text(
                 'Authorized Personnel for NGOs, UN & Global\nInvestors',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: Colors.white.withValues(alpha: 0.8),
                   fontSize: 14,
                   height: 1.5,
@@ -263,7 +263,7 @@ class _InstitutionalLoginScreenState extends State<InstitutionalLoginScreen> {
                 children: [
                   Text(
                     'Secure Login',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -289,7 +289,7 @@ class _InstitutionalLoginScreenState extends State<InstitutionalLoginScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
             text,
-            style: GoogleFonts.outfit(color: AppTheme.textHint, fontSize: 13),
+            style: TextStyle(color: AppTheme.textHint, fontSize: 13),
           ),
         ),
         Expanded(child: Divider(color: Colors.grey.withValues(alpha: 0.3))),
@@ -321,7 +321,7 @@ class _InstitutionalLoginScreenState extends State<InstitutionalLoginScreen> {
               const SizedBox(width: 10),
               Text(
                 label,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: AppTheme.textPrimary,
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
@@ -342,7 +342,7 @@ class _InstitutionalLoginScreenState extends State<InstitutionalLoginScreen> {
         const SizedBox(width: 6),
         Text(
           'AES-256 ENCRYPTED SESSION',
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 10,
             color: AppTheme.textHint,
             fontWeight: FontWeight.w600,

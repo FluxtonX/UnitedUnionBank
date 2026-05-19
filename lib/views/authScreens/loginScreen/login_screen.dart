@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart' hide debugPrint;
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 import 'package:united_union_bank/views/authScreens/loginScreen/partner_login_screen.dart';
 import 'package:united_union_bank/views/authScreens/loginScreen/phone_login_screen.dart';
@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Get.to(() => const ForgotPasswordScreen()),
                             child: Text(
                               'Forgot?',
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
                                 color: AppTheme.primaryLight,
@@ -163,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             Text(
                               "Don't have an account? ",
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 color: AppTheme.textSecondary,
                                 fontSize: 14,
                               ),
@@ -172,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               onTap: () => Get.to(() => const SignUpScreen()),
                               child: Text(
                                 'Sign Up',
-                                style: GoogleFonts.outfit(
+                                style: TextStyle(
                                   color: AppTheme.primary,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14,
@@ -187,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Get.to(() => const InstitutionalLoginScreen()),
                           child: Text(
                             'Partner Login',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               color: AppTheme.primary,
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
@@ -225,7 +225,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Center(
                 child: Text(
                   'Welcome back',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white,
                     fontSize: 34,
                     fontWeight: FontWeight.bold,
@@ -236,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Center(
                 child: Text(
                   'Sign in to access your secure digital\nvault and manage your global finances.',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white.withValues(alpha: 0.7),
                     fontSize: 15,
                     height: 1.5,
@@ -288,7 +288,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Text(
                     'Sign In',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.white,
@@ -314,7 +314,7 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
             text,
-            style: GoogleFonts.outfit(color: AppTheme.textHint, fontSize: 13),
+            style: TextStyle(color: AppTheme.textHint, fontSize: 13),
           ),
         ),
         const Expanded(child: Divider(color: AppTheme.divider)),
@@ -404,7 +404,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(width: 12),
                 Text(
                   label,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.textPrimary,
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
@@ -446,7 +446,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(width: 10),
               Text(
                 label,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: AppTheme.textPrimary,
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
@@ -480,7 +480,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(width: 10),
               Text(
                 'Phone Number',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: AppTheme.textPrimary,
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
@@ -501,7 +501,7 @@ class _LoginScreenState extends State<LoginScreen> {
         const SizedBox(width: 6),
         Text(
           'YOUR DATA IS PROTECTED',
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 10,
             color: AppTheme.textHint,
             fontWeight: FontWeight.w600,

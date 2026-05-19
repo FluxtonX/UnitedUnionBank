@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../../theme/theme.dart';
 import '../../../services/twilio_service.dart';
 import 'user_details_screen.dart';
@@ -164,7 +164,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     children: [
                       Text(
                         'Enter OTP',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: AppTheme.textPrimary,
@@ -176,14 +176,14 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           children: [
                             TextSpan(
                               text: 'We\'ve sent a 6-digit code to ',
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 fontSize: 14,
                                 color: AppTheme.textSecondary,
                               ),
                             ),
                             TextSpan(
                               text: widget.phoneNumber,
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 fontSize: 14,
                                 color: AppTheme.primary,
                                 fontWeight: FontWeight.bold,
@@ -204,7 +204,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           onTap: () => Get.back(),
                           child: Text(
                             'Change Phone Number',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               color: AppTheme.primary,
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
@@ -254,7 +254,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               Center(
                 child: Text(
                   'Verification Code',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white,
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -265,7 +265,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               Center(
                 child: Text(
                   'Enter the 6-digit code sent to your phone',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white.withValues(alpha: 0.7),
                     fontSize: 14,
                   ),
@@ -309,7 +309,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               filled: true,
               fillColor: const Color(0xFFFAFAFA),
             ),
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: AppTheme.textPrimary,
@@ -358,7 +358,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 children: [
                   Text(
                     'Verify & Sign In',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.white,
@@ -382,7 +382,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         children: [
           Text(
             'Didn\'t receive the code?',
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 13,
               color: AppTheme.textSecondary,
             ),
@@ -391,7 +391,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           if (_resendCountdown > 0)
             Text(
               'Resend code in $_resendCountdown seconds',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 13,
                 color: AppTheme.textHint,
                 fontWeight: FontWeight.w500,
@@ -402,7 +402,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               onTap: _handleResendOtp,
               child: Text(
                 'Resend OTP',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 13,
                   color: AppTheme.primary,
                   fontWeight: FontWeight.bold,

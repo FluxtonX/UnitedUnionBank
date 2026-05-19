@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../theme/theme.dart';
 import '../../customWidgets/custom_text_field.dart';
 import '../../utils/image_picker_helper.dart';
@@ -152,7 +152,7 @@ class _KycAddressScreenState extends State<KycAddressScreen> {
                       children: [
                         Text(
                           'SECURITY CHECK',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
                             color: AppTheme.textHint,
@@ -165,7 +165,7 @@ class _KycAddressScreenState extends State<KycAddressScreen> {
 
                         Text(
                           'Residential Address',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                             color: AppTheme.textPrimary,
@@ -174,7 +174,7 @@ class _KycAddressScreenState extends State<KycAddressScreen> {
                         const SizedBox(height: 8),
                         Text(
                           'Please enter your permanent home address as per your legal documents.',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 14,
                             color: AppTheme.textSecondary,
                             height: 1.5,
@@ -223,7 +223,7 @@ class _KycAddressScreenState extends State<KycAddressScreen> {
                           children: [
                             Text(
                               'Proof of Address',
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
                                 color: AppTheme.textPrimary,
@@ -250,7 +250,7 @@ class _KycAddressScreenState extends State<KycAddressScreen> {
                                       const SizedBox(width: 4),
                                       Text(
                                         'Remove',
-                                        style: GoogleFonts.outfit(
+                                        style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w600,
                                           color: AppTheme.error,
@@ -266,7 +266,7 @@ class _KycAddressScreenState extends State<KycAddressScreen> {
                         const SizedBox(height: 4),
                         Text(
                           'Upload a utility bill or bank statement (max 5MB)',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 12,
                             color: AppTheme.textSecondary,
                           ),
@@ -340,7 +340,7 @@ class _KycAddressScreenState extends State<KycAddressScreen> {
                                             ),
                                             child: Text(
                                               'Tap to change',
-                                              style: GoogleFonts.outfit(
+                                              style: TextStyle(
                                                 fontSize: 11,
                                                 color: AppTheme.white,
                                                 fontWeight: FontWeight.w500,
@@ -362,7 +362,7 @@ class _KycAddressScreenState extends State<KycAddressScreen> {
                                       const SizedBox(height: 8),
                                       Text(
                                         'Click to upload document',
-                                        style: GoogleFonts.outfit(
+                                        style: TextStyle(
                                           fontSize: 14,
                                           color: _showProofError
                                               ? AppTheme.error
@@ -375,7 +375,7 @@ class _KycAddressScreenState extends State<KycAddressScreen> {
                                         _showProofError
                                             ? 'This document is required'
                                             : 'PDF, JPG, PNG',
-                                        style: GoogleFonts.outfit(
+                                        style: TextStyle(
                                           fontSize: 12,
                                           color: _showProofError
                                               ? AppTheme.error
@@ -434,7 +434,7 @@ class _KycAddressScreenState extends State<KycAddressScreen> {
                         Center(
                           child: Text(
                             'Your data is encrypted and securely processed',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               fontSize: 12,
                               color: AppTheme.textHint,
                             ),
@@ -473,7 +473,7 @@ class _KycAddressScreenState extends State<KycAddressScreen> {
                 child: Center(
                   child: Text(
                     'Verify Address',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       color: AppTheme.white,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -496,12 +496,12 @@ class _KycAddressScreenState extends State<KycAddressScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('Step 3: Address Verification',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: AppTheme.textPrimary)),
             Text('3 of 3',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: AppTheme.primaryLight)),
@@ -558,7 +558,7 @@ class _KycAddressScreenState extends State<KycAddressScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Continue',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: AppTheme.white)),

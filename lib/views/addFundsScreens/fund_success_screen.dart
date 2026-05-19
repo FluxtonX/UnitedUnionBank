@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:get/get.dart';
 import '../../theme/theme.dart';
 import '../homeScreen/home_screen.dart';
@@ -8,11 +8,13 @@ import 'add_funds_screen.dart';
 class FundSuccessScreen extends StatefulWidget {
   final double amount;
   final double newBalance;
+  final bool isConfirmed;
 
   const FundSuccessScreen({
     super.key,
     required this.amount,
     required this.newBalance,
+    this.isConfirmed = true,
   });
 
   @override
@@ -106,8 +108,8 @@ class _FundSuccessScreenState extends State<FundSuccessScreen>
                     FadeTransition(
                       opacity: _fadeAnimation,
                       child: Text(
-                        'Funds Added!',
-                        style: GoogleFonts.outfit(
+                        widget.isConfirmed ? 'Funds Added!' : 'Payment Received',
+                        style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: AppTheme.textPrimary,
@@ -118,9 +120,11 @@ class _FundSuccessScreenState extends State<FundSuccessScreen>
                     FadeTransition(
                       opacity: _fadeAnimation,
                       child: Text(
-                        'Your wallet has been topped up successfully',
+                        widget.isConfirmed
+                            ? 'Your wallet has been topped up successfully'
+                            : 'Stripe confirmed your payment. Your wallet balance may update shortly.',
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 15,
                           color: AppTheme.textSecondary,
                         ),
@@ -162,7 +166,7 @@ class _FundSuccessScreenState extends State<FundSuccessScreen>
                               ),
                             ),
                             _buildInfoRow(
-                              'New Balance',
+                              widget.isConfirmed ? 'New Balance' : 'Expected Balance',
                               '\$${widget.newBalance.toStringAsFixed(2)}',
                               valueColor: const Color(0xFF1B558C),
                               isBold: true,
@@ -182,8 +186,10 @@ class _FundSuccessScreenState extends State<FundSuccessScreen>
                             const SizedBox(height: 16),
                             _buildInfoRow(
                               'Status',
-                              'Completed',
-                              valueColor: const Color(0xFF26A69A),
+                              widget.isConfirmed ? 'Completed' : 'Updating',
+                              valueColor: widget.isConfirmed
+                                  ? const Color(0xFF26A69A)
+                                  : const Color(0xFFF59E0B),
                             ),
                           ],
                         ),
@@ -217,7 +223,7 @@ class _FundSuccessScreenState extends State<FundSuccessScreen>
                           child: Center(
                             child: Text(
                               'Back to Home',
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -235,7 +241,7 @@ class _FundSuccessScreenState extends State<FundSuccessScreen>
                             Get.off(() => const AddFundsScreen()),
                         child: Text(
                           'Add More Funds',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             color: const Color(0xFF3491E3),
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -261,14 +267,14 @@ class _FundSuccessScreenState extends State<FundSuccessScreen>
       children: [
         Text(
           label,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 14,
             color: AppTheme.textSecondary,
           ),
         ),
         Text(
           value,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: isBold ? 18 : 15,
             fontWeight: isBold ? FontWeight.bold : FontWeight.w600,
             color: valueColor ?? AppTheme.textPrimary,

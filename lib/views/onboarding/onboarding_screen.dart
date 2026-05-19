@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../config/app_images.dart';
 import '../authScreens/loginScreen/login_screen.dart';
 
@@ -86,7 +86,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           Text(
                             onboardingData[index]['title']!,
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               fontSize: 26,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -96,7 +96,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           Text(
                             onboardingData[index]['description']!,
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               fontSize: 15,
                               color: Colors.white70,
                               height: 1.4,
@@ -159,7 +159,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             _currentIndex == onboardingData.length - 1
                                 ? 'Get Started'
                                 : 'Next',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),

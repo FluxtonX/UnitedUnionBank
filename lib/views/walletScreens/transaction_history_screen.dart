@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../controllers/wallet_controller.dart';
 import '../../model/ledger_entry_model.dart';
@@ -26,7 +26,7 @@ class TransactionHistoryScreen extends StatelessWidget {
         ),
         title: Text(
           'Transactions',
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             color: AppTheme.white,
             fontWeight: FontWeight.w600,
           ),
@@ -41,7 +41,7 @@ class TransactionHistoryScreen extends StatelessWidget {
               child: Text(
                 'No ledger activity yet.',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: AppTheme.textSecondary,
                   fontSize: 15,
                 ),
@@ -97,7 +97,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                   children: [
                     Text(
                       entry.description ?? entry.type,
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: AppTheme.textPrimary,
@@ -106,7 +106,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                     const SizedBox(height: 3),
                     Text(
                       '${entry.status} • ${entry.currency.toUpperCase()}',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 12,
                         color: AppTheme.textSecondary,
                       ),
@@ -116,7 +116,7 @@ class TransactionHistoryScreen extends StatelessWidget {
               ),
               Text(
                 entry.signedAmount,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                   color: isCredit ? AppTheme.success : AppTheme.textPrimary,

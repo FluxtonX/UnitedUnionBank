@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../theme/theme.dart';
 import 'kyc_address_screen.dart';
 import '../kycController/kyc_selfie_controller.dart';
@@ -54,7 +54,7 @@ class KycSelfieScreen extends StatelessWidget {
                         children: [
                           Text(
                             'Identity Verification',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: AppTheme.primaryLight,
@@ -62,7 +62,7 @@ class KycSelfieScreen extends StatelessWidget {
                           ),
                           Text(
                             'Selfie Verification',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               fontSize: 13,
                               color: AppTheme.textSecondary,
                             ),
@@ -75,7 +75,7 @@ class KycSelfieScreen extends StatelessWidget {
                       // Title
                       Text(
                         'Take a Selfie',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: AppTheme.textPrimary,
@@ -84,7 +84,7 @@ class KycSelfieScreen extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         'Position your face within the frame and ensure you\'re in a well-lit environment.',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 14,
                           color: AppTheme.textSecondary,
                           height: 1.5,
@@ -117,7 +117,7 @@ class KycSelfieScreen extends StatelessWidget {
                       Center(
                         child: Text(
                           'Your data is encrypted and securely processed',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 12,
                             color: AppTheme.textHint,
                           ),
@@ -158,7 +158,7 @@ class KycSelfieScreen extends StatelessWidget {
                 child: Center(
                   child: Text(
                     'Verification',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       color: AppTheme.white,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -182,7 +182,7 @@ class KycSelfieScreen extends StatelessWidget {
           children: [
             Text(
               'Step 1 of 3',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 color: AppTheme.textPrimary,
@@ -190,7 +190,7 @@ class KycSelfieScreen extends StatelessWidget {
             ),
             Text(
               'Selfie Verification',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 13,
                 color: AppTheme.textSecondary,
               ),
@@ -301,7 +301,7 @@ class KycSelfieScreen extends StatelessWidget {
                 Text(
                   controller.errorMessage.value,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 12,
                     color: AppTheme.error,
                     fontWeight: FontWeight.w500,
@@ -323,7 +323,7 @@ class KycSelfieScreen extends StatelessWidget {
                   ),
                   child: Text(
                     'Retry',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       color: AppTheme.white,
                       fontSize: 12,
                     ),
@@ -335,7 +335,7 @@ class KycSelfieScreen extends StatelessWidget {
                     onPressed: controller.openPermissionSettings,
                     child: Text(
                       'Open Settings',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         color: AppTheme.error,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -348,7 +348,7 @@ class KycSelfieScreen extends StatelessWidget {
                   onPressed: controller.pickFromGallery,
                   child: Text(
                     'Choose from Gallery',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       color: AppTheme.primaryLight,
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
@@ -410,7 +410,7 @@ class KycSelfieScreen extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 controller.statusMessage.value,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.textPrimary,
@@ -458,7 +458,7 @@ class KycSelfieScreen extends StatelessWidget {
                     const SizedBox(height: 8),
                     Text(
                       'GALLERY',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: AppTheme.textSecondary,
@@ -518,7 +518,7 @@ class KycSelfieScreen extends StatelessWidget {
                     const SizedBox(height: 8),
                     Text(
                       'FLIP',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: AppTheme.textSecondary,
@@ -577,7 +577,7 @@ class KycSelfieScreen extends StatelessWidget {
             children: [
               Text(
                 'Continue',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: AppTheme.white,

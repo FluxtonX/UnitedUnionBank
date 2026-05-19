@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:united_union_bank/views/institutionalPortalScreens/exective_overview/exective_overview_tab.dart';
 import 'package:united_union_bank/views/institutionalPortalScreens/project_management/project_management_tab.dart';
 import 'package:united_union_bank/views/institutionalPortalScreens/reports/reports_tab.dart';
@@ -88,7 +88,7 @@ class _PortalMainTabScreenState extends State<PortalMainTabScreen> {
                       const SizedBox(height: 4),
                       Text(
                         _navItems[i].label,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 9,
                           fontWeight: FontWeight.w700,
                           color: selected ? _kNavy : Colors.grey.shade400,

@@ -1,6 +1,6 @@
 import '../../../theme/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 class ExectiveOverviewTab extends StatelessWidget {
   ExectiveOverviewTab({super.key});
@@ -105,7 +105,7 @@ class DashboardHeader extends StatelessWidget {
               children: [
                 Text(
                   'Executive Overview',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
@@ -121,7 +121,7 @@ class DashboardHeader extends StatelessWidget {
                     const SizedBox(width: 4),
                     Text(
                       'SECURE SESSION',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         color: Colors.white60,
                         fontSize: 10,
                         letterSpacing: 1.2,
@@ -194,7 +194,7 @@ class InitiateButton extends StatelessWidget {
           ),
           child: Text(
             'Initiate New Project',
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -296,7 +296,7 @@ class StatCard extends StatelessWidget {
         children: [
           Text(
             value,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: isHighlighted ? kDashAccentBlue : kDashNavy,
@@ -306,7 +306,7 @@ class StatCard extends StatelessWidget {
           Text(
             label,
             textAlign: TextAlign.center,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 8.5,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade500,
@@ -327,7 +327,7 @@ class SectionLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.outfit(
+      style: TextStyle(
         fontSize: 11,
         fontWeight: FontWeight.w700,
         color: Colors.grey.shade500,
@@ -427,7 +427,7 @@ class SystemStatusSection extends StatelessWidget {
                 const SizedBox(width: 5),
                 Text(
                   'LIVE',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
                     color: kDashGreen,
@@ -488,7 +488,7 @@ class StatusCard extends StatelessWidget {
               children: [
                 Text(
                   item.title,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
                     color: kDashNavy,
@@ -497,7 +497,7 @@ class StatusCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   item.subtitle,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 12,
                     color: item.subtitleColor ?? Colors.grey.shade500,
                   ),
@@ -507,7 +507,7 @@ class StatusCard extends StatelessWidget {
           ),
           Text(
             item.count,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 22,
               color: item.countColor,
@@ -608,7 +608,7 @@ class AuditCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         title,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                           color: kDashNavy,
@@ -631,7 +631,7 @@ class AuditCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         '$time  •  $detail',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 11,
                           color: Colors.grey.shade400,
                         ),
@@ -667,7 +667,7 @@ class StatusBadge extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: GoogleFonts.outfit(
+        style: TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.bold,
           color: color,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 import '../../../customWidgets/custom_text_field.dart';
 import '../../../theme/theme.dart';
@@ -144,7 +144,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(width: 12),
                 Text(
                   label,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.textPrimary,
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
@@ -235,7 +235,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           children: [
                             Text(
                               'Already have an account? ',
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 color: AppTheme.textSecondary,
                                 fontSize: 14,
                               ),
@@ -244,7 +244,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               onTap: () => Get.off(() => const LoginScreen()),
                               child: Text(
                                 'Log in',
-                                style: GoogleFonts.outfit(
+                                style: TextStyle(
                                   color: AppTheme.primary,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14,
@@ -298,7 +298,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Center(
                 child: Text(
                   'Get Started with Us',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -309,7 +309,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Center(
                 child: Text(
                   'Set up your account in minutes and\nstart managing your wealth globally.',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white.withValues(alpha: 0.7),
                     fontSize: 15,
                     height: 1.5,
@@ -361,7 +361,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   Text(
                     'Continue',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.white,
@@ -385,7 +385,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: Text.rich(
         TextSpan(
           text: 'By continuing, you agree to our ',
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 12,
             color: AppTheme.textSecondary,
             height: 1.5,
@@ -393,7 +393,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           children: [
             TextSpan(
               text: 'Terms of Service',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 12,
                 color: AppTheme.primary,
                 fontWeight: FontWeight.w600,
@@ -403,7 +403,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             const TextSpan(text: ' and '),
             TextSpan(
               text: 'Privacy Policy',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 12,
                 color: AppTheme.primary,
                 fontWeight: FontWeight.w600,

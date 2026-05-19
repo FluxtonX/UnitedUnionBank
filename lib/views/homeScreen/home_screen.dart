@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../theme/theme.dart';
 import '../tabs/accounts_tab.dart';
 import '../tabs/impact_tab.dart';
@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 2),
               Text(
                 data.label,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF1B558C),
@@ -145,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 6),
               Text(
                 data.label,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                   color: const Color(0xFF666666),

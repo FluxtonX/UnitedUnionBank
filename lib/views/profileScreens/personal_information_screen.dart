@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 
 import '../../../theme/theme.dart';
@@ -84,7 +84,7 @@ class PersonalInformationScreen extends StatelessWidget {
       children: [
         Text(
           label,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: AppTheme.textSecondary,
@@ -100,7 +100,7 @@ class PersonalInformationScreen extends StatelessWidget {
           ),
           child: Text(
             value,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
               color: AppTheme.textPrimary,
@@ -136,7 +136,7 @@ class PersonalInformationScreen extends StatelessWidget {
               ),
               Text(
                 'Personal Information',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: AppTheme.white,
                   fontSize: 18,
                   fontWeight: FontWeight.w600,

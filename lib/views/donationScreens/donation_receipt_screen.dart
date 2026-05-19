@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../theme/theme.dart';
 import '../homeScreen/home_screen.dart';
@@ -43,7 +43,7 @@ class DonationReceiptScreen extends StatelessWidget {
               const SizedBox(height: 28),
               Text(
                 'Donation Sent',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: AppTheme.textPrimary,
@@ -53,7 +53,7 @@ class DonationReceiptScreen extends StatelessWidget {
               Text(
                 'Your wallet donation was recorded successfully.',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 15,
                   color: AppTheme.textSecondary,
                 ),
@@ -97,7 +97,7 @@ class DonationReceiptScreen extends StatelessWidget {
                     ),
                     child: Text(
                       'Done',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         color: AppTheme.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -118,7 +118,7 @@ class DonationReceiptScreen extends StatelessWidget {
       children: [
         Text(
           label,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             color: AppTheme.textSecondary,
             fontSize: 13,
           ),
@@ -128,7 +128,7 @@ class DonationReceiptScreen extends StatelessWidget {
           child: Text(
             value,
             textAlign: TextAlign.right,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               color: AppTheme.textPrimary,
               fontSize: 14,
               fontWeight: FontWeight.w600,

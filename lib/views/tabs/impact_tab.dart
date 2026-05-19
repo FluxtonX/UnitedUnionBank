@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../model/impact_models.dart';
 import '../../services/impact_service.dart';
 import '../../theme/theme.dart';
@@ -90,7 +90,7 @@ class ImpactTab extends StatelessWidget {
                       children: [
                         Text(
                           'Your Impact',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             color: AppTheme.white,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
@@ -98,7 +98,7 @@ class ImpactTab extends StatelessWidget {
                         ),
                         Text(
                           'Since joining • Feb 2025',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             color: AppTheme.white.withValues(alpha: 0.7),
                             fontSize: 14,
                           ),
@@ -131,7 +131,7 @@ class ImpactTab extends StatelessWidget {
                           child: Center(
                             child: Text(
                               '1',
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 9,
                                 fontWeight: FontWeight.bold,
@@ -178,7 +178,7 @@ class ImpactTab extends StatelessWidget {
           children: [
             Text(
               '$currentPoints',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -186,7 +186,7 @@ class ImpactTab extends StatelessWidget {
             ),
             Text(
               'Impact Points',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 12,
                 color: Colors.white.withOpacity(0.8),
               ),
@@ -219,7 +219,7 @@ class ImpactTab extends StatelessWidget {
           const SizedBox(width: 6),
           Text(
             'Changemaker',
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               color: const Color(0xFF1B558C),
               fontWeight: FontWeight.bold,
               fontSize: 14,
@@ -238,7 +238,7 @@ class ImpactTab extends StatelessWidget {
         children: [
           Text(
             'Global Community',
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: AppTheme.textPrimary,
@@ -299,7 +299,7 @@ class ImpactTab extends StatelessWidget {
         const SizedBox(height: 12),
         Text(
           value,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.bold,
             color: AppTheme.textPrimary,
@@ -308,7 +308,7 @@ class ImpactTab extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           label,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 12,
             color: AppTheme.textSecondary,
           ),
@@ -327,7 +327,7 @@ class ImpactTab extends StatelessWidget {
             children: [
               Text(
                 'Your Contributions',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: AppTheme.textPrimary,
@@ -335,7 +335,7 @@ class ImpactTab extends StatelessWidget {
               ),
               Text(
                 'View All →',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF3491E3),
@@ -408,7 +408,7 @@ class ImpactTab extends StatelessWidget {
             fit: BoxFit.scaleDown,
             child: Text(
               value,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF1B558C),
@@ -419,7 +419,7 @@ class ImpactTab extends StatelessWidget {
             fit: BoxFit.scaleDown,
             child: Text(
               label,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 12,
                 color: AppTheme.textSecondary,
                 fontWeight: FontWeight.w500,
@@ -431,7 +431,7 @@ class ImpactTab extends StatelessWidget {
             fit: BoxFit.scaleDown,
             child: Text(
               sub,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 11,
                 color: const Color(0xFF3491E3),
                 fontWeight: FontWeight.w600,
@@ -451,7 +451,7 @@ class ImpactTab extends StatelessWidget {
         children: [
           Text(
             'Recent Activity',
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: AppTheme.textPrimary,
@@ -475,7 +475,7 @@ class ImpactTab extends StatelessWidget {
                   ),
                   child: Text(
                     'No donation activity yet.',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       color: AppTheme.textSecondary,
                       fontSize: 14,
                     ),
@@ -547,7 +547,7 @@ class ImpactTab extends StatelessWidget {
               children: [
                 Text(
                   time,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 12,
                     color: AppTheme.textHint,
                     fontWeight: FontWeight.w500,
@@ -556,7 +556,7 @@ class ImpactTab extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   title,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                     color: AppTheme.textPrimary,
@@ -565,7 +565,7 @@ class ImpactTab extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 13,
                     color: const Color(0xFF3491E3),
                     fontWeight: FontWeight.w500,
@@ -594,7 +594,7 @@ class ImpactTab extends StatelessWidget {
               ),
               child: Text(
                 'Donate',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: const Color(0xFF3491E3),
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -621,7 +621,7 @@ class ImpactTab extends StatelessWidget {
                 ),
                 child: Text(
                   'Fund Impact',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,

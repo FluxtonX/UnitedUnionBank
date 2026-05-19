@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 import 'dart:async';
 import 'dart:math';
@@ -208,7 +208,7 @@ class _SplashScreenState extends State<SplashScreen>
                       child: Text(
                         'United UNION Bank',
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
@@ -226,7 +226,7 @@ class _SplashScreenState extends State<SplashScreen>
                     child: Text(
                       'Banking Beyond Boundaries',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         color: Colors.white54,
                         fontSize: 14,
                         fontWeight: FontWeight.w300,

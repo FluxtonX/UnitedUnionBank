@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../theme/theme.dart';
 import '../../utils/image_picker_helper.dart';
 import 'kyc_selfie_screen.dart';
@@ -92,7 +92,7 @@ class _KycIdentityScreenState extends State<KycIdentityScreen> {
                       const SizedBox(height: 4),
                       Text(
                         'Identity Verification',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                           color: AppTheme.primaryLight,
@@ -107,7 +107,7 @@ class _KycIdentityScreenState extends State<KycIdentityScreen> {
                       // Title
                       Text(
                         'Upload Government ID',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: AppTheme.textPrimary,
@@ -116,7 +116,7 @@ class _KycIdentityScreenState extends State<KycIdentityScreen> {
                       const SizedBox(height: 8),
                       Text(
                         'Please select your document type and upload high-quality photos of both sides.',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 14,
                           color: AppTheme.textSecondary,
                           height: 1.5,
@@ -180,7 +180,7 @@ class _KycIdentityScreenState extends State<KycIdentityScreen> {
                 child: Center(
                   child: Text(
                     'Verification',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       color: AppTheme.white,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -203,12 +203,12 @@ class _KycIdentityScreenState extends State<KycIdentityScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(step,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: AppTheme.textPrimary)),
             Text(percent,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                     fontSize: 13, color: AppTheme.textSecondary)),
           ],
         ),
@@ -261,7 +261,7 @@ class _KycIdentityScreenState extends State<KycIdentityScreen> {
                 child: Center(
                   child: Text(
                     _docTypes[index],
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight:
                           isSelected ? FontWeight.w600 : FontWeight.w400,
@@ -293,7 +293,7 @@ class _KycIdentityScreenState extends State<KycIdentityScreen> {
           children: [
             Text(
               label,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 color: AppTheme.textPrimary,
@@ -317,7 +317,7 @@ class _KycIdentityScreenState extends State<KycIdentityScreen> {
                       const SizedBox(width: 4),
                       Text(
                         'Remove',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: AppTheme.error,
@@ -392,7 +392,7 @@ class _KycIdentityScreenState extends State<KycIdentityScreen> {
                             ),
                             child: Text(
                               'Tap to change',
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 fontSize: 11,
                                 color: AppTheme.white,
                                 fontWeight: FontWeight.w500,
@@ -414,7 +414,7 @@ class _KycIdentityScreenState extends State<KycIdentityScreen> {
                       const SizedBox(height: 10),
                       Text(
                         'Take photo or upload',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 14,
                           color: hasError
                               ? AppTheme.error
@@ -426,7 +426,7 @@ class _KycIdentityScreenState extends State<KycIdentityScreen> {
                         const SizedBox(height: 4),
                         Text(
                           'This image is required',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 12,
                             color: AppTheme.error,
                           ),
@@ -458,7 +458,7 @@ class _KycIdentityScreenState extends State<KycIdentityScreen> {
               children: [
                 Text(
                   'UPLOAD TIPS',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
                     color: AppTheme.textPrimary,
@@ -468,7 +468,7 @@ class _KycIdentityScreenState extends State<KycIdentityScreen> {
                 const SizedBox(height: 4),
                 Text(
                   'Ensure all details are readable, no glare or shadows, and the ID is not expired.',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 12,
                     color: AppTheme.textSecondary,
                     height: 1.4,
@@ -514,7 +514,7 @@ class _KycIdentityScreenState extends State<KycIdentityScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Continue',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: AppTheme.white)),

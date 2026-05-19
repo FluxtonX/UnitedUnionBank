@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../../theme/theme.dart';
 import '../../../controllers/biometric_controller.dart';
 
@@ -74,7 +74,7 @@ class _BiometricAuthScreenState extends State<BiometricAuthScreen> {
               Text(
                 'Touch ID sensor to verify yourself',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -86,7 +86,7 @@ class _BiometricAuthScreenState extends State<BiometricAuthScreen> {
                 child: Text(
                   'Set up your account in minutes and start managing your wealth globally.',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.8),
                     fontSize: 14,
                   ),
@@ -141,7 +141,7 @@ class _BiometricAuthScreenState extends State<BiometricAuthScreen> {
                       Text(
                         'Fingerprint for United Union Bank',
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF101828),
@@ -151,7 +151,7 @@ class _BiometricAuthScreenState extends State<BiometricAuthScreen> {
                       Text(
                         'Place your finger in fingerprint sensor until the icon completely.',
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 14,
                           color: const Color(0xFF667085),
                           height: 1.5,
@@ -177,7 +177,7 @@ class _BiometricAuthScreenState extends State<BiometricAuthScreen> {
                           ),
                           child: Text(
                             'Cancel',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                               color: AppTheme.white,

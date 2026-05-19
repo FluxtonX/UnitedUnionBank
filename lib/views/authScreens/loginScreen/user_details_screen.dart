@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../../theme/theme.dart';
 import '../../../services/api_client.dart';
 import '../authController/auth_controller.dart';
@@ -130,7 +130,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       children: [
                         Text(
                           'Complete Your Profile',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: AppTheme.textPrimary,
@@ -139,7 +139,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                         const SizedBox(height: 12),
                         Text(
                           'Please provide your details to complete the registration process.',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 14,
                             color: AppTheme.textSecondary,
                             height: 1.5,
@@ -157,7 +157,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                             onTap: () => Get.back(),
                             child: Text(
                               'Back',
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 color: AppTheme.primary,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
@@ -208,7 +208,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
               Center(
                 child: Text(
                   'Welcome',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white,
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -219,7 +219,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
               Center(
                 child: Text(
                   'Let\'s get you set up',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white.withValues(alpha: 0.7),
                     fontSize: 14,
                   ),
@@ -238,7 +238,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
       children: [
         Text(
           'FULL NAME',
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.bold,
             color: AppTheme.textPrimary,
@@ -267,7 +267,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
             ),
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           ),
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 16,
             color: AppTheme.textPrimary,
           ),
@@ -282,7 +282,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
       children: [
         Text(
           'EMAIL ADDRESS',
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.bold,
             color: AppTheme.textPrimary,
@@ -312,7 +312,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
             ),
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           ),
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 16,
             color: AppTheme.textPrimary,
           ),
@@ -359,7 +359,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 children: [
                   Text(
                     'Complete Registration',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.white,

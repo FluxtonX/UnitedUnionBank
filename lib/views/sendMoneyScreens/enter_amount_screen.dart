@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../../theme/theme.dart';
 import 'payment_summary_screen.dart';
@@ -79,7 +79,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
                               child: Center(
                                 child: Text(
                                   widget.bankInitials,
-                                  style: GoogleFonts.outfit(
+                                  style: TextStyle(
                                     color: widget.bankIconColor,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
@@ -94,7 +94,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
                             children: [
                               Text(
                                 widget.bankName,
-                                style: GoogleFonts.outfit(
+                                style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: AppTheme.textPrimary,
@@ -103,7 +103,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
                               const SizedBox(height: 4),
                               Text(
                                 widget.accountNumber,
-                                style: GoogleFonts.outfit(
+                                style: TextStyle(
                                   fontSize: 13,
                                   color: AppTheme.textSecondary,
                                 ),
@@ -115,7 +115,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
                       const SizedBox(height: 60),
                       Text(
                         'Enter Amount',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: AppTheme.textPrimary,
@@ -129,7 +129,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
                         children: [
                           Text(
                             'Rs. ',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
                               color: AppTheme.textPrimary,
@@ -139,14 +139,14 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
                             child: TextField(
                               controller: _amountController,
                               keyboardType: TextInputType.number,
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.bold,
                                 color: AppTheme.textPrimary,
                               ),
                               decoration: InputDecoration(
                                 hintText: '0',
-                                hintStyle: GoogleFonts.outfit(
+                                hintStyle: TextStyle(
                                   fontSize: 40,
                                   fontWeight: FontWeight.bold,
                                   color: AppTheme.textPrimary,
@@ -202,7 +202,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
                   ),
                   Text(
                     'Bank Transfer',
-                    style: GoogleFonts.outfit(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
+                    style: TextStyle(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
@@ -210,7 +210,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
             const SizedBox(height: 8),
             Text(
               'Sending to Bank Account',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 color: AppTheme.white.withValues(alpha: 0.8),
                 fontSize: 14,
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../../theme/theme.dart';
 
@@ -31,7 +31,7 @@ class NotificationsScreen extends StatelessWidget {
                     const SizedBox(height: 12),
                     Text(
                       'Push Notifications',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: AppTheme.textPrimary,
@@ -45,7 +45,7 @@ class NotificationsScreen extends StatelessWidget {
                     const SizedBox(height: 32),
                     Text(
                       'Email Notifications',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: AppTheme.textPrimary,
@@ -76,7 +76,7 @@ class NotificationsScreen extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     color: AppTheme.textPrimary,
@@ -85,7 +85,7 @@ class NotificationsScreen extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 13,
                     color: AppTheme.textSecondary,
                   ),
@@ -125,7 +125,7 @@ class NotificationsScreen extends StatelessWidget {
               ),
               Text(
                 'Notifications',
-                style: GoogleFonts.outfit(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
+                style: TextStyle(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
               ),
             ],
           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../model/ledger_entry_model.dart';
 import '../../theme/theme.dart';
@@ -25,7 +25,7 @@ class TransactionDetailScreen extends StatelessWidget {
         ),
         title: Text(
           'Transaction Detail',
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             color: AppTheme.white,
             fontWeight: FontWeight.w600,
           ),
@@ -62,7 +62,7 @@ class TransactionDetailScreen extends StatelessWidget {
                 const SizedBox(height: 18),
                 Text(
                   entry.signedAmount,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                     color: isCredit ? AppTheme.success : AppTheme.textPrimary,
@@ -71,7 +71,7 @@ class TransactionDetailScreen extends StatelessWidget {
                 const SizedBox(height: 6),
                 Text(
                   _titleFor(entry),
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 16,
                     color: AppTheme.textSecondary,
                   ),
@@ -119,7 +119,7 @@ class TransactionDetailScreen extends StatelessWidget {
             width: 110,
             child: Text(
               label,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 13,
                 color: AppTheme.textSecondary,
               ),
@@ -129,7 +129,7 @@ class TransactionDetailScreen extends StatelessWidget {
             child: Text(
               value,
               textAlign: TextAlign.right,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 color: AppTheme.textPrimary,

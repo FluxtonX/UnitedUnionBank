@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:get/get.dart';
 import '../../theme/theme.dart';
 import '../../config/app_images.dart';
@@ -95,7 +95,7 @@ class AccountsTab extends StatelessWidget {
               Expanded(
                 child: Text(
                   'GreenBank',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -127,7 +127,7 @@ class AccountsTab extends StatelessWidget {
                       child: Center(
                         child: Text(
                           '1',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             color: Colors.white,
                             fontSize: 9,
                             fontWeight: FontWeight.bold,
@@ -168,7 +168,7 @@ class AccountsTab extends StatelessWidget {
             children: [
               Text(
                 'TOTAL BALANCE',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.textHint,
@@ -180,7 +180,7 @@ class AccountsTab extends StatelessWidget {
                 children: [
                   Text(
                     '\$${controller.walletBalance.value.toStringAsFixed(2)}',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF1B558C),
@@ -243,7 +243,7 @@ class AccountsTab extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: AppTheme.textPrimary,
@@ -252,7 +252,7 @@ class AccountsTab extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 13,
                     color: AppTheme.textSecondary,
                   ),
@@ -266,7 +266,7 @@ class AccountsTab extends StatelessWidget {
             children: [
               Text(
                 amount,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: AppTheme.textPrimary,
@@ -303,7 +303,7 @@ class AccountsTab extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 'Transaction History',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF3491E3),

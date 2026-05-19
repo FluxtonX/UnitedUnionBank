@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../../theme/theme.dart';
 import '../homeScreen/home_screen.dart';
@@ -56,7 +56,7 @@ class TransferSuccessfulScreen extends StatelessWidget {
                   const SizedBox(height: 24),
                   Text(
                     'Transfer Successful!',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.textPrimary,
@@ -65,7 +65,7 @@ class TransferSuccessfulScreen extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(
                     'You\'ve sent \$$amount to Sarah Miller',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 14,
                       color: AppTheme.textSecondary,
                     ),
@@ -81,7 +81,7 @@ class TransferSuccessfulScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Great job!',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: AppTheme.white,
@@ -90,7 +90,7 @@ class TransferSuccessfulScreen extends StatelessWidget {
                         const SizedBox(height: 8),
                         Text(
                           'You just planted 1 tree.',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 14,
                             color: AppTheme.white.withValues(alpha: 0.9),
                           ),
@@ -99,7 +99,7 @@ class TransferSuccessfulScreen extends StatelessWidget {
                         Text(
                           'This transaction has offset 22kg of CO2. Your total Impact score has increased by +15 points.',
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 12,
                             color: AppTheme.white.withValues(alpha: 0.8),
                             height: 1.4,
@@ -127,7 +127,7 @@ class TransferSuccessfulScreen extends StatelessWidget {
                               const SizedBox(width: 8),
                               Text(
                                 'Share',
-                                style: GoogleFonts.outfit(
+                                style: TextStyle(
                                   color: const Color(0xFF3491E3),
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -155,7 +155,7 @@ class TransferSuccessfulScreen extends StatelessWidget {
                               const SizedBox(width: 8),
                               Text(
                                 'Receipt',
-                                style: GoogleFonts.outfit(
+                                style: TextStyle(
                                   color: const Color(0xFF3491E3),
                                   fontWeight: FontWeight.bold,
                                 ),

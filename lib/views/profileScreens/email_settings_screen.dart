@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 
 import '../../../theme/theme.dart';
@@ -55,7 +55,7 @@ class EmailSettingsScreen extends StatelessWidget {
                             children: [
                               Text(
                                 'Current Email',
-                                style: GoogleFonts.outfit(
+                                style: TextStyle(
                                   fontSize: 14,
                                   color: AppTheme.textSecondary,
                                 ),
@@ -63,7 +63,7 @@ class EmailSettingsScreen extends StatelessWidget {
                               const SizedBox(height: 8),
                               Text(
                                 email,
-                                style: GoogleFonts.outfit(
+                                style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: AppTheme.textPrimary,
@@ -83,7 +83,7 @@ class EmailSettingsScreen extends StatelessWidget {
                                 ),
                                 child: Text(
                                   'Verified',
-                                  style: GoogleFonts.outfit(
+                                  style: TextStyle(
                                     color: const Color(0xFF22C55E),
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
@@ -96,7 +96,7 @@ class EmailSettingsScreen extends StatelessWidget {
                         const SizedBox(height: 32),
                         Text(
                           'Change Email Address',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: AppTheme.textPrimary,
@@ -106,7 +106,7 @@ class EmailSettingsScreen extends StatelessWidget {
                         TextField(
                           decoration: InputDecoration(
                             hintText: 'Enter new email',
-                            hintStyle: GoogleFonts.outfit(
+                            hintStyle: TextStyle(
                               color: AppTheme.textHint,
                             ),
                           ),
@@ -154,7 +154,7 @@ class EmailSettingsScreen extends StatelessWidget {
               ),
               Text(
                 'Email Settings',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: AppTheme.white,
                   fontSize: 18,
                   fontWeight: FontWeight.w600,

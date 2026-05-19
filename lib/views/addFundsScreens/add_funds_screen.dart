@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:get/get.dart';
 import '../../theme/theme.dart';
 import '../../controllers/wallet_controller.dart';
+import 'fund_success_screen.dart';
 
 class AddFundsScreen extends StatefulWidget {
   const AddFundsScreen({super.key});
@@ -49,10 +50,16 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
     }
 
     final walletController = WalletController.instance;
-    final success = await walletController.addFunds(amount);
+    final result = await walletController.addFunds(amount);
 
-    if (success) {
-      Get.back();
+    if (result != null) {
+      Get.off(
+        () => FundSuccessScreen(
+          amount: result.amount,
+          newBalance: result.displayBalance,
+          isConfirmed: result.confirmed,
+        ),
+      );
     }
   }
 
@@ -129,7 +136,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
               Expanded(
                 child: Text(
                   'Add Funds',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -151,7 +158,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
                     const SizedBox(width: 4),
                     Text(
                       'Secure',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -206,7 +213,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
                 children: [
                   Text(
                     'Current Balance',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       color: Colors.white.withValues(alpha: 0.8),
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
@@ -215,7 +222,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
                   const SizedBox(height: 4),
                   Text(
                     '\$${controller.walletBalance.value.toStringAsFixed(2)}',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       color: Colors.white,
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
@@ -238,7 +245,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
         children: [
           Text(
             'Enter Amount',
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: AppTheme.textPrimary,
@@ -268,7 +275,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
               children: [
                 Text(
                   '\$',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF1B558C),
@@ -284,14 +291,14 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
                       FilteringTextInputFormatter.allow(
                           RegExp(r'^\d+\.?\d{0,2}')),
                     ],
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 36,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.textPrimary,
                     ),
                     decoration: InputDecoration(
                       hintText: '0.00',
-                      hintStyle: GoogleFonts.outfit(
+                      hintStyle: TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey.withValues(alpha: 0.3),
@@ -325,7 +332,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
         children: [
           Text(
             'Quick Select',
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: AppTheme.textPrimary,
@@ -374,7 +381,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
                   child: Center(
                     child: Text(
                       '\$${_presetAmounts[index].toStringAsFixed(0)}',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: isSelected
@@ -422,7 +429,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
               children: [
                 Text(
                   'Secure Payment',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: const Color(0xFF1B558C),
@@ -430,8 +437,8 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'Your payment is processed securely via Stripe. Funds are added instantly.',
-                  style: GoogleFonts.outfit(
+                  'Your payment is processed securely via Stripe. Balance updates after confirmation.',
+                  style: TextStyle(
                     fontSize: 12,
                     color: const Color(0xFF1B558C).withValues(alpha: 0.7),
                   ),
@@ -495,7 +502,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
                           const SizedBox(width: 12),
                           Text(
                             'Processing...',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -511,7 +518,7 @@ class _AddFundsScreenState extends State<AddFundsScreen> {
                           const SizedBox(width: 10),
                           Text(
                             'Add Funds',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,

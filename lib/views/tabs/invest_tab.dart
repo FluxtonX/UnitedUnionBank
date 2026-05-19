@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:get/get.dart';
 import '../../theme/theme.dart';
 import '../../config/app_images.dart';
@@ -82,7 +82,7 @@ class _InvestTabState extends State<InvestTab> {
               Expanded(
                 child: Text(
                   'GreenBank',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -114,7 +114,7 @@ class _InvestTabState extends State<InvestTab> {
                       child: Center(
                         child: Text(
                           '1',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             color: Colors.white,
                             fontSize: 9,
                             fontWeight: FontWeight.bold,
@@ -153,7 +153,7 @@ class _InvestTabState extends State<InvestTab> {
         children: [
           Text(
             'YOUR PORTFOLIO VALUE',
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w600,
               color: AppTheme.textHint,
@@ -165,7 +165,7 @@ class _InvestTabState extends State<InvestTab> {
             children: [
               Text(
                 '\$0',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF1B558C),
@@ -182,7 +182,7 @@ class _InvestTabState extends State<InvestTab> {
               const SizedBox(width: 4),
               Text(
                 '+\$0 (0%) today',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: AppTheme.textSecondary,
@@ -212,7 +212,7 @@ class _InvestTabState extends State<InvestTab> {
       children: [
         Text(
           label,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 12,
             color: AppTheme.textHint,
             fontWeight: FontWeight.w500,
@@ -221,7 +221,7 @@ class _InvestTabState extends State<InvestTab> {
         const SizedBox(height: 2),
         Text(
           value,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,
             color: AppTheme.textPrimary,
@@ -286,7 +286,7 @@ class _InvestTabState extends State<InvestTab> {
           const SizedBox(height: 8),
           Text(
             label,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: AppTheme.textSecondary,
@@ -320,7 +320,7 @@ class _InvestTabState extends State<InvestTab> {
               ),
               child: Text(
                 entry.value,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 15,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                   color: isSelected ? const Color(0xFF1B558C) : AppTheme.textHint,
@@ -341,7 +341,7 @@ class _InvestTabState extends State<InvestTab> {
         children: [
           Text(
             'Recommended for You',
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: AppTheme.textPrimary,
@@ -393,7 +393,7 @@ class _InvestTabState extends State<InvestTab> {
             children: [
               Text(
                 title,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: AppTheme.textPrimary,
@@ -407,7 +407,7 @@ class _InvestTabState extends State<InvestTab> {
                 ),
                 child: Text(
                   risk,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
@@ -434,7 +434,7 @@ class _InvestTabState extends State<InvestTab> {
                 children: [
                   Text(
                     returns,
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF22C55E),
@@ -442,7 +442,7 @@ class _InvestTabState extends State<InvestTab> {
                   ),
                   Text(
                     '12mo',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 12,
                       color: AppTheme.textHint,
                     ),
@@ -451,7 +451,7 @@ class _InvestTabState extends State<InvestTab> {
               ),
               Text(
                 impact,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: AppTheme.textPrimary,
@@ -459,7 +459,7 @@ class _InvestTabState extends State<InvestTab> {
               ),
               Text(
                 min,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   color: AppTheme.textHint,
@@ -479,7 +479,7 @@ class _InvestTabState extends State<InvestTab> {
               ),
               child: Text(
                 'Invest Now',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: const Color(0xFF3491E3),
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
@@ -500,7 +500,7 @@ class _InvestTabState extends State<InvestTab> {
           Text(
             'Investments carry risk. Not FDIC insured.',
             textAlign: TextAlign.center,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 12,
               color: AppTheme.textHint,
               fontWeight: FontWeight.w400,
@@ -510,7 +510,7 @@ class _InvestTabState extends State<InvestTab> {
           Center(
             child: Text(
               'View full disclosure',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 12,
                 color: const Color(0xFF3491E3),
                 fontWeight: FontWeight.w600,

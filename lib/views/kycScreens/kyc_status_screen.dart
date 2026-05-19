@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../theme/theme.dart';
 import '../authScreens/authController/auth_controller.dart';
@@ -29,7 +29,7 @@ class KycStatusScreen extends StatelessWidget {
                 const SizedBox(height: 24),
                 Text(
                   'Verification',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white,
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -73,7 +73,7 @@ class KycStatusScreen extends StatelessWidget {
                       Text(
                         _titleFor(status),
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: AppTheme.textPrimary,
@@ -83,7 +83,7 @@ class KycStatusScreen extends StatelessWidget {
                       Text(
                         _messageFor(status),
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 14,
                           color: AppTheme.textSecondary,
                           height: 1.5,
@@ -111,7 +111,7 @@ class KycStatusScreen extends StatelessWidget {
                               ),
                               child: Text(
                                 isRejected ? 'Try Again' : 'Start Verification',
-                                style: GoogleFonts.outfit(
+                                style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: AppTheme.white,
@@ -135,7 +135,7 @@ class KycStatusScreen extends StatelessWidget {
                             ),
                             child: Text(
                               'Skip for Now',
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: AppTheme.textSecondary,
@@ -152,7 +152,7 @@ class KycStatusScreen extends StatelessWidget {
                   onPressed: AuthController.instance.logout,
                   child: Text(
                     'Log out',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       color: AppTheme.white.withValues(alpha: 0.85),
                       fontWeight: FontWeight.w600,
                     ),

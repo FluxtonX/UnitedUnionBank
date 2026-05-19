@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 
 import '../../../theme/theme.dart';
@@ -45,7 +45,7 @@ class PhoneNumberScreen extends StatelessWidget {
                           children: [
                             Text(
                               'Registered Phone Number',
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 fontSize: 14,
                                 color: AppTheme.textSecondary,
                               ),
@@ -58,7 +58,7 @@ class PhoneNumberScreen extends StatelessWidget {
                                 phone != null && phone.isNotEmpty
                                     ? phone
                                     : '+1 (555) 123-4567',
-                                style: GoogleFonts.outfit(
+                                style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: AppTheme.textPrimary,
@@ -74,7 +74,7 @@ class PhoneNumberScreen extends StatelessWidget {
                               ),
                               child: Text(
                                 'Verified Mobile',
-                                style: GoogleFonts.outfit(
+                                style: TextStyle(
                                   color: const Color(0xFF22C55E),
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
@@ -87,7 +87,7 @@ class PhoneNumberScreen extends StatelessWidget {
                       const SizedBox(height: 32),
                       Text(
                         'Change Phone Number',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                           color: AppTheme.textPrimary,
@@ -98,7 +98,7 @@ class PhoneNumberScreen extends StatelessWidget {
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           hintText: 'Enter new mobile number',
-                          hintStyle: GoogleFonts.outfit(color: AppTheme.textHint),
+                          hintStyle: TextStyle(color: AppTheme.textHint),
                         ),
                       ),
                       const Spacer(),
@@ -139,7 +139,7 @@ class PhoneNumberScreen extends StatelessWidget {
               ),
               Text(
                 'Phone Number',
-                style: GoogleFonts.outfit(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
+                style: TextStyle(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
               ),
             ],
           ),

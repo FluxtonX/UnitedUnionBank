@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../controllers/wallet_controller.dart';
 import '../../customWidgets/custom_text_field.dart';
@@ -160,7 +160,7 @@ class _WithdrawalRequestScreenState extends State<WithdrawalRequestScreen> {
                     const SizedBox(height: 24),
                     Text(
                       'This creates a reviewed withdrawal request and places a wallet hold. External payout execution requires payout provider setup.',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 12,
                         color: AppTheme.textSecondary,
                         height: 1.4,
@@ -197,7 +197,7 @@ class _WithdrawalRequestScreenState extends State<WithdrawalRequestScreen> {
               ),
               Text(
                 'Withdraw',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: AppTheme.white,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -226,12 +226,12 @@ class _WithdrawalRequestScreenState extends State<WithdrawalRequestScreen> {
               const SizedBox(width: 12),
               Text(
                 'Available',
-                style: GoogleFonts.outfit(color: AppTheme.textSecondary),
+                style: TextStyle(color: AppTheme.textSecondary),
               ),
               const Spacer(),
               Text(
                 '\$${controller.walletBalance.value.toStringAsFixed(2)}',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: AppTheme.textPrimary,
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -265,7 +265,7 @@ class _WithdrawalRequestScreenState extends State<WithdrawalRequestScreen> {
               ? const CircularProgressIndicator(color: AppTheme.white)
               : Text(
                   'Request Withdrawal',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,

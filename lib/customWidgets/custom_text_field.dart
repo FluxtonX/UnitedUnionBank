@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../theme/theme.dart';
 
 /// A highly reusable text field that adapts to the app theme.
@@ -86,7 +86,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             children: [
               Text(
                 widget.label!,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.textPrimary,
@@ -114,7 +114,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           focusNode: widget.focusNode,
           autofocus: widget.autofocus,
           inputFormatters: widget.inputFormatters,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 15,
             color: AppTheme.textPrimary,
           ),

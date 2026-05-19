@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../../theme/theme.dart';
 import '../authController/auth_controller.dart';
@@ -94,7 +94,7 @@ class _CausesScreenState extends State<CausesScreen> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'Your Contributions',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: AppTheme.textPrimary,
@@ -152,7 +152,7 @@ class _CausesScreenState extends State<CausesScreen> {
                                   const SizedBox(height: 8),
                                   Text(
                                     option.title,
-                                    style: GoogleFonts.outfit(
+                                    style: TextStyle(
                                       fontSize: 14,
                                       color: AppTheme.textPrimary,
                                       fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
@@ -162,7 +162,7 @@ class _CausesScreenState extends State<CausesScreen> {
                                   const SizedBox(height: 2),
                                   Text(
                                     option.subtitle,
-                                    style: GoogleFonts.outfit(
+                                    style: TextStyle(
                                       fontSize: 12,
                                       color: AppTheme.primary,
                                       fontWeight: FontWeight.w500,
@@ -181,7 +181,7 @@ class _CausesScreenState extends State<CausesScreen> {
                       child: _selectedIndices.length < 2
                           ? Text(
                               'Select at least 2 to continue',
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 fontSize: 14,
                                 color: AppTheme.textSecondary,
                                 fontWeight: FontWeight.w500,
@@ -229,7 +229,7 @@ class _CausesScreenState extends State<CausesScreen> {
           children: [
             Text(
               'Continue',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: AppTheme.white,
@@ -268,7 +268,7 @@ class _CausesScreenState extends State<CausesScreen> {
                   ),
                   Text(
                     'United Union Bank',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       color: AppTheme.white,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -278,7 +278,7 @@ class _CausesScreenState extends State<CausesScreen> {
                     onTap: _handleContinue,
                     child: Text(
                       'Skip',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         color: AppTheme.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -290,7 +290,7 @@ class _CausesScreenState extends State<CausesScreen> {
               const SizedBox(height: 32),
               Text(
                 'What Causes Do You\nCare About?',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: AppTheme.white,
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -300,7 +300,7 @@ class _CausesScreenState extends State<CausesScreen> {
               const SizedBox(height: 16),
               Text(
                 "Select all that apply. We'll personalize\nyour experience.",
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: AppTheme.white.withValues(alpha: 0.8),
                   fontSize: 15,
                   height: 1.5,

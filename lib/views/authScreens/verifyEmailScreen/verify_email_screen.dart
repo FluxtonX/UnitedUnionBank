@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../theme/theme.dart';
 import '../verifyEmailController/verify_email_controller.dart';
@@ -58,7 +58,7 @@ class VerifyEmailScreen extends StatelessWidget {
                       Text.rich(
                         TextSpan(
                           text: "We've sent an email to\n",
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 15,
                             color: AppTheme.textSecondary,
                             height: 1.6,
@@ -66,7 +66,7 @@ class VerifyEmailScreen extends StatelessWidget {
                           children: [
                             TextSpan(
                               text: email,
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 fontSize: 15,
                                 color: AppTheme.textPrimary,
                                 fontWeight: FontWeight.bold,
@@ -85,7 +85,7 @@ class VerifyEmailScreen extends StatelessWidget {
 
                       Text(
                         'Click the link in your email to verify.',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 14,
                           color: AppTheme.textSecondary,
                         ),
@@ -138,7 +138,7 @@ class VerifyEmailScreen extends StatelessWidget {
                           ),
                           child: Text(
                             'Change Email',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: AppTheme.primaryLight,
@@ -152,7 +152,7 @@ class VerifyEmailScreen extends StatelessWidget {
                       // Timer
                       Obx(() => Text(
                             'Resend in ${_formattedTime(controller.secondsRemaining.value)}',
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               fontSize: 14,
                               color: AppTheme.textSecondary,
                             ),
@@ -200,7 +200,7 @@ class VerifyEmailScreen extends StatelessWidget {
               Center(
                 child: Text(
                   'Verify Your Email',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white,
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -240,7 +240,7 @@ class VerifyEmailScreen extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
             color: AppTheme.white,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../../theme/theme.dart';
 
@@ -44,7 +44,7 @@ class HelpCenterScreen extends StatelessWidget {
                             child: TextField(
                               decoration: InputDecoration(
                                 hintText: 'Search for help...',
-                                hintStyle: GoogleFonts.outfit(color: AppTheme.textHint),
+                                hintStyle: TextStyle(color: AppTheme.textHint),
                                 border: InputBorder.none,
                                 enabledBorder: InputBorder.none,
                                 focusedBorder: InputBorder.none,
@@ -57,7 +57,7 @@ class HelpCenterScreen extends StatelessWidget {
                     const SizedBox(height: 32),
                     Text(
                       'Contact Us',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: AppTheme.textPrimary,
@@ -69,7 +69,7 @@ class HelpCenterScreen extends StatelessWidget {
                     const SizedBox(height: 32),
                     Text(
                       'Frequently Asked Questions',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: AppTheme.textPrimary,
@@ -123,7 +123,7 @@ class HelpCenterScreen extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: AppTheme.textPrimary,
@@ -132,7 +132,7 @@ class HelpCenterScreen extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 13,
                     color: AppTheme.textSecondary,
                   ),
@@ -156,7 +156,7 @@ class HelpCenterScreen extends StatelessWidget {
       child: ListTile(
         title: Text(
           question,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: AppTheme.textPrimary,
@@ -189,7 +189,7 @@ class HelpCenterScreen extends StatelessWidget {
               ),
               Text(
                 'Help Center',
-                style: GoogleFonts.outfit(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
+                style: TextStyle(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
               ),
             ],
           ),

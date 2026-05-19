@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../../theme/theme.dart';
 
@@ -31,7 +31,7 @@ class TermsPrivacyScreen extends StatelessWidget {
                     const SizedBox(height: 12),
                     Text(
                       'Terms of Service',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: AppTheme.textPrimary,
@@ -40,7 +40,7 @@ class TermsPrivacyScreen extends StatelessWidget {
                     const SizedBox(height: 8),
                     Text(
                       'Last updated: February 24, 2026',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 13,
                         color: AppTheme.textHint,
                       ),
@@ -87,7 +87,7 @@ class TermsPrivacyScreen extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Text(
         title,
-        style: GoogleFonts.outfit(
+        style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
           color: AppTheme.textPrimary,
@@ -99,7 +99,7 @@ class TermsPrivacyScreen extends StatelessWidget {
   Widget _buildParagraph(String text) {
     return Text(
       text,
-      style: GoogleFonts.outfit(
+      style: TextStyle(
         fontSize: 14,
         color: AppTheme.textSecondary,
         height: 1.5,
@@ -128,7 +128,7 @@ class TermsPrivacyScreen extends StatelessWidget {
               ),
               Text(
                 'Terms & Privacy',
-                style: GoogleFonts.outfit(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
+                style: TextStyle(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
               ),
             ],
           ),

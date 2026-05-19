@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:united_union_bank/views/authScreens/authController/auth_controller.dart';
 import '../../config/app_images.dart';
 import '../../theme/theme.dart';
@@ -200,7 +200,7 @@ class ProfileTab extends StatelessWidget {
               child: Center(
                 child: Text(
                   initials,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: const Color(0xFF003876),
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
@@ -211,7 +211,7 @@ class ProfileTab extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               name,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -219,7 +219,7 @@ class ProfileTab extends StatelessWidget {
             ),
             Text(
               email,
-              style: GoogleFonts.outfit(color: Colors.white70, fontSize: 14),
+              style: TextStyle(color: Colors.white70, fontSize: 14),
             ),
             const SizedBox(height: 12),
             Row(
@@ -271,7 +271,7 @@ class ProfileTab extends StatelessWidget {
             const SizedBox(width: 10),
             Text(
               'Log Out',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF3491E3),
@@ -292,7 +292,7 @@ class ProfileTab extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: GoogleFonts.outfit(
+        style: TextStyle(
           color: AppTheme.white,
           fontSize: 12,
           fontWeight: FontWeight.w600,
@@ -325,7 +325,7 @@ class ProfileTab extends StatelessWidget {
           children: [
             Text(
               count,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 color: AppTheme.white,
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -335,7 +335,7 @@ class ProfileTab extends StatelessWidget {
             Text(
               label,
               textAlign: TextAlign.center,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 color: AppTheme.white.withValues(alpha: 0.8),
                 fontSize: 12,
               ),
@@ -353,7 +353,7 @@ class ProfileTab extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 12),
         child: Text(
           title,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.bold,
             color: AppTheme.textSecondary,
@@ -371,21 +371,21 @@ class ProfileTab extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
           'Log Out',
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontWeight: FontWeight.bold,
             color: AppTheme.textPrimary,
           ),
         ),
         content: Text(
           'Are you sure you want to log out of your account?',
-          style: GoogleFonts.outfit(color: AppTheme.textSecondary),
+          style: TextStyle(color: AppTheme.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
               'Cancel',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 color: AppTheme.textSecondary,
                 fontWeight: FontWeight.w600,
               ),
@@ -404,7 +404,7 @@ class ProfileTab extends StatelessWidget {
             ),
             child: Text(
               'Log Out',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 color: AppTheme.white,
                 fontWeight: FontWeight.w600,
               ),
@@ -453,7 +453,7 @@ class ProfileTab extends StatelessWidget {
 
         title: Text(
           title,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
             color: const Color(0xFF333333),
@@ -476,7 +476,7 @@ class ProfileTab extends StatelessWidget {
                 ),
                 child: Text(
                   badge,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white,
                     fontSize: 11,
                     fontWeight: FontWeight.bold,

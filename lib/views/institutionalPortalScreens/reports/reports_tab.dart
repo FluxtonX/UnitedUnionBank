@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../../theme/theme.dart';
 
 const kDashNavy = Color(0xFF0D2554);
@@ -30,7 +30,7 @@ class ReportsTab extends StatelessWidget {
                 // ── Header Titles ──
                 Text(
                   'Audit Trail & Compliance',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -39,7 +39,7 @@ class ReportsTab extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   'Real-time oversight for global impact projects',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.75),
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
@@ -75,7 +75,7 @@ class ReportsTab extends StatelessWidget {
                               const SizedBox(width: 12),
                               Text(
                                 'Filter by date...',
-                                style: GoogleFonts.outfit(
+                                style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
                                 ),
@@ -105,7 +105,7 @@ class ReportsTab extends StatelessWidget {
                             const SizedBox(width: 8),
                             Text(
                               'Export',
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -242,7 +242,7 @@ class _AuditCard extends StatelessWidget {
               children: [
                 Text(
                   item.title,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: kDashNavy,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -251,7 +251,7 @@ class _AuditCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   item.author,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.grey.shade600,
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -260,7 +260,7 @@ class _AuditCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   item.time,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: Colors.grey.shade400,
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
@@ -275,7 +275,7 @@ class _AuditCard extends StatelessWidget {
             children: [
               Text(
                 'Details',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: kDashAccentBlue,
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
@@ -320,7 +320,7 @@ class _CompliantStatusCard extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 'All Systems Compliant',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: const Color(0xFF2944AB),
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -331,7 +331,7 @@ class _CompliantStatusCard extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             'Last comprehensive audit: Feb 10,2024',
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               color: const Color(0xFF6781B8),
               fontSize: 13,
               fontWeight: FontWeight.w500,

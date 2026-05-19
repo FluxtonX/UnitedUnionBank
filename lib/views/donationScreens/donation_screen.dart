@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../controllers/wallet_controller.dart';
 import '../../services/wallet_action_service.dart';
@@ -131,7 +131,7 @@ class _DonationScreenState extends State<DonationScreen> {
                   const SizedBox(height: 18),
                   Text(
                     'Choose Project',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.textPrimary,
@@ -171,7 +171,7 @@ class _DonationScreenState extends State<DonationScreen> {
               ),
               Text(
                 'Donate',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: AppTheme.white,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -200,12 +200,12 @@ class _DonationScreenState extends State<DonationScreen> {
               const SizedBox(width: 12),
               Text(
                 'Available',
-                style: GoogleFonts.outfit(color: AppTheme.textSecondary),
+                style: TextStyle(color: AppTheme.textSecondary),
               ),
               const Spacer(),
               Text(
                 '\$${controller.walletBalance.value.toStringAsFixed(2)}',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   color: AppTheme.textPrimary,
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -244,7 +244,7 @@ class _DonationScreenState extends State<DonationScreen> {
                 children: [
                   Text(
                     project.title,
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: AppTheme.textPrimary,
                     ),
@@ -252,7 +252,7 @@ class _DonationScreenState extends State<DonationScreen> {
                   const SizedBox(height: 3),
                   Text(
                     project.subtitle,
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 12,
                       color: AppTheme.textSecondary,
                     ),
@@ -304,7 +304,7 @@ class _DonationScreenState extends State<DonationScreen> {
               ? const CircularProgressIndicator(color: AppTheme.white)
               : Text(
                   'Donate from Wallet',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,

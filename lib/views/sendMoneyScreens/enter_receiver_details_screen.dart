@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../../theme/theme.dart';
 import 'enter_amount_screen.dart';
@@ -60,7 +60,7 @@ class _EnterReceiverDetailsScreenState extends State<EnterReceiverDetailsScreen>
                       const SizedBox(height: 12),
                       Text(
                         'Select Receiver\'s Details',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                           color: AppTheme.textPrimary,
@@ -69,7 +69,7 @@ class _EnterReceiverDetailsScreenState extends State<EnterReceiverDetailsScreen>
                       const SizedBox(height: 24),
                       Text(
                         'Enter Account Number or IBAN',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: AppTheme.textSecondary,
@@ -81,13 +81,13 @@ class _EnterReceiverDetailsScreenState extends State<EnterReceiverDetailsScreen>
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           hintText: 'Enter Account Number or IBAN',
-                          hintStyle: GoogleFonts.outfit(color: AppTheme.textHint),
+                          hintStyle: TextStyle(color: AppTheme.textHint),
                         ),
                       ),
                       const SizedBox(height: 24),
                       Text(
                         'Others',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: AppTheme.textSecondary,
@@ -103,7 +103,7 @@ class _EnterReceiverDetailsScreenState extends State<EnterReceiverDetailsScreen>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Purpose of Payment', style: GoogleFonts.outfit(color: AppTheme.textHint, fontSize: 14)),
+                            Text('Purpose of Payment', style: TextStyle(color: AppTheme.textHint, fontSize: 14)),
                             const Icon(Icons.keyboard_arrow_down, color: AppTheme.textHint),
                           ],
                         ),
@@ -111,7 +111,7 @@ class _EnterReceiverDetailsScreenState extends State<EnterReceiverDetailsScreen>
                       const SizedBox(height: 24),
                       Text(
                         'Enter Mobile Number (Optional)',
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: AppTheme.textSecondary,
@@ -123,7 +123,7 @@ class _EnterReceiverDetailsScreenState extends State<EnterReceiverDetailsScreen>
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           hintText: 'Enter Receiver\'s Number or Search Contacts',
-                          hintStyle: GoogleFonts.outfit(color: AppTheme.textHint, fontSize: 13),
+                          hintStyle: TextStyle(color: AppTheme.textHint, fontSize: 13),
                           suffixIcon: const Icon(Icons.search, color: AppTheme.textHint),
                         ),
                       ),
@@ -167,7 +167,7 @@ class _EnterReceiverDetailsScreenState extends State<EnterReceiverDetailsScreen>
                   ),
                   Text(
                     'Bank Transfer',
-                    style: GoogleFonts.outfit(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
+                    style: TextStyle(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
@@ -175,7 +175,7 @@ class _EnterReceiverDetailsScreenState extends State<EnterReceiverDetailsScreen>
             const SizedBox(height: 8),
             Text(
               'Sending to Bank Account',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 color: AppTheme.white.withValues(alpha: 0.8),
                 fontSize: 14,
               ),
@@ -194,7 +194,7 @@ class _EnterReceiverDetailsScreenState extends State<EnterReceiverDetailsScreen>
                   child: Center(
                     child: Text(
                       widget.bankInitials,
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         color: widget.bankIconColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
@@ -205,7 +205,7 @@ class _EnterReceiverDetailsScreenState extends State<EnterReceiverDetailsScreen>
                 const SizedBox(width: 12),
                 Text(
                   widget.bankName,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w500,

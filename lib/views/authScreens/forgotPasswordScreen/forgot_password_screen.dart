@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../../customWidgets/custom_text_field.dart';
 import '../../../theme/theme.dart';
 
@@ -96,7 +96,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             onTap: () => Get.back(),
                             child: Text(
                               'Back to Login',
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 color: AppTheme.primary,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,
@@ -143,7 +143,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               Center(
                 child: Text(
                   'Forgot your password?',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white,
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -155,7 +155,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               Center(
                 child: Text(
                   'No worries! Enter your registered info and we will\nsend you a link to reset your account access.',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     color: AppTheme.white.withValues(alpha: 0.7),
                     fontSize: 15,
                     height: 1.5,
@@ -207,7 +207,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 children: [
                   Text(
                     'Send Reset Link',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.white,
@@ -229,7 +229,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         const SizedBox(width: 6),
         Text(
           'YOUR DATA IS PROTECTED',
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 10,
             color: AppTheme.textHint,
             fontWeight: FontWeight.w600,
