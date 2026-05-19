@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 enum AppEnvironment { development, staging, production }
 
 class AppEnvironmentConfig {
@@ -10,8 +12,13 @@ class AppEnvironmentConfig {
   static const int minDepositAmountCents = 100;
   static const int maxDepositAmountCents = 500000;
   static const String defaultCurrency = 'usd';
-  static const String apiBaseUrl = String.fromEnvironment(
+  static const String _configuredApiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://localhost:3000',
+    defaultValue: '',
   );
+
+  static String get apiBaseUrl {
+    if (_configuredApiBaseUrl.isNotEmpty) return _configuredApiBaseUrl;
+    return kReleaseMode ? 'http://3.106.133.154' : 'http://localhost:3000';
+  }
 }
