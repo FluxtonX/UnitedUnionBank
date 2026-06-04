@@ -7,12 +7,16 @@ import '../homeScreen/home_screen.dart';
 class TransferSuccessfulScreen extends StatelessWidget {
   final String amount;
   final String recipientName;
+  final String recipientEmail;
+  final String recipientUid;
   final String transferId;
 
   const TransferSuccessfulScreen({
     super.key,
     required this.amount,
     required this.recipientName,
+    required this.recipientEmail,
+    required this.recipientUid,
     required this.transferId,
   });
 
@@ -71,6 +75,25 @@ class TransferSuccessfulScreen extends StatelessWidget {
                       color: AppTheme.textSecondary,
                     ),
                   ),
+                  if (recipientEmail.isNotEmpty) ...[
+                    const SizedBox(height: 6),
+                    Text(
+                      recipientEmail,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: AppTheme.textSecondary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                  if (recipientUid.isNotEmpty) ...[
+                    const SizedBox(height: 6),
+                    Text(
+                      'UID: $recipientUid',
+                      style: TextStyle(fontSize: 10, color: AppTheme.textHint),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                   const SizedBox(height: 8),
                   Text(
                     transferId,

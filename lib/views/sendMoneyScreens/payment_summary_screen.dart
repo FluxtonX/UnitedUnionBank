@@ -47,6 +47,8 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
         () => TransferSuccessfulScreen(
           amount: widget.amount,
           recipientName: result.recipientName,
+          recipientEmail: result.recipientEmail,
+          recipientUid: result.recipientUid,
           transferId: result.transferId,
         ),
       );
@@ -80,6 +82,9 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
     }
     if (e.response?.statusCode == 403) {
       return 'KYC approval is required before sending funds.';
+    }
+    if (e.response?.statusCode == 409) {
+      return 'Multiple users matched this recipient. Ask the receiver for their user ID and try again.';
     }
     return 'Could not send funds. Please try again.';
   }

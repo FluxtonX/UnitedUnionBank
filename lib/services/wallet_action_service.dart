@@ -29,12 +29,16 @@ class WalletTransferResult {
     required this.status,
     required this.amount,
     required this.recipientName,
+    required this.recipientEmail,
+    required this.recipientUid,
   });
 
   final String transferId;
   final String status;
   final double amount;
   final String recipientName;
+  final String recipientEmail;
+  final String recipientUid;
 }
 
 class WalletActionService {
@@ -108,6 +112,8 @@ class WalletActionService {
       status: data['status'] as String,
       amount: (data['amount'] as num).toDouble(),
       recipientName: recipient['name'] as String? ?? 'recipient',
+      recipientEmail: recipient['email'] as String? ?? '',
+      recipientUid: recipient['uid'] as String? ?? '',
     );
   }
 
