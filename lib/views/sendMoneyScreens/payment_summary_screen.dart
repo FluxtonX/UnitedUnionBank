@@ -37,9 +37,15 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
 
     setState(() => _isSubmitting = true);
     try {
+      debugPrint(
+        '[SendFunds] submitting transfer recipient=${widget.accountNumber} amountInCents=${(amount * 100).round()}',
+      );
       final result = await WalletActionService.createTransfer(
         recipientIdentifier: widget.accountNumber,
         amountInCents: (amount * 100).round(),
+      );
+      debugPrint(
+        '[SendFunds] transfer success transferId=${result.transferId} recipientName=${result.recipientName} recipientEmail=${result.recipientEmail} recipientUid=${result.recipientUid}',
       );
       await WalletController.instance.fetchBalance();
       await WalletController.instance.fetchTransactions();
@@ -53,6 +59,9 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
         ),
       );
     } on DioException catch (e) {
+      debugPrint(
+        '[SendFunds] transfer failed status=${e.response?.statusCode} data=${e.response?.data} message=${e.message}',
+      );
       Get.snackbar(
         'Transfer Failed',
         _messageFromDioException(e),
@@ -60,7 +69,8 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
         backgroundColor: Colors.red.withValues(alpha: 0.1),
         colorText: Colors.red,
       );
-    } catch (_) {
+    } catch (e) {
+      debugPrint('[SendFunds] transfer failed unexpected error=$e');
       Get.snackbar(
         'Transfer Failed',
         'Could not send funds. Please try again.',
