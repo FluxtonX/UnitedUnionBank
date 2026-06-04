@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,7 +23,7 @@ class AddFundsResult {
   final bool confirmed;
 }
 
-class WalletController extends GetxController {
+class WalletController extends GetxController with WidgetsBindingObserver {
   static WalletController get instance => Get.find();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -31,6 +33,8 @@ class WalletController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxBool isProcessingPayment = false.obs;
   final RxList<LedgerEntryModel> transactions = <LedgerEntryModel>[].obs;
+  StreamSubscription<User?>? _authSubscription;
+  String? _lastLoadedUserId;
 
   String get _userId {
     final user = _auth.currentUser;
@@ -42,8 +46,38 @@ class WalletController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchBalance();
-    fetchTransactions();
+    WidgetsBinding.instance.addObserver(this);
+    _authSubscription = _auth.authStateChanges().listen((user) {
+      final nextUserId = user?.uid ?? _storage.read('phone_login_number') ?? '';
+      if (nextUserId != _lastLoadedUserId) {
+        _lastLoadedUserId = nextUserId;
+        if (nextUserId.isEmpty) {
+          walletBalance.value = 0;
+          transactions.clear();
+        } else {
+          refreshWallet();
+        }
+      }
+    });
+    refreshWallet();
+  }
+
+  @override
+  void onClose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _authSubscription?.cancel();
+    super.onClose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      refreshWallet();
+    }
+  }
+
+  Future<void> refreshWallet() async {
+    await Future.wait([fetchBalance(), fetchTransactions()]);
   }
 
   /// Fetch wallet balance from Firestore
@@ -169,7 +203,9 @@ class WalletController extends GetxController {
       return AddFundsResult(
         amount: amount,
         previousBalance: previousBalance,
-        displayBalance: confirmed ? walletBalance.value : previousBalance + amount,
+        displayBalance: confirmed
+            ? walletBalance.value
+            : previousBalance + amount,
         confirmed: confirmed,
       );
     } catch (e) {
