@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 import '../../../theme/theme.dart';
 import 'enter_amount_screen.dart';
 
@@ -18,24 +17,50 @@ class EnterReceiverDetailsScreen extends StatefulWidget {
   });
 
   @override
-  State<EnterReceiverDetailsScreen> createState() => _EnterReceiverDetailsScreenState();
+  State<EnterReceiverDetailsScreen> createState() =>
+      _EnterReceiverDetailsScreenState();
 }
 
-class _EnterReceiverDetailsScreenState extends State<EnterReceiverDetailsScreen> {
+class _EnterReceiverDetailsScreenState
+    extends State<EnterReceiverDetailsScreen> {
   final TextEditingController _accountController = TextEditingController();
   final TextEditingController _mobileController = TextEditingController();
 
   void _handleNext() {
-    Get.to(() => EnterAmountScreen(
-      bankName: widget.bankName,
-      bankIconColor: widget.bankIconColor,
-      bankInitials: widget.bankInitials,
-      accountNumber: _accountController.text.isNotEmpty ? _accountController.text : '03369876532',
-    ));
+    final recipient = _accountController.text.trim().isNotEmpty
+        ? _accountController.text.trim()
+        : _mobileController.text.trim();
+
+    if (recipient.isEmpty) {
+      Get.snackbar(
+        'Recipient Required',
+        'Enter receiver email, phone, or user ID.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+
+    Get.to(
+      () => EnterAmountScreen(
+        bankName: widget.bankName,
+        bankIconColor: widget.bankIconColor,
+        bankInitials: widget.bankInitials,
+        accountNumber: recipient,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _accountController.dispose();
+    _mobileController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
+
     return Scaffold(
       backgroundColor: AppTheme.white,
       body: Column(
@@ -54,86 +79,110 @@ class _EnterReceiverDetailsScreenState extends State<EnterReceiverDetailsScreen>
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 12),
-                      Text(
-                        'Select Receiver\'s Details',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: AppTheme.textPrimary,
+                  child: SingleChildScrollView(
+                    keyboardDismissBehavior:
+                        ScrollViewKeyboardDismissBehavior.onDrag,
+                    padding: EdgeInsets.only(bottom: bottomInset + 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 12),
+                        Text(
+                          'Select Receiver\'s Details',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: AppTheme.textPrimary,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 24),
-                      Text(
-                        'Enter Account Number or IBAN',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: AppTheme.textSecondary,
+                        const SizedBox(height: 24),
+                        Text(
+                          'Enter Email, Phone, or User ID',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: AppTheme.textSecondary,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
-                        controller: _accountController,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          hintText: 'Enter Account Number or IBAN',
-                          hintStyle: TextStyle(color: AppTheme.textHint),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: _accountController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            hintText: 'Enter receiver email, phone, or user ID',
+                            hintStyle: TextStyle(color: AppTheme.textHint),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 24),
-                      Text(
-                        'Others',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: AppTheme.textSecondary,
+                        const SizedBox(height: 24),
+                        Text(
+                          'Others',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: AppTheme.textSecondary,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: AppTheme.border),
-                          borderRadius: BorderRadius.circular(14),
+                        const SizedBox(height: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 16,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: AppTheme.border),
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Purpose of Payment',
+                                style: TextStyle(
+                                  color: AppTheme.textHint,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              const Icon(
+                                Icons.keyboard_arrow_down,
+                                color: AppTheme.textHint,
+                              ),
+                            ],
+                          ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Purpose of Payment', style: TextStyle(color: AppTheme.textHint, fontSize: 14)),
-                            const Icon(Icons.keyboard_arrow_down, color: AppTheme.textHint),
-                          ],
+                        const SizedBox(height: 24),
+                        Text(
+                          'Enter Mobile Number (Optional)',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: AppTheme.textSecondary,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 24),
-                      Text(
-                        'Enter Mobile Number (Optional)',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: AppTheme.textSecondary,
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: _mobileController,
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            hintText:
+                                'Enter Receiver\'s Number or Search Contacts',
+                            hintStyle: TextStyle(
+                              color: AppTheme.textHint,
+                              fontSize: 13,
+                            ),
+                            suffixIcon: const Icon(
+                              Icons.search,
+                              color: AppTheme.textHint,
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
-                        controller: _mobileController,
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                          hintText: 'Enter Receiver\'s Number or Search Contacts',
-                          hintStyle: TextStyle(color: AppTheme.textHint, fontSize: 13),
-                          suffixIcon: const Icon(Icons.search, color: AppTheme.textHint),
+                        const SizedBox(height: 40),
+                        ElevatedButton(
+                          onPressed: _handleNext,
+                          child: const Text('Next'),
                         ),
-                      ),
-                      const Spacer(),
-                      ElevatedButton(
-                        onPressed: _handleNext,
-                        child: const Text('Next'),
-                      ),
-                      const SizedBox(height: 16),
-                    ],
+                        const SizedBox(height: 16),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -162,12 +211,20 @@ class _EnterReceiverDetailsScreenState extends State<EnterReceiverDetailsScreen>
                     alignment: Alignment.centerLeft,
                     child: GestureDetector(
                       onTap: () => Get.back(),
-                      child: const Icon(Icons.arrow_back_ios_new, color: AppTheme.white, size: 20),
+                      child: const Icon(
+                        Icons.arrow_back_ios_new,
+                        color: AppTheme.white,
+                        size: 20,
+                      ),
                     ),
                   ),
                   Text(
                     'Bank Transfer',
-                    style: TextStyle(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      color: AppTheme.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),
@@ -212,7 +269,11 @@ class _EnterReceiverDetailsScreenState extends State<EnterReceiverDetailsScreen>
                   ),
                 ),
                 const SizedBox(width: 8),
-                const Icon(Icons.account_balance, color: AppTheme.white, size: 16),
+                const Icon(
+                  Icons.account_balance,
+                  color: AppTheme.white,
+                  size: 16,
+                ),
               ],
             ),
           ],

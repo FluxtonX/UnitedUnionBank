@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 import '../../../theme/theme.dart';
 import '../homeScreen/home_screen.dart';
 
 class TransferSuccessfulScreen extends StatelessWidget {
   final String amount;
+  final String recipientName;
+  final String transferId;
 
   const TransferSuccessfulScreen({
     super.key,
     required this.amount,
+    required this.recipientName,
+    required this.transferId,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: AppTheme.headerGradient,
-        ),
+        decoration: const BoxDecoration(gradient: AppTheme.headerGradient),
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -64,11 +65,17 @@ class TransferSuccessfulScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'You\'ve sent \$$amount to Sarah Miller',
+                    'You\'ve sent \$$amount to $recipientName',
                     style: TextStyle(
                       fontSize: 14,
                       color: AppTheme.textSecondary,
                     ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    transferId,
+                    style: TextStyle(fontSize: 11, color: AppTheme.textHint),
+                    textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 24),
                   Container(
@@ -123,7 +130,11 @@ class TransferSuccessfulScreen extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Icons.share_outlined, size: 16, color: Color(0xFF3491E3)),
+                              const Icon(
+                                Icons.share_outlined,
+                                size: 16,
+                                color: Color(0xFF3491E3),
+                              ),
                               const SizedBox(width: 8),
                               Text(
                                 'Share',
@@ -141,7 +152,7 @@ class TransferSuccessfulScreen extends StatelessWidget {
                         child: OutlinedButton(
                           onPressed: () {
                             Get.offAll(() => const HomeScreen());
-                            },
+                          },
                           style: OutlinedButton.styleFrom(
                             side: const BorderSide(color: AppTheme.divider),
                             shape: RoundedRectangleBorder(
@@ -151,10 +162,14 @@ class TransferSuccessfulScreen extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Icons.receipt_long_outlined, size: 16, color: Color(0xFF3491E3)),
+                              const Icon(
+                                Icons.receipt_long_outlined,
+                                size: 16,
+                                color: Color(0xFF3491E3),
+                              ),
                               const SizedBox(width: 8),
                               Text(
-                                'Receipt',
+                                'Done',
                                 style: TextStyle(
                                   color: const Color(0xFF3491E3),
                                   fontWeight: FontWeight.bold,

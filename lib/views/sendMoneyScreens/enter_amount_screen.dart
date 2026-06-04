@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 import '../../../theme/theme.dart';
 import 'payment_summary_screen.dart';
 
@@ -27,15 +26,29 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
   final TextEditingController _amountController = TextEditingController();
 
   void _handleNext() {
-    double amount = double.tryParse(_amountController.text) ?? 0.0;
-    if (amount <= 0.0 && _amountController.text.isNotEmpty) {
-      amount = double.parse(_amountController.text);
+    final amount = double.tryParse(_amountController.text.trim()) ?? 0.0;
+    if (amount <= 0) {
+      Get.snackbar(
+        'Invalid Amount',
+        'Enter an amount greater than zero.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
     }
-    Get.to(() => PaymentSummaryScreen(
-      bankName: widget.bankName,
-      accountNumber: widget.accountNumber,
-      amount: _amountController.text.isEmpty ? '150.00' : _amountController.text,
-    ));
+
+    Get.to(
+      () => PaymentSummaryScreen(
+        bankName: widget.bankName,
+        accountNumber: widget.accountNumber,
+        amount: amount.toStringAsFixed(2),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _amountController.dispose();
+    super.dispose();
   }
 
   @override
@@ -68,12 +81,19 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
                             height: 48,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              border: Border.all(color: widget.bankIconColor.withValues(alpha: 0.3), width: 1.5),
+                              border: Border.all(
+                                color: widget.bankIconColor.withValues(
+                                  alpha: 0.3,
+                                ),
+                                width: 1.5,
+                              ),
                             ),
                             padding: const EdgeInsets.all(4),
                             child: Container(
                               decoration: BoxDecoration(
-                                color: widget.bankIconColor.withValues(alpha: 0.1),
+                                color: widget.bankIconColor.withValues(
+                                  alpha: 0.1,
+                                ),
                                 shape: BoxShape.circle,
                               ),
                               child: Center(
@@ -128,7 +148,7 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
                         textBaseline: TextBaseline.alphabetic,
                         children: [
                           Text(
-                            'Rs. ',
+                            '\$',
                             style: TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
@@ -197,12 +217,20 @@ class _EnterAmountScreenState extends State<EnterAmountScreen> {
                     alignment: Alignment.centerLeft,
                     child: GestureDetector(
                       onTap: () => Get.back(),
-                      child: const Icon(Icons.arrow_back_ios_new, color: AppTheme.white, size: 20),
+                      child: const Icon(
+                        Icons.arrow_back_ios_new,
+                        color: AppTheme.white,
+                        size: 20,
+                      ),
                     ),
                   ),
                   Text(
                     'Bank Transfer',
-                    style: TextStyle(color: AppTheme.white, fontSize: 18, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      color: AppTheme.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),
