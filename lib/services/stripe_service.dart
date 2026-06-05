@@ -147,4 +147,50 @@ class StripeService {
       return [];
     }
   }
+
+  /// Directly confirm/settle a Stripe payment intent on the backend.
+  static Future<bool> confirmDeposit({
+    required String paymentIntentId,
+  }) async {
+    try {
+      final response = await ApiClient.dio.post(
+        '/payments/confirm-deposit',
+        data: {
+          'paymentIntentId': paymentIntentId,
+        },
+      );
+      final data = Map<String, dynamic>.from(response.data as Map);
+      return data['status'] == 'succeeded';
+    } on DioException catch (e) {
+      debugPrint('Error confirming deposit: ${_messageFromDioException(e)}');
+      return false;
+    } catch (e) {
+      debugPrint('Error confirming deposit: $e');
+      return false;
+    }
+  }
+
+  /// Direct mock deposit that bypasses Stripe entirely.
+  static Future<bool> mockDeposit({
+    required int amountInCents,
+    required String currency,
+  }) async {
+    try {
+      final response = await ApiClient.dio.post(
+        '/payments/mock-deposit',
+        data: {
+          'amountInCents': amountInCents,
+          'currency': currency,
+        },
+      );
+      final data = Map<String, dynamic>.from(response.data as Map);
+      return data['status'] == 'succeeded';
+    } on DioException catch (e) {
+      debugPrint('Error mock deposit: ${_messageFromDioException(e)}');
+      return false;
+    } catch (e) {
+      debugPrint('Error mock deposit: $e');
+      return false;
+    }
+  }
 }

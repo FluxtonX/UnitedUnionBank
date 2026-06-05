@@ -143,14 +143,7 @@ class WalletController extends GetxController with WidgetsBindingObserver {
           StripeConstants.publishableKey.isNotEmpty;
 
       if (!isStripeConfigured) {
-        Get.snackbar(
-          'Payments Unavailable',
-          'Stripe is not configured for this environment.',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.orange.withValues(alpha: 0.1),
-          colorText: Colors.orange,
-        );
-        return null;
+        return _handleMockDeposit(amount);
       }
 
       final int amountInCents = (amount * 100).toInt();
@@ -195,6 +188,11 @@ class WalletController extends GetxController with WidgetsBindingObserver {
         colorText: Colors.green,
       );
 
+      // Instant backend settlement
+      await StripeService.confirmDeposit(
+        paymentIntentId: depositIntent.paymentIntentId,
+      );
+
       final confirmed = await _refreshUntilDepositPosts(
         previousBalance: previousBalance,
         amount: amount,
@@ -221,6 +219,43 @@ class WalletController extends GetxController with WidgetsBindingObserver {
     } finally {
       isProcessingPayment.value = false;
     }
+  }
+
+  Future<AddFundsResult?> _handleMockDeposit(double amount) async {
+    final amountInCents = (amount * 100).toInt();
+    final success = await StripeService.mockDeposit(
+      amountInCents: amountInCents,
+      currency: StripeConstants.defaultCurrency,
+    );
+
+    if (!success) {
+      Get.snackbar(
+        'Mock Payment Failed',
+        'Could not add funds to wallet (Mock bypass failed).',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withValues(alpha: 0.1),
+        colorText: Colors.red,
+      );
+      return null;
+    }
+
+    await fetchBalance();
+    await fetchTransactions();
+
+    Get.snackbar(
+      'Payment Successful',
+      'Directly added \$${amount.toStringAsFixed(2)} to your wallet (Bypassed Stripe).',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.green.withValues(alpha: 0.1),
+      colorText: Colors.green,
+    );
+
+    return AddFundsResult(
+      amount: amount,
+      previousBalance: walletBalance.value - amount,
+      displayBalance: walletBalance.value,
+      confirmed: true,
+    );
   }
 
   Future<bool> _refreshUntilDepositPosts({
