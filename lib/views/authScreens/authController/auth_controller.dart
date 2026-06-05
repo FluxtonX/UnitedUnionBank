@@ -10,8 +10,6 @@ import 'package:united_union_bank/views/authScreens/causesScreen/causes_screen.d
 import 'package:united_union_bank/views/authScreens/verifyEmailScreen/verify_email_screen.dart';
 import 'package:united_union_bank/views/homeScreen/home_screen.dart';
 import 'package:united_union_bank/views/authScreens/loginScreen/login_screen.dart';
-import 'package:united_union_bank/views/kycScreens/kyc_overview_screen.dart';
-import 'package:united_union_bank/views/kycScreens/kyc_status_screen.dart';
 
 class AuthController extends GetxController {
   static AuthController get instance => Get.find();
@@ -53,8 +51,6 @@ class AuthController extends GetxController {
     return uid == null ? 'kyc_skipped' : 'kyc_skipped_$uid';
   }
 
-  bool get _hasSkippedKyc => _storage.read(_kycSkippedKey) ?? false;
-
   UserModel _phoneUserModel() {
     final String phone = _storage.read('phone_login_number') ?? '';
     final String name = _storage.read('phone_login_name') ?? '';
@@ -64,9 +60,8 @@ class AuthController extends GetxController {
       email: email,
       name: name.isNotEmpty ? name : 'Phone User',
       phoneNumber: phone,
-      createdAt: DateTime.tryParse(
-            _storage.read('phone_login_created_at') ?? '',
-          ) ??
+      createdAt:
+          DateTime.tryParse(_storage.read('phone_login_created_at') ?? '') ??
           DateTime.now(),
       kycCompleted: _phoneKycCompleted,
     );
@@ -108,17 +103,21 @@ class AuthController extends GetxController {
 
   Future<bool> _upsertBackendProfile(User user) async {
     try {
-      final fallbackName = user.displayName ??
+      final fallbackName =
+          user.displayName ??
           (user.email != null && user.email!.contains('@')
               ? user.email!.split('@').first
               : 'User');
-      final response = await ApiClient.dio.post('/users/me', data: {
-        'uid': user.uid,
-        'email': user.email ?? '',
-        'name': fallbackName,
-        'phoneNumber': user.phoneNumber,
-        'profileImage': user.photoURL,
-      });
+      final response = await ApiClient.dio.post(
+        '/users/me',
+        data: {
+          'uid': user.uid,
+          'email': user.email ?? '',
+          'name': fallbackName,
+          'phoneNumber': user.phoneNumber,
+          'profileImage': user.photoURL,
+        },
+      );
       userModel.value = UserModel.fromJson(
         Map<String, dynamic>.from(response.data as Map),
       );
@@ -146,7 +145,10 @@ class AuthController extends GetxController {
     await _storage.write('phone_login_number', phoneNumber);
     await _storage.write('phone_login_name', name);
     await _storage.write('phone_login_email', email);
-    await _storage.write('phone_login_created_at', DateTime.now().toIso8601String());
+    await _storage.write(
+      'phone_login_created_at',
+      DateTime.now().toIso8601String(),
+    );
     await _storage.write('phone_kyc_completed', kycCompleted);
     await _storage.write('phone_kyc_skipped', false);
 
@@ -194,7 +196,7 @@ class AuthController extends GetxController {
     Get.offAll(() => const HomeScreen());
     Get.snackbar(
       'Verification Skipped',
-      'You can browse the app, but wallet features require KYC approval.',
+      'You can continue using wallet features.',
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.orange.withValues(alpha: 0.1),
       colorText: Colors.orange,
@@ -206,10 +208,10 @@ class AuthController extends GetxController {
     if (user == null) return;
 
     try {
-      final response = await ApiClient.dio.patch('/users/me/onboarding', data: {
-        'interests': interests,
-        'onboardingCompleted': true,
-      });
+      final response = await ApiClient.dio.patch(
+        '/users/me/onboarding',
+        data: {'interests': interests, 'onboardingCompleted': true},
+      );
 
       userModel.value = UserModel.fromJson(
         Map<String, dynamic>.from(response.data as Map),
@@ -218,10 +220,10 @@ class AuthController extends GetxController {
       if (e.response?.statusCode == 404) {
         final created = await _upsertBackendProfile(user);
         if (!created) return;
-        final response = await ApiClient.dio.patch('/users/me/onboarding', data: {
-          'interests': interests,
-          'onboardingCompleted': true,
-        });
+        final response = await ApiClient.dio.patch(
+          '/users/me/onboarding',
+          data: {'interests': interests, 'onboardingCompleted': true},
+        );
         userModel.value = UserModel.fromJson(
           Map<String, dynamic>.from(response.data as Map),
         );
@@ -273,16 +275,6 @@ class AuthController extends GetxController {
       return;
     }
 
-    if (currentProfile.kycStatus == 'not_started' && !_hasSkippedKyc) {
-      Get.offAll(() => const KycOverviewScreen());
-      return;
-    }
-
-    if (!currentProfile.isKycApproved && !_hasSkippedKyc) {
-      Get.offAll(() => const KycStatusScreen());
-      return;
-    }
-
     Get.offAll(() => const HomeScreen());
   }
 
@@ -304,7 +296,10 @@ class AuthController extends GetxController {
         onboardingCompleted: false,
       );
 
-      final response = await ApiClient.dio.post('/users/me', data: user.toMap());
+      final response = await ApiClient.dio.post(
+        '/users/me',
+        data: user.toMap(),
+      );
       userModel.value = UserModel.fromJson(
         Map<String, dynamic>.from(response.data as Map),
       );
@@ -340,8 +335,10 @@ class AuthController extends GetxController {
   // --- Login ---
   Future<void> login(String email, String password) async {
     try {
-      final credential =
-          await _auth.signInWithEmailAndPassword(email: email, password: password);
+      final credential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
       final user = credential.user;
       if (user == null) {
         throw FirebaseAuthException(
@@ -383,14 +380,16 @@ class AuthController extends GetxController {
         return;
       }
 
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      final UserCredential userCredential =
-          await _auth.signInWithCredential(credential);
+      final UserCredential userCredential = await _auth.signInWithCredential(
+        credential,
+      );
 
       final User? user = userCredential.user;
       if (user == null) {

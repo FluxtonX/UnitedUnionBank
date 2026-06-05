@@ -28,10 +28,14 @@ class StripeService {
   }) async {
     try {
       lastCreateDepositIntentError = null;
-      final result = await ApiClient.dio.post('/payments/deposit-intents', data: {
-        'amount': amountInCents,
-        'currency': currency,
-      });
+      final result = await ApiClient.dio.post(
+        '/payments/deposit-intents',
+        data: {
+          'amount': amountInCents,
+          'amountInCents': amountInCents,
+          'currency': currency,
+        },
+      );
       final data = Map<String, dynamic>.from(result.data as Map);
       return DepositIntentResult(
         clientSecret: data['clientSecret'] as String,
@@ -40,10 +44,13 @@ class StripeService {
       );
     } on DioException catch (e) {
       lastCreateDepositIntentError = _messageFromDioException(e);
-      debugPrint('Error creating deposit intent: $lastCreateDepositIntentError');
+      debugPrint(
+        'Error creating deposit intent: $lastCreateDepositIntentError',
+      );
       return null;
     } catch (e) {
-      lastCreateDepositIntentError = 'Could not initiate payment. Please try again.';
+      lastCreateDepositIntentError =
+          'Could not initiate payment. Please try again.';
       debugPrint('Error creating deposit intent: $e');
       return null;
     }
@@ -115,16 +122,19 @@ class StripeService {
     String userId,
   ) async {
     try {
-      final response = await ApiClient.dio.get('/wallet/ledger', queryParameters: {
-        'limit': 20,
-      });
+      final response = await ApiClient.dio.get(
+        '/wallet/ledger',
+        queryParameters: {'limit': 20},
+      );
       final rawItems = response.data is List
           ? response.data as List
           : (response.data['items'] as List? ?? const []);
       return rawItems
-          .map((item) => LedgerEntryModel.fromJson(
-                Map<String, dynamic>.from(item as Map),
-              ))
+          .map(
+            (item) => LedgerEntryModel.fromJson(
+              Map<String, dynamic>.from(item as Map),
+            ),
+          )
           .toList();
     } on DioException catch (e) {
       if (e.response?.statusCode == 401 || e.response?.statusCode == 404) {

@@ -91,7 +91,7 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
       if (message is List && message.isNotEmpty) return message.join('\n');
     }
     if (e.response?.statusCode == 403) {
-      return 'KYC approval is required before sending funds.';
+      return 'This wallet cannot send funds right now.';
     }
     if (e.response?.statusCode == 409) {
       return 'Multiple users matched this recipient. Ask the receiver for their user ID and try again.';

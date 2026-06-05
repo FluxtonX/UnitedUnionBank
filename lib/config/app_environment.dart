@@ -5,7 +5,7 @@ enum AppEnvironment { development, staging, production }
 class AppEnvironmentConfig {
   const AppEnvironmentConfig._();
 
-  static const AppEnvironment current = AppEnvironment.development;
+  static const AppEnvironment current = AppEnvironment.production;
 
   static bool get isProduction => current == AppEnvironment.production;
 
@@ -19,6 +19,6 @@ class AppEnvironmentConfig {
 
   static String get apiBaseUrl {
     if (_configuredApiBaseUrl.isNotEmpty) return _configuredApiBaseUrl;
-    return kReleaseMode ? 'http://3.106.133.154' : 'http://3.106.133.154';
+    return kReleaseMode ? 'http://3.106.133.154' : 'http://10.0.2.2:3000';
   }
 }
